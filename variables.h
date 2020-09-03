@@ -20,7 +20,6 @@ class variable: public node
     public:
         variable(string key): node(key) {}
 
-
         void set_invalid()
         {
             is_valid = 0;
@@ -35,6 +34,7 @@ class ind_variable: public variable
         void set_value(double value)
         {
             ind_variable::value = value;
+            is_valid = 1;
         }
 };
 
