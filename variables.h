@@ -21,6 +21,11 @@ class ind_variable: public node
         {
             ind_variable::value = value;
         }
+
+        double get_gradient(ind_variable *x)
+        {
+            return x.key == key;
+        }
 };
 
 class dep_variable: public node 
@@ -36,7 +41,7 @@ class dep_variable: public node
 
         double get_value()
         {
-            if(is_valid) return value;
+            // if(is_valid) return value;
 
             vector<double>tmpargval(opargv.size());
             for(int i=0; i<opargv.size(); ++i)
@@ -45,6 +50,20 @@ class dep_variable: public node
             value = op->run(tmpargval);
             is_valid = 1;
             return value;
+        }
+
+        double get_gradient(ind_variable *x)
+        {
+            vector<double>tmpargval(opargv.size());
+            for(int i=0; i<opargv.size(); ++i)
+                tmpargval[i] = opargv[i]->get_value();
+
+            double result = 0;
+            for(int i=0; i<opargv.size(); ++i)
+            {
+                result += op->partial_diff_run(tmpargval, i) * opargv[i]->get_gradient(x);
+            }
+            return result;
         }
 };
 
