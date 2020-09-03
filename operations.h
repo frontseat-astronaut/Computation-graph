@@ -16,8 +16,8 @@ class operation: public base
         
         string get_op_name() { return op;};
 
-        virtual double run(vector<double>&opargv) = 0;
-        virtual double grad_run(vector<double>&op_arg, vector<double>&grad_op_arg) = 0;
+        virtual double run(vector<double>&op_arg) = 0;
+        virtual double partial_diff_run(vector<double>&op_arg, int var_idx) = 0;
 };
 
 class add: public operation
@@ -36,12 +36,9 @@ class add: public operation
             return result;
         }
         
-        double grad_run(vector<double>&op_arg, vector<double>&grad_op_arg)
+        double partial_diff_run(vector<double>&op_arg, int var_idx)
         {
-            double result = 0;
-            for(auto grad_arg: grad_op_arg)
-                result += 1*grad_arg;
-            return result;
+            return 1;
         }
 };
 
@@ -61,19 +58,11 @@ class multiply: public operation
             return result;
         }
         
-        double grad_run(vector<double>&op_arg, vector<double>&grad_op_arg)
+        double partial_diff_run(vector<double>&op_arg, int var_idx)
         {
-            if(op_arg.size() != grad_op_arg.size())
-                throw "multiply operation: size of grad_op_arg and op_arg should be same";
-
-            double result = 0;
+            double result = 1;
             for(int i=0; i<op_arg.size(); ++i)
-            {
-                double term = grad_op_arg[i];
-                for(int j=0; j<op_arg.size(); ++j)
-                    term *= (i != j)*op_arg[j];
-                result += term;
-            }
+                if(i != vard_idx) result *= oparg[i];
             return result;
         }
 };
