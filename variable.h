@@ -1,16 +1,15 @@
 #include<string>
-#include<operation.h>
+#include<base.h>
 using namespace std;
 
-class variable
+class variable: public base
 {
     protected:
-        string key;
         double value = 0;
         bool is_valid = 0;
 
     public:
-        variable(string key):key{key} {}
+        variable(string key):base{key} {}
 
         double get_value()
         {
@@ -29,27 +28,27 @@ class variable
         }
 };
 
-class dependent_variable: public variable
-{
-    protected:
-        int opargc;
-        variable **opargv;
-        operation op;
+// class dependent_variable: public variable
+// {
+//     protected:
+//         int opargc;
+//         variable **opargv;
+//         operation op;
     
-    public:
-        dependent_variable(int opargc, variable **opargv, operation op, string key)
-        :opargc{opargc}, opargv{opargv}, op{op}, variable(key) {}
+//     public:
+//         dependent_variable(int opargc, variable **opargv, operation op, string key)
+//         :opargc{opargc}, opargv{opargv}, op{op}, variable(key) {}
 
-        double get_value()
-        {
-            if(is_valid) return value;
+//         double get_value()
+//         {
+//             if(is_valid) return value;
 
-            double tmpargval[opargc] = {};
-            for(int i=0; i<opargc; ++i)
-                tmpargval[i] = opargv[i]->get_value();
+//             double tmpargval[opargc] = {};
+//             for(int i=0; i<opargc; ++i)
+//                 tmpargval[i] = opargv[i]->get_value();
 
-            value = op.run(tmpargval);
-            is_valid = 1;
-            return value;
-        }
-};
+//             value = op.run(tmpargval);
+//             is_valid = 1;
+//             return value;
+//         }
+// };
