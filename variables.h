@@ -12,41 +12,27 @@ class constant: public node
         constant(double value, string key): node(value, key) {}
 };
 
-class variable: public node 
-{
-    protected:
-        bool is_valid = 0;
-
-    public:
-        variable(string key): node(key) {}
-
-        void set_invalid()
-        {
-            is_valid = 0;
-        }
-};
-
-class ind_variable: public variable 
+class ind_variable: public node
 {
     public:
-        ind_variable(string key): variable(key) {}
+        ind_variable(string key): node(key) {}
 
         void set_value(double value)
         {
             ind_variable::value = value;
-            is_valid = 1;
         }
 };
 
-class dep_variable: public variable
+class dep_variable: public node 
 {
     protected:
-        vector<variable*>opargv;
+        vector<node*>opargv;
         operation *op;
+        bool is_valid = 0;
     
     public:
-        dep_variable(vector<variable*>opargv, operation *op, string key)
-        :opargv{opargv}, op{op}, variable(key) {}
+        dep_variable(vector<node*>opargv, operation *op, string key)
+        :opargv{opargv}, op{op}, node(key) {}
 
         double get_value()
         {
