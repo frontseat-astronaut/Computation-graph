@@ -4,10 +4,10 @@ using namespace std;
 
 class variable
 {
-    private:
+    protected:
         string key;
         double value = 0;
-        long long update_time = -1;
+        bool is_valid = 0;
 
     public:
         variable(string key):key{key} {}
@@ -17,25 +17,39 @@ class variable
             return value;
         }
 
-        void set_value(int value, long long update_time)
+        void set_value(int value)
         {
             variable::value = value;
-            variable::update_time = update_time;
+            is_valid = 1;
+        }
+
+        void set_invalid()
+        {
+            is_valid = 0;
         }
 };
 
 class dependent_variable: public variable
 {
-    private:
+    protected:
         int opargc;
-        variable **opargs;
+        variable **opargv;
         operation op;
     
     public:
-        dependent_variable(int opargc, variable **opargs, operation op, string key)
-        :opargc{opargc}, opargs{opargs}, op{op}, variable(key) {}
+        dependent_variable(int opargc, variable **opargv, operation op, string key)
+        :opargc{opargc}, opargv{opargv}, op{op}, variable(key) {}
 
-        double get_value(long long timestamp)
+        double get_value()
         {
+            if(is_valid) return value;
 
+            double tmpargval[opargc] = {};
+            for(int i=0; i<opargc; ++i)
+                tmpargval[i] = opargv[i]->get_value();
+
+            value = op.run(tmpargval);
+            is_valid = 1;
+            return value;
+        }
 };
