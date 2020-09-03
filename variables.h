@@ -10,6 +10,11 @@ class constant: public node
 {
     public:
         constant(double value, string key): node(value, key) {}
+
+        double get_gradient(string x_key)
+        {
+            return 0;
+        }
 };
 
 class ind_variable: public node
@@ -22,9 +27,9 @@ class ind_variable: public node
             ind_variable::value = value;
         }
 
-        double get_gradient(ind_variable *x)
+        double get_gradient(string x_key)
         {
-            return x.key == key;
+            return key == x_key;
         }
 };
 
@@ -52,7 +57,7 @@ class dep_variable: public node
             return value;
         }
 
-        double get_gradient(ind_variable *x)
+        double get_gradient(string x_key)
         {
             vector<double>tmpargval(opargv.size());
             for(int i=0; i<opargv.size(); ++i)
@@ -61,7 +66,7 @@ class dep_variable: public node
             double result = 0;
             for(int i=0; i<opargv.size(); ++i)
             {
-                result += op->partial_diff_run(tmpargval, i) * opargv[i]->get_gradient(x);
+                result += op->partial_diff_run(tmpargval, i) * opargv[i]->get_gradient(x_key);
             }
             return result;
         }

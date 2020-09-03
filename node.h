@@ -17,6 +17,8 @@ class node: public base
         {
             return value;
         }
+
+        virtual double get_gradient(string x_key) = 0;
 };
 
 #endif

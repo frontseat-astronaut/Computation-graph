@@ -10,6 +10,8 @@ class base
     
     public:
         base(string key): key{key} {}
+
+        string get_key() { return key; };
 };
 
 #endif

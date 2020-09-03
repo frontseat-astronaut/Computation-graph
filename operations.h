@@ -62,7 +62,7 @@ class multiply: public operation
         {
             double result = 1;
             for(int i=0; i<op_arg.size(); ++i)
-                if(i != vard_idx) result *= oparg[i];
+                if(i != var_idx) result *= op_arg[i];
             return result;
         }
 };
