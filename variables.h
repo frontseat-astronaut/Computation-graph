@@ -3,27 +3,23 @@
 
 #include<operations.h>
 #include<base.h>
+#include<node.h>
 using namespace std;
 
-class variable: public base
+class constant: public node 
+{
+    public:
+        constant(double value, string key): node(value, key) {}
+};
+
+class variable: public node 
 {
     protected:
-        double value = 0;
         bool is_valid = 0;
 
     public:
-        variable(string key):base(key) {}
+        variable(string key): node(key) {}
 
-        double get_value()
-        {
-            return value;
-        }
-
-        void set_value(int value)
-        {
-            variable::value = value;
-            is_valid = 1;
-        }
 
         void set_invalid()
         {
@@ -31,14 +27,25 @@ class variable: public base
         }
 };
 
-class dependent_variable: public variable
+class ind_variable: public variable 
+{
+    public:
+        ind_variable(string key): variable(key) {}
+
+        void set_value(double value)
+        {
+            ind_variable::value = value;
+        }
+};
+
+class dep_variable: public variable
 {
     protected:
         vector<variable*>opargv;
         operation *op;
     
     public:
-        dependent_variable(vector<variable*>opargv, operation *op, string key)
+        dep_variable(vector<variable*>opargv, operation *op, string key)
         :opargv{opargv}, op{op}, variable(key) {}
 
         double get_value()
