@@ -67,4 +67,25 @@ class multiply: public operation
         }
 };
 
+class divide: public operation
+{
+    public:
+        divide(string key): operation(key, "divide") {}
+
+        double run(vector<double>&op_arg)
+        {
+            if(op_arg.size() != 2)
+                throw "divide operation requires exactly two arguments";
+            
+            double result = op_arg[0] / op_arg[1];
+            return result;
+        }
+        
+        double partial_diff_run(vector<double>&op_arg, int var_idx)
+        {
+            double result = (var_idx == 0)*(1/op_arg[1]) + (var_idx == 1)*(-1/op_arg[1]/op_arg[1]);
+            return result;
+        }
+};
+
 #endif
