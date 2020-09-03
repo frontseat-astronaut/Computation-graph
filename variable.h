@@ -1,4 +1,7 @@
 #include<string>
+#include<vector>
+
+#include<operation.h>
 #include<base.h>
 using namespace std;
 
@@ -9,7 +12,7 @@ class variable: public base
         bool is_valid = 0;
 
     public:
-        variable(string key):base{key} {}
+        variable(string key):base(key) {}
 
         double get_value()
         {
@@ -28,27 +31,26 @@ class variable: public base
         }
 };
 
-// class dependent_variable: public variable
-// {
-//     protected:
-//         int opargc;
-//         variable **opargv;
-//         operation op;
+class dependent_variable: public variable
+{
+    protected:
+        vector<variable*>opargv;
+        operation *op;
     
-//     public:
-//         dependent_variable(int opargc, variable **opargv, operation op, string key)
-//         :opargc{opargc}, opargv{opargv}, op{op}, variable(key) {}
+    public:
+        dependent_variable(vector<variable*>opargv, operation *op, string key)
+        :opargv{opargv}, op{op}, variable(key) {}
 
-//         double get_value()
-//         {
-//             if(is_valid) return value;
+        double get_value()
+        {
+            if(is_valid) return value;
 
-//             double tmpargval[opargc] = {};
-//             for(int i=0; i<opargc; ++i)
-//                 tmpargval[i] = opargv[i]->get_value();
+            vector<double>tmpargval(opargv.size());
+            for(int i=0; i<opargv.size(); ++i)
+                tmpargval[i] = opargv[i]->get_value();
 
-//             value = op.run(tmpargval);
-//             is_valid = 1;
-//             return value;
-//         }
-// };
+            value = op->run(tmpargval);
+            is_valid = 1;
+            return value;
+        }
+};
