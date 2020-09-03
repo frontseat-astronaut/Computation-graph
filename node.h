@@ -1,6 +1,7 @@
-#include<string>
+#ifndef __NODE_H_INCLUDED__   
+#define __NODE_H_INCLUDED__  
 
-#include<base.h>
+#include "base.h"
 using namespace std;
 
 class node: public base
@@ -17,3 +18,5 @@ class node: public base
             return value;
         }
 };
+
+#endif

@@ -1,7 +1,9 @@
-#include<string>
+#ifndef __OPERATIONS_H_INCLUDED__   
+#define __OPERATIONS_H_INCLUDED__  
+
 #include<vector>
 
-#include<base.h>
+#include "base.h"
 using namespace std;
 
 class operation: public base
@@ -14,7 +16,7 @@ class operation: public base
         
         string get_op_name() { return op;};
 
-        virtual double run(vector<double>opargv) = 0;
+        virtual double run(vector<double>&opargv) = 0;
 };
 
 class add: public operation
@@ -22,7 +24,7 @@ class add: public operation
     public:
         add(string key): operation(key, "add") {}
 
-        double run(vector<double>opargv)
+        double run(vector<double>&opargv)
         {
             if(opargv.empty())
                 throw "add operation requires at least one argument";
@@ -33,3 +35,5 @@ class add: public operation
             return result;
         }
 };
+
+#endif

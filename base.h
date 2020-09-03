@@ -1,4 +1,6 @@
-#include<string>
+#ifndef __BASE_H_INCLUDED__   
+#define __BASE_H_INCLUDED__  
+
 using namespace std;
 
 class base
@@ -9,3 +11,5 @@ class base
     public:
         base(string key): key{key} {}
 };
+
+#endif

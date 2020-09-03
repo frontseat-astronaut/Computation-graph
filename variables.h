@@ -1,9 +1,9 @@
-#include<string>
+#ifndef __VARIABLES_H_INCLUDED__   
+#define __VARIABLES_H_INCLUDED__  
+
 #include<vector>
 
-#include<operations.h>
-#include<base.h>
-#include<node.h>
+#include "node.h"
 using namespace std;
 
 class constant: public node 
@@ -47,3 +47,5 @@ class dep_variable: public node
             return value;
         }
 };
+
+#endif
