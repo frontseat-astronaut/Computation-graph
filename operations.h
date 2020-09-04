@@ -2,33 +2,22 @@
 #define __OPERATIONS_H_INCLUDED__  
 
 #include<vector>
+#include<iostream>
 
-#include "base.h"
-using namespace std;
-
-class operation: public base
+class operation
 {
-    protected:
-        string op;
-
     public:
-        operation(string key, string op): op{op}, base("op_" + op + '_' + key) {}
-        
-        string get_op_name() { return op;};
-
-        virtual double run(vector<double>&op_arg) = 0;
-        virtual double partial_diff_run(vector<double>&op_arg, int var_idx) = 0;
+        virtual double run(std::vector<double>&op_arg) = 0;
+        virtual double partial_diff_run(std::vector<double>&op_arg, int var_idx) = 0;
 };
 
 class add: public operation
 {
     public:
-        add(string key): operation(key, "add") {}
-
-        double run(vector<double>&op_arg)
+        double run(std::vector<double>&op_arg)
         {
-            if(op_arg.size() < 2)
-                throw "add operation requires at least two arguments";
+            if(op_arg.size() != 2)
+                throw "add operation requires exactly two arguments";
             
             double result = 0;
             for(auto arg: op_arg)
@@ -36,7 +25,7 @@ class add: public operation
             return result;
         }
         
-        double partial_diff_run(vector<double>&op_arg, int var_idx)
+        double partial_diff_run(std::vector<double>&op_arg, int var_idx)
         {
             return 1;
         }
@@ -45,12 +34,10 @@ class add: public operation
 class multiply: public operation
 {
     public:
-        multiply(string key): operation(key, "multiply") {}
-
-        double run(vector<double>&op_arg)
+        double run(std::vector<double>&op_arg)
         {
-            if(op_arg.size() < 2)
-                throw "multiply operation requires at least two arguments";
+            if(op_arg.size() != 2)
+                throw "multiply operation requires exactly two arguments";
             
             double result = 1;
             for(auto arg: op_arg)
@@ -58,7 +45,7 @@ class multiply: public operation
             return result;
         }
         
-        double partial_diff_run(vector<double>&op_arg, int var_idx)
+        double partial_diff_run(std::vector<double>&op_arg, int var_idx)
         {
             double result = 1;
             for(int i=0; i<op_arg.size(); ++i)
@@ -70,9 +57,7 @@ class multiply: public operation
 class divide: public operation
 {
     public:
-        divide(string key): operation(key, "divide") {}
-
-        double run(vector<double>&op_arg)
+        double run(std::vector<double>&op_arg)
         {
             if(op_arg.size() != 2)
                 throw "divide operation requires exactly two arguments";
@@ -81,7 +66,7 @@ class divide: public operation
             return result;
         }
         
-        double partial_diff_run(vector<double>&op_arg, int var_idx)
+        double partial_diff_run(std::vector<double>&op_arg, int var_idx)
         {
             double result = (var_idx == 0)*(1/op_arg[1]) + (var_idx == 1)*(-1/op_arg[1]/op_arg[1]);
             return result;
