@@ -12,7 +12,7 @@ using namespace std;
 int main()
 {
     Node a = IndependentVariable("a");
-    a->set_value(2);
+    Assign(a, 2);
     Node b = Constant(6, "b");
     printf("a: %lf\n", a->get_value()); 
     printf("b: %lf\n", b->get_value()); 

@@ -14,3 +14,8 @@ Node Constant(double val, std::string key)
 {
     return new constant(val, key);
 }
+
+void Assign(Node a, double val)
+{
+    a->set_value(val);
+}

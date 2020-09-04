@@ -12,4 +12,6 @@ Node IndependentVariable(std::string);
 Node DependentVariable(std::string);
 Node Constant(double, std::string key = "");
 
+void Assign(Node, double);
+
 #endif
