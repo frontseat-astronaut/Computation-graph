@@ -17,6 +17,7 @@ namespace dio
     void assign(Node, double);
     double value(Node);
     double gradient(Node, std::string);
+    double gradient(Node, Node);
 }
 
 #endif

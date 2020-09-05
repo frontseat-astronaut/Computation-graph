@@ -31,4 +31,9 @@ namespace dio
     {
         return a->get_gradient(var_key);
     }
+
+    double gradient(Node a, Node b)
+    {
+        return a->get_gradient(b->get_key());
+    }
 }
