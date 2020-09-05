@@ -15,10 +15,7 @@ namespace dio
         public:
             constant(double value, std::string key): node(value, key) {}
 
-            double get_gradient(std::string x_key)
-            {
-                return 0;
-            }
+            double get_gradient(std::string x_key);
     };
 
     class ind_variable: public node
@@ -26,15 +23,9 @@ namespace dio
         public:
             ind_variable(std::string key): node(key) {}
 
-            void set_value(double value)
-            {
-                ind_variable::value = value;
-            }
+            void set_value(double value);
 
-            double get_gradient(std::string x_key)
-            {
-                return key == x_key;
-            }
+            double get_gradient(std::string x_key);
     };
 
     class dep_variable: public node 
@@ -53,46 +44,11 @@ namespace dio
                 is_assigned = 1;
             }
 
-            void assign(std::vector<node*>opargv, operation *op)
-            {
-                dep_variable::opargv = opargv;
-                dep_variable::op = op;
-                is_assigned = 1;
-            }
+            void assign(std::vector<node*>opargv, operation *op);
 
-            double get_value()
-            {
-                if(!is_assigned)
-                    throw "Dependent Variable not assigned";
-                // if(is_valid) return value;
+            double get_value();
 
-                std::vector<double>tmpargval(opargv.size());
-                for(int i=0; i<opargv.size(); ++i)
-                {
-                    tmpargval[i] = opargv[i]->get_value();
-                }
-
-                value = op->run(tmpargval);
-                is_valid = 1;
-                return value;
-            }
-
-            double get_gradient(std::string x_key)
-            {
-                if(!is_assigned)
-                    throw "Dependent Variable not assigned";
-
-                std::vector<double>tmpargval(opargv.size());
-                for(int i=0; i<opargv.size(); ++i)
-                    tmpargval[i] = opargv[i]->get_value();
-
-                double result = 0;
-                for(int i=0; i<opargv.size(); ++i)
-                {
-                    result += op->partial_diff_run(tmpargval, i) * opargv[i]->get_gradient(x_key);
-                }
-                return result;
-            }
+            double get_gradient(std::string x_key);
     };
 }
 #endif

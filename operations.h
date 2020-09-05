@@ -16,63 +16,25 @@ namespace dio
     class add: public operation
     {
         public:
-            double run(std::vector<double>&op_arg)
-            {
-                if(op_arg.size() != 2)
-                    throw "add operation requires exactly two arguments";
-                
-                double result = 0;
-                for(auto arg: op_arg)
-                    result += arg;
-                return result;
-            }
+            double run(std::vector<double>&op_arg);
             
-            double partial_diff_run(std::vector<double>&op_arg, int var_idx)
-            {
-                return 1;
-            }
+            double partial_diff_run(std::vector<double>&op_arg, int var_idx);
     };
 
     class multiply: public operation
     {
         public:
-            double run(std::vector<double>&op_arg)
-            {
-                if(op_arg.size() != 2)
-                    throw "multiply operation requires exactly two arguments";
-                
-                double result = 1;
-                for(auto arg: op_arg)
-                    result *= arg;
-                return result;
-            }
+            double run(std::vector<double>&op_arg);
             
-            double partial_diff_run(std::vector<double>&op_arg, int var_idx)
-            {
-                double result = 1;
-                for(int i=0; i<op_arg.size(); ++i)
-                    if(i != var_idx) result *= op_arg[i];
-                return result;
-            }
+            double partial_diff_run(std::vector<double>&op_arg, int var_idx);
     };
 
     class divide: public operation
     {
         public:
-            double run(std::vector<double>&op_arg)
-            {
-                if(op_arg.size() != 2)
-                    throw "divide operation requires exactly two arguments";
-                
-                double result = op_arg[0] / op_arg[1];
-                return result;
-            }
+            double run(std::vector<double>&op_arg);
             
-            double partial_diff_run(std::vector<double>&op_arg, int var_idx)
-            {
-                double result = (var_idx == 0)*(1/op_arg[1]) + (var_idx == 1)*(-1/op_arg[1]/op_arg[1]);
-                return result;
-            }
+            double partial_diff_run(std::vector<double>&op_arg, int var_idx);
     };
 }
 
