@@ -17,6 +17,11 @@ namespace dio
         return new constant(val, key);
     }
 
+    std::string key(Node a)
+    {
+        return a->get_key();
+    }
+
     void assign(Node a, double val)
     {
         a->set_value(val);

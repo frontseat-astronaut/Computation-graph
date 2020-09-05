@@ -19,7 +19,7 @@ int main()
 
     Node c = Add(Multiply(a, b), Reciprocal(a));
     printf("c: %lf\n", value(b)); 
-    printf("c key (prefix notation!): %s\n", c->get_key().c_str()); 
+    printf("c key (prefix notation!): %s\n", key(c).c_str()); 
     printf("del c / del a: %lf\n", gradient(c, a)); 
 
 }

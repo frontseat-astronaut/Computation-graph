@@ -14,6 +14,7 @@ namespace dio
     Node DependentVariable(std::string);
     Node Constant(double, std::string key = "");
 
+    std::string key(Node);
     void assign(Node, double);
     double value(Node);
     double gradient(Node, std::string);
