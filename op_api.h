@@ -9,9 +9,12 @@
 #include "variables.h"
 #include "var_api.h"
 
-Node Add(Node, Node, std::string key = "");
-Node Multiply(Node, Node, std::string key = "");
-Node Divide(Node, Node, std::string key = "");
-Node Reciprocal(Node, std::string key = "");
+namespace dio
+{
+    Node Add(Node, Node, std::string key = "");
+    Node Multiply(Node, Node, std::string key = "");
+    Node Divide(Node, Node, std::string key = "");
+    Node Reciprocal(Node, std::string key = "");
+}
 
 #endif

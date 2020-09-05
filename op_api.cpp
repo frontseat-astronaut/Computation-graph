@@ -1,51 +1,54 @@
 #include "op_api.h"
 
-std::map<std::string, operation*>op;
-
-Node Add(Node a, Node b, std::string key)
+namespace dio 
 {
-    if(op.find("add") == op.end())
-        op["add"] = new add;
+    std::map<std::string, operation*>op;
 
-    if(key == "")
-        key = "add_" + a->get_key() + "_" + b->get_key();
+    Node Add(Node a, Node b, std::string key)
+    {
+        if(op.find("add") == op.end())
+            op["add"] = new add;
 
-    Node c = new dep_variable(std::vector<Node>{a, b}, op["add"], key);
-    return c;
-}
+        if(key == "")
+            key = "add_" + a->get_key() + "_" + b->get_key();
 
-Node Multiply(Node a, Node b, std::string key)
-{
-    if(op.find("multiply") == op.end())
-        op["multiply"] = new multiply;
+        Node c = new dep_variable(std::vector<Node>{a, b}, op["add"], key);
+        return c;
+    }
 
-    if(key == "")
-        key = "multiply_" + a->get_key() + "_" + b->get_key();
+    Node Multiply(Node a, Node b, std::string key)
+    {
+        if(op.find("multiply") == op.end())
+            op["multiply"] = new multiply;
 
-    Node c = new dep_variable(std::vector<Node>{a, b}, op["multiply"], key);
-    return c;
-}
+        if(key == "")
+            key = "multiply_" + a->get_key() + "_" + b->get_key();
 
-Node Divide(Node a, Node b, std::string key)
-{
-    if(op.find("divide") == op.end())
-        op["divide"] = new divide;
+        Node c = new dep_variable(std::vector<Node>{a, b}, op["multiply"], key);
+        return c;
+    }
 
-    if(key == "")
-        key = "divide" + a->get_key() + "_" + b->get_key();
+    Node Divide(Node a, Node b, std::string key)
+    {
+        if(op.find("divide") == op.end())
+            op["divide"] = new divide;
 
-    Node c = new dep_variable(std::vector<Node>{a, b}, op["divide"], key);
-    return c;
-}
+        if(key == "")
+            key = "divide" + a->get_key() + "_" + b->get_key();
 
-Node Reciprocal(Node a, std::string key)
-{
-    if(op.find("divide") == op.end())
-        op["divide"] = new divide;
-    
-    if(key == "")
-        key = "reciprocal_" + a->get_key();
-    
-    Node c = new dep_variable(std::vector<Node>{new constant(1, "one_"+key), a}, op["divide"], key);
-    return c;
+        Node c = new dep_variable(std::vector<Node>{a, b}, op["divide"], key);
+        return c;
+    }
+
+    Node Reciprocal(Node a, std::string key)
+    {
+        if(op.find("divide") == op.end())
+            op["divide"] = new divide;
+        
+        if(key == "")
+            key = "reciprocal_" + a->get_key();
+        
+        Node c = new dep_variable(std::vector<Node>{new constant(1, "one_"+key), a}, op["divide"], key);
+        return c;
+    }
 }

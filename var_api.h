@@ -6,12 +6,15 @@
 #include "node.h"
 #include "variables.h"
 
-typedef node* Node;
+namespace dio 
+{
+    typedef node* Node;
 
-Node IndependentVariable(std::string);
-Node DependentVariable(std::string);
-Node Constant(double, std::string key = "");
+    Node IndependentVariable(std::string);
+    Node DependentVariable(std::string);
+    Node Constant(double, std::string key = "");
 
-void Assign(Node, double);
+    void assign(Node, double);
+}
 
 #endif
