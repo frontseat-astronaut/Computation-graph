@@ -1,8 +1,4 @@
-# Gradient Tape
-At the time of me writing this, I don't know what the term *Gradient Tape* precisely means. 
-I came across this term in the Tensorflow documentation and interpreted as being the tool that enables back propagation of neural networks.
-I don't intend to google what it precisely is or how it works until I create a basic version of what I think it is myself.
-
+# Computation Graph
 ## Some piece of theory
 Let's setup the problem first.
 Assume we have 
