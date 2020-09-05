@@ -21,4 +21,14 @@ namespace dio
     {
         a->set_value(val);
     }
+
+    double value(Node a)
+    {
+        return a->get_value();
+    }
+
+    double gradient(Node a, std::string var_key)
+    {
+        return a->get_gradient(var_key);
+    }
 }
