@@ -1,9 +1,12 @@
 #include<exception>
 
-class NotAssignedError: public std::exception
+namespace dio
 {
-	const char * what () const throw ()
+    class NotAssignedError: public std::exception
     {
-    	return "Dependent variable not assigned";
-    }
-};
+        const char * what () const throw ()
+        {
+            return "Dependent variable not assigned";
+        }
+    };
+}
