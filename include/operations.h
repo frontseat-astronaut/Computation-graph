@@ -3,6 +3,7 @@
 
 #include<vector>
 #include<iostream>
+#include<cmath>
 
 namespace dio
 {
@@ -38,6 +39,14 @@ namespace dio
     };
 
     class _minus: public operation 
+    {
+        public:
+            double run(std::vector<double>&op_arg);
+
+            double partial_diff_run(std::vector<double>&op_arg, int var_idx);
+    };
+
+    class _power: public operation 
     {
         public:
             double run(std::vector<double>&op_arg);

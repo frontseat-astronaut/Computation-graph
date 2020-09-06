@@ -16,6 +16,8 @@ namespace dio
     Node divide(Node, Node, std::string key = "");
     Node reciprocal(Node, std::string key = "");
     Node minus(Node, std::string key = "");
+    Node powr(Node, Node, std::string key = "");
+    Node exp(Node, std::string key = "");
 }
 
 #endif

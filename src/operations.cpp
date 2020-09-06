@@ -69,4 +69,25 @@ namespace dio
     {
         return -1;
     }
+
+    // power 
+    double _power::run(std::vector<double>&op_arg)
+    {
+        if(op_arg.size() != 2)
+            throw "power operation requires exactly two arguments";
+        
+        double result = std::pow(op_arg[0], op_arg[1]);
+        return result;
+    }
+    
+    double _power::partial_diff_run(std::vector<double>&op_arg, int var_idx)
+    {
+        double result = 0;
+        if(var_idx == 0)
+            result = std::pow(op_arg[0], op_arg[1]);
+        else if(var_idx == 1)
+            result = std::log(op_arg[0])*std::pow(op_arg[0], op_arg[1]);
+        
+        return result;
+    }
 }

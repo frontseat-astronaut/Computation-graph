@@ -56,4 +56,21 @@ namespace dio
         Node c = new dep_variable(std::vector<Node>{a}, op["minus"], key);
         return c;
     }
+
+    Node powr(Node a, Node b, std::string key)
+    {
+        if(op.find("powr") == op.end())
+            op["powr"] = new _power;
+
+        if(key == "")
+            key = "power" + a->get_key() + "_" + b->get_key();
+
+        Node c = new dep_variable(std::vector<Node>{a, b}, op["powr"], key);
+        return c;
+    }
+
+    Node exp(Node a, std::string key)
+    {
+        return powr(new constant(std::exp(1), ""), a, key); 
+    }
 }
