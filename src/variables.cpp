@@ -1,4 +1,6 @@
 #include <variables.h>
+#include<iostream>
+#include<exceptions.h>
 
 namespace dio
 {
@@ -30,7 +32,7 @@ namespace dio
     double dep_variable::get_value()
     {
         if(!is_assigned)
-            throw "Dependent Variable not assigned";
+            throw NotAssignedError();
         // if(is_valid) return value;
 
         std::vector<double>tmpargval(opargv.size());
@@ -47,7 +49,7 @@ namespace dio
     double dep_variable::get_gradient(std::string x_key)
     {
         if(!is_assigned)
-            throw "Dependent Variable not assigned";
+            throw NotAssignedError();
 
         std::vector<double>tmpargval(opargv.size());
         for(int i=0; i<opargv.size(); ++i)
