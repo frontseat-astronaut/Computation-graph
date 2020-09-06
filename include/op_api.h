@@ -11,10 +11,10 @@
 
 namespace dio
 {
-    Node Add(Node, Node, std::string key = "");
-    Node Multiply(Node, Node, std::string key = "");
-    Node Divide(Node, Node, std::string key = "");
-    Node Reciprocal(Node, std::string key = "");
+    Node add(Node, Node, std::string key = "");
+    Node multiply(Node, Node, std::string key = "");
+    Node divide(Node, Node, std::string key = "");
+    Node reciprocal(Node, std::string key = "");
 }
 
 #endif

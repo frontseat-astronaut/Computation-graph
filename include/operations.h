@@ -13,7 +13,7 @@ namespace dio
             virtual double partial_diff_run(std::vector<double>&op_arg, int var_idx) = 0;
     };
 
-    class add: public operation
+    class _add: public operation
     {
         public:
             double run(std::vector<double>&op_arg);
@@ -21,7 +21,7 @@ namespace dio
             double partial_diff_run(std::vector<double>&op_arg, int var_idx);
     };
 
-    class multiply: public operation
+    class _multiply: public operation
     {
         public:
             double run(std::vector<double>&op_arg);
@@ -29,7 +29,7 @@ namespace dio
             double partial_diff_run(std::vector<double>&op_arg, int var_idx);
     };
 
-    class divide: public operation
+    class _divide: public operation
     {
         public:
             double run(std::vector<double>&op_arg);

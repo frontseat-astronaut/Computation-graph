@@ -17,8 +17,8 @@ int main()
     printf("a: %lf\n", value(a)); 
     printf("b: %lf\n", value(b)); 
 
-    Node c = Add(Multiply(a, b), Reciprocal(a));
-    printf("c: %lf\n", value(b)); 
+    Node c = add(multiply(a, b), reciprocal(a)); // c = a*b + 1/a
+    printf("c: %lf\n", value(c)); 
     printf("c key (prefix notation!): %s\n", key(c).c_str()); 
     printf("del c / del a: %lf\n", gradient(c, a)); 
 
