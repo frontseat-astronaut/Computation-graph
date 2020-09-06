@@ -44,4 +44,16 @@ namespace dio
     {
         return divide(new constant(1,""), a, key);
     }
+
+    Node minus(Node a, std::string key)
+    {
+        if(op.find("minus") == op.end())
+            op["minus"] = new _minus;
+
+        if(key == "")
+            key = "minus" + a->get_key();
+
+        Node c = new dep_variable(std::vector<Node>{a}, op["minus"], key);
+        return c;
+    }
 }

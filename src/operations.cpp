@@ -54,4 +54,19 @@ namespace dio
         double result = (var_idx == 0)*(1/op_arg[1]) + (var_idx == 1)*(-1/op_arg[1]/op_arg[1]);
         return result;
     }
+
+    // unary minus
+    double _minus::run(std::vector<double>&op_arg)
+    {
+        if(op_arg.size() != 1)
+            throw "unary minus operation requires exactly one argument";
+        
+        double result = -op_arg[0];
+        return result;
+    }
+    
+    double _minus::partial_diff_run(std::vector<double>&op_arg, int var_idx)
+    {
+        return -1;
+    }
 }
