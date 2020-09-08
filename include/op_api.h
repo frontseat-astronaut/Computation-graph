@@ -4,6 +4,7 @@
 #include<vector>
 #include<string>
 #include<map>
+#include<memory>
 
 #include "operations.h"
 #include "variables.h"

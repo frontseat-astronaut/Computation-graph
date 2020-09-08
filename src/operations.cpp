@@ -1,7 +1,14 @@
 #include <operations.h>
+#include <exceptions.h>
 
 namespace dio
 {
+
+    bool iszero(double a)
+    {
+        return fabs(a)<1e-9;
+    }
+
     // add
     double _add::run(std::vector<double>&op_arg)
     {

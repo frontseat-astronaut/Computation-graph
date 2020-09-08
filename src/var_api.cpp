@@ -4,17 +4,24 @@ namespace dio
 {
     Node IndependentVariable(std::string key)
     {
-        return new ind_variable(key);
+        Node ret = Node(new ind_variable(key));
+        
+        return ret;
     }
 
     Node DependentVariable(std::string key)
     {
-        return new dep_variable(key);
+        return Node(new dep_variable(key));
     }
 
     Node Constant(double val, std::string key)
     {
-        return new constant(val, key);
+        return Node(new constant(val, key));
+    }
+
+    Node Constant(double val)
+    {
+        return Node(new constant(val));
     }
 
     std::string key(Node a)

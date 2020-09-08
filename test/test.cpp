@@ -7,7 +7,7 @@ using namespace dio;
 
 void line()
 {
-    for(int i=0; i<10; ++i)
+    for(int i=0; i<50; ++i)
         printf("-");
     printf("\n");
 }
@@ -29,11 +29,10 @@ int main()
 
     line();
 
-    Node zero = Constant(0, "");
+    Node zero = Constant(0);
     Node nan = reciprocal(zero);
-    printf("nan: %lf\n", value(nan)); // should give inf
-    printf("nan + a: %lf\n", value(add(nan, a))); // again inf
+    printf("nan: %lf\n", value(nan));
+    printf("nan + a: %lf\n", value(add(nan, a))); 
 
     line();
-
 }

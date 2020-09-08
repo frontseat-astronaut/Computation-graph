@@ -2,6 +2,7 @@
 #define __NODE_H_INCLUDED__  
 
 #include<string>
+#include<iostream>
 
 namespace dio 
 {
@@ -13,7 +14,6 @@ namespace dio
 
         public:
             node(std::string key): key{key} {}
-            node(double value, std::string key): value{value}, key{key} {}
 
             std::string get_key()
             {

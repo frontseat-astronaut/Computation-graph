@@ -4,6 +4,7 @@
 #include<vector>
 #include<string>
 #include<iostream>
+#include<memory>
 
 #include "node.h"
 #include "operations.h"
@@ -13,7 +14,14 @@ namespace dio
     class constant: public node 
     {
         public:
-            constant(double value, std::string key): node(value, key) {}
+            constant(double value): node(std::to_string(value)) 
+            {
+                constant::value = value;
+            }
+            constant(double value, std::string key): node(key) 
+            {
+                constant::value = value;
+            }
 
             double get_gradient(std::string x_key);
     };
@@ -31,20 +39,20 @@ namespace dio
     class dep_variable: public node 
     {
         protected:
-            std::vector<node*>opargv;
-            operation *op;
+            std::vector<std::shared_ptr<node>>opargv;
+            std::shared_ptr<operation>op;
             bool is_valid = 0;
             bool is_assigned = 0;
         
         public:
             dep_variable(std::string key): node(key) {}
-            dep_variable(std::vector<node*>opargv, operation *op, std::string key)
+            dep_variable(std::vector<std::shared_ptr<node>>opargv, std::shared_ptr<operation>op, std::string key)
             :opargv{opargv}, op{op}, node(key)
             {
                 is_assigned = 1;
             }
 
-            void assign(std::vector<node*>opargv, operation *op);
+            void assign(std::vector<std::shared_ptr<node>>opargv, std::shared_ptr<operation>op);
 
             double get_value();
 
