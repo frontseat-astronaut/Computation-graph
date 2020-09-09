@@ -4,69 +4,72 @@
 
 namespace dio
 {
-    // constant
-    double constant::get_gradient(std::shared_ptr<number>x)
+    namespace hidden
     {
-        return 0;
-    }
-
-    // ind_variable
-    void ind_variable::set_value(double value)
-    {
-        ind_variable::value = value;
-    }
-
-    double ind_variable::get_gradient(std::shared_ptr<number>x)
-    {
-        return this == x.get();
-    }
-
-    // dep_variable
-    void dep_variable::assign(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op)
-    {
-        dep_variable::opargv = opargv;
-        dep_variable::op = op;
-        is_assigned = 1;
-    }
-
-    double dep_variable::get_value()
-    {
-        if(!is_assigned)
-            throw NotAssignedError();
-        // if(is_valid) return value;
-
-        std::vector<double>tmpargval(opargv.size());
-        for(int i=0; i<opargv.size(); ++i)
+        // constant
+        double constant::get_gradient(std::shared_ptr<number>x)
         {
-            tmpargval[i] = opargv[i]->get_value();
+            return 0;
         }
 
-        value = op->run(tmpargval);
-        return value;
-    }
-
-    double dep_variable::get_gradient(std::shared_ptr<number>x)
-    {
-        if(!is_assigned)
-            throw NotAssignedError();
-
-        std::vector<double>tmpargval(opargv.size());
-        for(int i=0; i<opargv.size(); ++i)
-            tmpargval[i] = opargv[i]->get_value();
-
-        double result = 0;
-        for(int i=0; i<opargv.size(); ++i)
+        // ind_variable
+        void ind_variable::set_value(double value)
         {
-            result += op->partial_diff_run(tmpargval, i) * opargv[i]->get_gradient(x);
+            ind_variable::value = value;
         }
-        return result;
-    }
 
-    void dep_variable::reset()
-    {
-        is_assigned = 0;
-        value = 0;
-        opargv = std::vector<std::shared_ptr<number>>();
-        op = std::shared_ptr<operation>();
+        double ind_variable::get_gradient(std::shared_ptr<number>x)
+        {
+            return this == x.get();
+        }
+
+        // dep_variable
+        void dep_variable::assign(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op)
+        {
+            dep_variable::opargv = opargv;
+            dep_variable::op = op;
+            is_assigned = 1;
+        }
+
+        double dep_variable::get_value()
+        {
+            if(!is_assigned)
+                throw NotAssignedError();
+            // if(is_valid) return value;
+
+            std::vector<double>tmpargval(opargv.size());
+            for(int i=0; i<opargv.size(); ++i)
+            {
+                tmpargval[i] = opargv[i]->get_value();
+            }
+
+            value = op->run(tmpargval);
+            return value;
+        }
+
+        double dep_variable::get_gradient(std::shared_ptr<number>x)
+        {
+            if(!is_assigned)
+                throw NotAssignedError();
+
+            std::vector<double>tmpargval(opargv.size());
+            for(int i=0; i<opargv.size(); ++i)
+                tmpargval[i] = opargv[i]->get_value();
+
+            double result = 0;
+            for(int i=0; i<opargv.size(); ++i)
+            {
+                result += op->partial_diff_run(tmpargval, i) * opargv[i]->get_gradient();
+            }
+            return result;
+        }
+
+        void dep_variable::reset()
+        {
+            is_assigned = 0;
+            value = 0;
+            opargv = std::vector<std::shared_ptr<number>>();
+            op = std::shared_ptr<operation>();
+        }
     }
 }

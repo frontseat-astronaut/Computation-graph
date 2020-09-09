@@ -7,26 +7,24 @@
 
 namespace dio 
 {
-    class number 
+    namespace hidden
     {
-        protected:
-            double value = 0;
+        class number 
+        {
+            protected:
+                double value = 0;
 
-        public:
-            // ~number() 
-            // {
-            //     std::cout<<key<<" heading out\n";
-            // }
+            public:
+                virtual double get_value()
+                {
+                    return value;
+                }
 
-            virtual double get_value()
-            {
-                return value;
-            }
+                virtual double get_gradient(std::shared_ptr<number>) = 0;
 
-            virtual double get_gradient(std::shared_ptr<number>) = 0;
-
-            virtual void set_value(double) {}
-    };
+                virtual void set_value(double) {}
+        };
+    }
 }
 
 #endif

@@ -9,7 +9,7 @@
 
 namespace dio 
 {
-    using Number = std::shared_ptr<number>;
+    using Number = std::shared_ptr<hidden::number>;
 
     Number IndependentVariable();
     Number DependentVariable();
