@@ -14,6 +14,10 @@ namespace dio
 
         public:
             node(std::string key): key{key} {}
+            // ~node() 
+            // {
+            //     std::cout<<key<<" heading out\n";
+            // }
 
             std::string get_key()
             {

@@ -1,5 +1,6 @@
 #include<vector>
 #include<stdio.h>
+#include<iostream>
 
 #include<dio.h>
 
@@ -31,7 +32,7 @@ int main()
 
     Node zero = Constant(0);
     Node nan = reciprocal(zero);
-    printf("nan: %lf\n", value(nan));
+    printf("nan: %lf\n", value(nan)); // should give inf
     printf("nan + a: %lf\n", value(add(nan, a))); 
 
     line();
