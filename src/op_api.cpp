@@ -4,73 +4,58 @@ namespace dio
 {
     std::map<std::string, std::shared_ptr<operation>>op;
 
-    Number add(Number a, Number b, std::string key)
+    Number add(Number a, Number b)
     {
         if(op.find("add") == op.end())
             op["add"] = std::shared_ptr<operation>(new _add);
 
-        if(key == "")
-            key = "add_" + a->get_key() + "_" + b->get_key();
-
-        Number c = Number(new dep_variable(std::vector<Number>{a, b}, op["add"], key));
+        Number c = Number(new dep_variable(std::vector<Number>{a, b}, op["add"]));
         return c;
     }
 
-    Number multiply(Number a, Number b, std::string key)
+    Number multiply(Number a, Number b)
     {
         if(op.find("multiply") == op.end())
             op["multiply"] = std::shared_ptr<operation>(new _multiply);
 
-        if(key == "")
-            key = "multiply_" + a->get_key() + "_" + b->get_key();
-
-        Number c = Number(new dep_variable(std::vector<Number>{a, b}, op["multiply"], key));
+        Number c = Number(new dep_variable(std::vector<Number>{a, b}, op["multiply"]));
         return c;
     }
 
-    Number divide(Number a, Number b, std::string key)
+    Number divide(Number a, Number b)
     {
         if(op.find("divide") == op.end())
             op["divide"] = std::shared_ptr<operation>(new _divide);
 
-        if(key == "")
-            key = "divide_" + a->get_key() + "_" + b->get_key();
-
-        Number c = Number(new dep_variable(std::vector<Number>{a, b}, op["divide"], key));
+        Number c = Number(new dep_variable(std::vector<Number>{a, b}, op["divide"]));
         return c;
     }
 
-    Number reciprocal(Number a, std::string key)
+    Number reciprocal(Number a)
     {
-        return divide(Number(new constant(1)), a, key);
+        return divide(Number(new constant(1)), a);
     }
 
-    Number minus(Number a, std::string key)
+    Number minus(Number a)
     {
         if(op.find("minus") == op.end())
             op["minus"] = std::shared_ptr<operation>(new _minus);
 
-        if(key == "")
-            key = "minus_" + a->get_key();
-
-        Number c = Number(new dep_variable(std::vector<Number>{a}, op["minus"], key));
+        Number c = Number(new dep_variable(std::vector<Number>{a}, op["minus"]));
         return c;
     }
 
-    Number powr(Number a, Number b, std::string key)
+    Number powr(Number a, Number b)
     {
         if(op.find("powr") == op.end())
             op["powr"] = std::shared_ptr<operation>(new _power);
 
-        if(key == "")
-            key = "power_" + a->get_key() + "_" + b->get_key();
-
-        Number c = Number(new dep_variable(std::vector<Number>{a, b}, op["powr"], key));
+        Number c = Number(new dep_variable(std::vector<Number>{a, b}, op["powr"]));
         return c;
     }
 
-    Number exp(Number a, std::string key)
+    Number exp(Number a)
     {
-        return powr(Number(new constant(std::exp(1), key = "e")), a, key); 
+        return powr(Number(new constant(std::exp(1))), a); 
     }
 }

@@ -14,26 +14,20 @@ namespace dio
     class constant: public number 
     {
         public:
-            constant(double value): number(std::to_string(value)) 
-            {
-                constant::value = value;
-            }
-            constant(double value, std::string key): number(key) 
+            constant(double value)
             {
                 constant::value = value;
             }
 
-            double get_gradient(std::string x_key);
+            double get_gradient(std::shared_ptr<number>);
     };
 
     class ind_variable: public number
     {
         public:
-            ind_variable(std::string key): number(key) {}
-
             void set_value(double value);
 
-            double get_gradient(std::string x_key);
+            double get_gradient(std::shared_ptr<number>);
     };
 
     class dep_variable: public number 
@@ -44,9 +38,9 @@ namespace dio
             bool is_assigned = 0;
         
         public:
-            dep_variable(std::string key): number(key) {}
-            dep_variable(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op, std::string key)
-            :opargv{opargv}, op{op}, number(key)
+            dep_variable() {}
+            dep_variable(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op)
+            :opargv{opargv}, op{op}
             {
                 is_assigned = 1;
             }
@@ -55,7 +49,7 @@ namespace dio
 
             double get_value();
 
-            double get_gradient(std::string x_key);
+            double get_gradient(std::shared_ptr<number>);
 
             void reset();
     };

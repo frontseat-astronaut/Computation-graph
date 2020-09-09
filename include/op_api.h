@@ -12,13 +12,13 @@
 
 namespace dio
 {
-    Number add(Number, Number, std::string key = "");
-    Number multiply(Number, Number, std::string key = "");
-    Number divide(Number, Number, std::string key = "");
-    Number reciprocal(Number, std::string key = "");
-    Number minus(Number, std::string key = "");
-    Number powr(Number, Number, std::string key = "");
-    Number exp(Number, std::string key = "");
+    Number add(Number, Number);
+    Number multiply(Number, Number);
+    Number divide(Number, Number);
+    Number reciprocal(Number);
+    Number minus(Number);
+    Number powr(Number, Number);
+    Number exp(Number);
 }
 
 #endif

@@ -11,15 +11,12 @@ namespace dio
 {
     using Number = std::shared_ptr<number>;
 
-    Number IndependentVariable(std::string);
-    Number DependentVariable(std::string);
+    Number IndependentVariable();
+    Number DependentVariable();
     Number Constant(double);
-    Number Constant(double, std::string key);
 
-    std::string key(Number);
     void assign(Number, double);
     double value(Number);
-    double gradient(Number, std::string);
     double gradient(Number, Number);
 }
 

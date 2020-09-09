@@ -5,7 +5,7 @@
 namespace dio
 {
     // constant
-    double constant::get_gradient(std::string x_key)
+    double constant::get_gradient(std::shared_ptr<number>x)
     {
         return 0;
     }
@@ -16,9 +16,9 @@ namespace dio
         ind_variable::value = value;
     }
 
-    double ind_variable::get_gradient(std::string x_key)
+    double ind_variable::get_gradient(std::shared_ptr<number>x)
     {
-        return key == x_key;
+        return this == x.get();
     }
 
     // dep_variable
@@ -45,7 +45,7 @@ namespace dio
         return value;
     }
 
-    double dep_variable::get_gradient(std::string x_key)
+    double dep_variable::get_gradient(std::shared_ptr<number>x)
     {
         if(!is_assigned)
             throw NotAssignedError();
@@ -57,7 +57,7 @@ namespace dio
         double result = 0;
         for(int i=0; i<opargv.size(); ++i)
         {
-            result += op->partial_diff_run(tmpargval, i) * opargv[i]->get_gradient(x_key);
+            result += op->partial_diff_run(tmpargval, i) * opargv[i]->get_gradient(x);
         }
         return result;
     }
