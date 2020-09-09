@@ -1,20 +1,20 @@
-#ifndef __NODE_H_INCLUDED__   
-#define __NODE_H_INCLUDED__  
+#ifndef __NUMBER_H_INCLUDED__   
+#define __NUMBER_H_INCLUDED__  
 
 #include<string>
 #include<iostream>
 
 namespace dio 
 {
-    class node
+    class number 
     {
         protected:
             std::string key;
             double value = 0;
 
         public:
-            node(std::string key): key{key} {}
-            // ~node() 
+            number(std::string key): key{key} {}
+            // ~number() 
             // {
             //     std::cout<<key<<" heading out\n";
             // }

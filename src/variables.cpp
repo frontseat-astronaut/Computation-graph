@@ -22,7 +22,7 @@ namespace dio
     }
 
     // dep_variable
-    void dep_variable::assign(std::vector<std::shared_ptr<node>>opargv, std::shared_ptr<operation>op)
+    void dep_variable::assign(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op)
     {
         dep_variable::opargv = opargv;
         dep_variable::op = op;
@@ -66,7 +66,7 @@ namespace dio
     {
         is_assigned = 0;
         value = 0;
-        opargv = std::vector<std::shared_ptr<node>>();
+        opargv = std::vector<std::shared_ptr<number>>();
         op = std::shared_ptr<operation>();
     }
 }

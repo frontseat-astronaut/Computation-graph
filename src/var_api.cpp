@@ -2,49 +2,49 @@
 
 namespace dio
 {
-    Node IndependentVariable(std::string key)
+    Number IndependentVariable(std::string key)
     {
-        Node ret = Node(new ind_variable(key));
+        Number ret = Number(new ind_variable(key));
         
         return ret;
     }
 
-    Node DependentVariable(std::string key)
+    Number DependentVariable(std::string key)
     {
-        return Node(new dep_variable(key));
+        return Number(new dep_variable(key));
     }
 
-    Node Constant(double val, std::string key)
+    Number Constant(double val, std::string key)
     {
-        return Node(new constant(val, key));
+        return Number(new constant(val, key));
     }
 
-    Node Constant(double val)
+    Number Constant(double val)
     {
-        return Node(new constant(val));
+        return Number(new constant(val));
     }
 
-    std::string key(Node a)
+    std::string key(Number a)
     {
         return a->get_key();
     }
 
-    void assign(Node a, double val)
+    void assign(Number a, double val)
     {
         a->set_value(val);
     }
 
-    double value(Node a)
+    double value(Number a)
     {
         return a->get_value();
     }
 
-    double gradient(Node a, std::string var_key)
+    double gradient(Number a, std::string var_key)
     {
         return a->get_gradient(var_key);
     }
 
-    double gradient(Node a, Node b)
+    double gradient(Number a, Number b)
     {
         return a->get_gradient(b->get_key());
     }

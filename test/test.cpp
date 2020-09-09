@@ -15,23 +15,23 @@ void line()
 
 int main()
 {
-    Node a = IndependentVariable("a");
+    Number a = IndependentVariable("a");
     assign(a, 2);
-    Node b = Constant(6, "b");
+    Number b = Constant(6, "b");
     printf("a: %lf\n", value(a)); 
     printf("b: %lf\n", value(b)); 
 
-    Node c = add(multiply(a, b), minus(reciprocal(a))); // c = a*b - 1/a
-    // Node c = exp(a); // c = e^a
-    // Node c = DependentVariable("c"); // should throw NotAssignedError when value(c) is called
+    Number c = add(multiply(a, b), minus(reciprocal(a))); // c = a*b - 1/a
+    // Number c = exp(a); // c = e^a
+    // Number c = DependentVariable("c"); // should throw NotAssignedError when value(c) is called
     printf("c: %lf\n", value(c)); 
     printf("c key (prefix notation!): %s\n", key(c).c_str()); 
     printf("del c / del a: %lf\n", gradient(c, a)); 
 
     line();
 
-    Node zero = Constant(0);
-    Node nan = reciprocal(zero);
+    Number zero = Constant(0);
+    Number nan = reciprocal(zero);
     printf("nan: %lf\n", value(nan)); // should give inf
     printf("nan + a: %lf\n", value(add(nan, a))); 
 
