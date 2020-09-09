@@ -41,7 +41,6 @@ namespace dio
         protected:
             std::vector<std::shared_ptr<node>>opargv;
             std::shared_ptr<operation>op;
-            bool is_valid = 0;
             bool is_assigned = 0;
         
         public:
@@ -57,6 +56,8 @@ namespace dio
             double get_value();
 
             double get_gradient(std::string x_key);
+
+            void reset();
     };
 }
 #endif

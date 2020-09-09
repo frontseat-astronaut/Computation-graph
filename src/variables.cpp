@@ -42,7 +42,6 @@ namespace dio
         }
 
         value = op->run(tmpargval);
-        is_valid = 1;
         return value;
     }
 
@@ -61,5 +60,13 @@ namespace dio
             result += op->partial_diff_run(tmpargval, i) * opargv[i]->get_gradient(x_key);
         }
         return result;
+    }
+
+    void dep_variable::reset()
+    {
+        is_assigned = 0;
+        value = 0;
+        opargv = std::vector<std::shared_ptr<node>>();
+        op = std::shared_ptr<operation>();
     }
 }

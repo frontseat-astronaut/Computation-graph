@@ -63,7 +63,7 @@ namespace dio
             op["powr"] = std::shared_ptr<operation>(new _power);
 
         if(key == "")
-            key = "power" + a->get_key() + "_" + b->get_key();
+            key = "power_" + a->get_key() + "_" + b->get_key();
 
         Node c = Node(new dep_variable(std::vector<Node>{a, b}, op["powr"], key));
         return c;
@@ -71,6 +71,6 @@ namespace dio
 
     Node exp(Node a, std::string key)
     {
-        return powr(Node(new constant(std::exp(1))), a, key); 
+        return powr(Node(new constant(std::exp(1), key = "e")), a, key); 
     }
 }
