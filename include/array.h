@@ -8,6 +8,7 @@
 #include "number.h"
 #include "variables.h"
 #include "op_api.h"
+#include "exceptions.h"
 
 namespace dio
 {

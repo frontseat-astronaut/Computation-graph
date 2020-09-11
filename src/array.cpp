@@ -13,12 +13,15 @@ namespace dio
             ridx += vidx[i]*j;
         }
 
+        if(ridx >= arr.size())
+            throw IndexOutofBounds();
         return ridx;
     }
 
     std::vector<int> array::get_virtual_index(int ridx)
     {
-        assert(ridx>=0 && ridx<arr.size());
+        if(ridx >= arr.size() || ridx<0)
+            throw IndexOutofBounds();
 
         std::vector<int> vidx(shape.size());
         for(int i=0, j=arr.size(); i<shape.size(); ++i)
@@ -42,6 +45,7 @@ namespace dio
     {
         for(int i=0; i<arr.size(); ++i)
             arr[i] = std::shared_ptr<number>(new ind_variable());
+        is_init = 1;
     }
 
     std::shared_ptr<number> array::get(std::vector<int>vidx)
@@ -51,6 +55,9 @@ namespace dio
 
     double array::get_value(std::vector<int>vidx)
     {
+        if(is_init)
+            throw ArrayNotInitialized();
+
         return arr[get_real_index(vidx)]->get_value();
     }
 

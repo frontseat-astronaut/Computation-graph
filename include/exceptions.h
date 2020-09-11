@@ -13,6 +13,22 @@ namespace dio
             return "Dependent variable not assigned";
         }
     };
+
+    class ArrayNotInitialized: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Array not initialized";
+        }
+    };
+
+    class IndexOutofBounds: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Index out of bounds";
+        }
+    };
 }
 
 #endif
