@@ -13,21 +13,22 @@ namespace dio
 {
     class Array
     {
-        private:
-            int get_real_index(std::vector<int> &vidx);
-            std::vector<int> get_virtual_index(int ridx);
-
         protected:
+            int get_real_index(std::vector<int> vidx);
+            std::vector<int> get_virtual_index(int ridx);
             std::vector<std::shared_ptr<number>>arr;
+            bool is_init;
 
         public:
             std::vector<int>shape;
 
-            Array(std::vector<int> shape);
+            Array(std::vector<int>shape);
+
+            void init_independent();
 
             std::shared_ptr<number> get(std::vector<int>vidx);
 
-            std::vector<double> get_value();
+            double get_value(std::vector<int>vidx);
 
             std::vector<double> get_gradient(std::shared_ptr<number>);
 

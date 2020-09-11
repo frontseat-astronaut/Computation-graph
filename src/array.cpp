@@ -2,7 +2,7 @@
 
 namespace dio
 {
-    int Array::get_real_index(std::vector<int> &vidx)
+    int Array::get_real_index(std::vector<int> vidx)
     {
         assert(vidx.size() == shape.size());
 
@@ -38,16 +38,20 @@ namespace dio
         arr = std::vector<std::shared_ptr<number>>(size);
     }
 
+    void Array::init_independent()
+    {
+        for(int i=0; i<arr.size(); ++i)
+            arr[i] = std::shared_ptr<number>(new ind_variable());
+    }
+
     std::shared_ptr<number> Array::get(std::vector<int>vidx)
     {
         return arr[get_real_index(vidx)];
     }
 
-    std::vector<double> Array::get_value()
+    double Array::get_value(std::vector<int>vidx)
     {
-        std::vector<double>ret(arr.size());
-        for(int i=0; i<arr.size(); ++i)
-            ret[i] = arr[i]->get_value();
+        return arr[get_real_index(vidx)]->get_value();
     }
 
     std::vector<double> Array::get_gradient(std::shared_ptr<number>x)

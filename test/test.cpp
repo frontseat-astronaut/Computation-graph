@@ -35,4 +35,19 @@ int main()
     printf("nan + a: %lf\n", value(add(nan, a))); 
 
     line();
+
+    // Array w = Array(std::vector<int>{2, 2, 2});
+    // w.init_independent();
+    // for(int i=0; i<2; ++i)
+    // {
+    //     for(int j=0; j<2; ++j)
+    //     {
+    //         for(int k=0; k<2; ++k)
+    //         {
+    //             printf("%d %d %d: ", i, j, k);
+    //             w.get_value(std::vector<int>{i, j, k});
+    //             printf("\n");
+    //         }
+    //     }
+    // }
 }
