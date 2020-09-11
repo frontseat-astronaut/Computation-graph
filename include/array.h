@@ -11,7 +11,7 @@
 
 namespace dio
 {
-    class Array
+    class array
     {
         protected:
             int get_real_index(std::vector<int> vidx);
@@ -22,7 +22,7 @@ namespace dio
         public:
             std::vector<int>shape;
 
-            Array(std::vector<int>shape);
+            array(std::vector<int>shape);
 
             void init_independent();
 
