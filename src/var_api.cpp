@@ -2,16 +2,16 @@
 
 namespace dio
 {
-    Number IndependentVariable()
+    Number Variable()
     {
-        Number ret = Number(new ind_variable());
-        
+        Number ret = Number(new variable());
         return ret;
     }
 
-    Number DependentVariable()
+    Number Variable(double x)
     {
-        return Number(new dep_variable());
+        Number ret = Number(new variable(x));
+        return ret;
     }
 
     Number Constant(double val)

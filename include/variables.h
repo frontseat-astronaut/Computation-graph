@@ -22,24 +22,23 @@ namespace dio
             double get_gradient(std::shared_ptr<number>);
     };
 
-    class ind_variable: public number
-    {
-        public:
-            void set_value(double value);
-
-            double get_gradient(std::shared_ptr<number>);
-    };
-
-    class dep_variable: public number 
+    class variable: public number 
     {
         protected:
             std::vector<std::shared_ptr<number>>opargv;
-            std::shared_ptr<operation>op;
+            std::shared_ptr<operation>op = NULL;
             bool is_assigned = 0;
         
         public:
-            dep_variable() {}
-            dep_variable(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op)
+            variable() {}
+
+            variable(double x)
+            {
+                is_assigned = 1;
+                value = x;
+            }
+
+            variable(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op)
             :opargv{opargv}, op{op}
             {
                 is_assigned = 1;
@@ -48,6 +47,8 @@ namespace dio
             void assign(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op);
 
             double get_value();
+
+            void set_value(double);
 
             double get_gradient(std::shared_ptr<number>);
 

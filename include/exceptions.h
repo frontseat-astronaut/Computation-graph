@@ -29,6 +29,14 @@ namespace dio
             return "Index out of bounds";
         }
     };
+
+    class ShapeMismatch: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "The shapes of both arrays don't match";
+        }
+    };
 }
 
 #endif

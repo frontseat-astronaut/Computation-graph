@@ -13,10 +13,6 @@ namespace dio
             double value = 0;
 
         public:
-            // ~number() 
-            // {
-            //     std::cout<<key<<" heading out\n";
-            // }
 
             virtual double get_value()
             {

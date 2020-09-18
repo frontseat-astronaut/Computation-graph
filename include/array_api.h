@@ -8,8 +8,6 @@
 namespace dio
 {
     using Array = std::shared_ptr<array>;
-
-    Array IndependentArray(std::vector<int>shape);
 }
 
 #endif

@@ -41,13 +41,6 @@ namespace dio
         arr = std::vector<std::shared_ptr<number>>(size);
     }
 
-    void array::init_independent()
-    {
-        for(int i=0; i<arr.size(); ++i)
-            arr[i] = std::shared_ptr<number>(new ind_variable());
-        is_init = 1;
-    }
-
     std::shared_ptr<number> array::get(std::vector<int>vidx)
     {
         return arr[get_real_index(vidx)];

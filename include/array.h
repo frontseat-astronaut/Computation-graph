@@ -25,8 +25,6 @@ namespace dio
 
             array(std::vector<int>shape);
 
-            void init_independent();
-
             std::shared_ptr<number> get(std::vector<int>vidx);
 
             double get_value(std::vector<int>vidx);

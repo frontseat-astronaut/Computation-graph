@@ -11,8 +11,8 @@ namespace dio
 {
     using Number = std::shared_ptr<number>;
 
-    Number IndependentVariable();
-    Number DependentVariable();
+    Number Variable();
+    Number Variable(double);
     Number Constant(double);
 
     void assign(Number, double);
