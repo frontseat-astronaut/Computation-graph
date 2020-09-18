@@ -63,7 +63,7 @@ namespace dio
 
     std::shared_ptr<number> array::frobenius_norm()
     {
-        auto ret = std::shared_ptr<number>(new constant(0));
+        auto ret = std::shared_ptr<number>(new constant_number(0));
         for(int i=0; i<arr.size(); ++i)
             ret = add(ret, multiply(arr[i], arr[i]));
         return ret;

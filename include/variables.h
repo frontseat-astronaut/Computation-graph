@@ -12,18 +12,18 @@
 
 namespace dio
 {
-    class constant: public number, public node
+    class constant_number: public number
     {
         public:
-            constant(double value)
+            constant_number(double value)
             {
-                constant::value = value;
+                constant_number::value = value;
             }
 
             double get_gradient(std::shared_ptr<number>);
     };
 
-    class variable: public number
+    class variable_number: public number
     {
         protected:
             std::vector<std::shared_ptr<number>>opargv;
@@ -31,15 +31,15 @@ namespace dio
             bool is_assigned = 0;
         
         public:
-            variable() {}
+            variable_number() {}
 
-            variable(double x)
+            variable_number(double x)
             {
                 is_assigned = 1;
                 value = x;
             }
 
-            variable(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op)
+            variable_number(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op)
             :opargv{opargv}, op{op}
             {
                 is_assigned = 1;

@@ -4,21 +4,21 @@
 
 namespace dio
 {
-    // constant
-    double constant::get_gradient(std::shared_ptr<number>x)
+    // constant_number
+    double constant_number::get_gradient(std::shared_ptr<number>x)
     {
         return 0;
     }
 
-    // variable
-    void variable::assign(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op)
+    // variable_number
+    void variable_number::assign(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op)
     {
-        variable::opargv = opargv;
-        variable::op = op;
+        variable_number::opargv = opargv;
+        variable_number::op = op;
         is_assigned = 1;
     }
 
-    double variable::get_value()
+    double variable_number::get_value()
     {
         if(!is_assigned)
             throw NotAssignedError();
@@ -37,13 +37,13 @@ namespace dio
         return value;
     }
 
-    void variable::set_value(double x)
+    void variable_number::set_value(double x)
     {
         reset();
         value = x;
     }
 
-    double variable::get_gradient(std::shared_ptr<number>x)
+    double variable_number::get_gradient(std::shared_ptr<number>x)
     {
         if(!is_assigned)
             throw NotAssignedError();
@@ -66,7 +66,7 @@ namespace dio
         return result;
     }
 
-    void variable::reset()
+    void variable_number::reset()
     {
         is_assigned = 0;
         value = 0;

@@ -4,19 +4,19 @@ namespace dio
 {
     Number Variable()
     {
-        Number ret = Number(new variable());
+        Number ret = Number(new variable_number());
         return ret;
     }
 
     Number Variable(double x)
     {
-        Number ret = Number(new variable(x));
+        Number ret = Number(new variable_number(x));
         return ret;
     }
 
     Number Constant(double val)
     {
-        return Number(new constant(val));
+        return Number(new constant_number(val));
     }
 
     void assign(Number a, double val)
