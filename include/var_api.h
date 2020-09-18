@@ -5,7 +5,7 @@
 #include<memory>
 
 #include "number.h"
-#include "variables.h"
+#include "variable_number.h"
 
 namespace dio 
 {

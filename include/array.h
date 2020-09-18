@@ -6,7 +6,7 @@
 #include <assert.h>
 
 #include "number.h"
-#include "variables.h"
+#include "variable_number.h"
 #include "op_api.h"
 #include "exceptions.h"
 #include "node.h"

@@ -1,5 +1,5 @@
-#ifndef __VARIABLES_H_INCLUDED__   
-#define __VARIABLES_H_INCLUDED__  
+#ifndef __VARIABLE_NUMBER_H_INCLUDED__   
+#define __VARIABLE_NUMBER_H_INCLUDED__  
 
 #include<vector>
 #include<string>

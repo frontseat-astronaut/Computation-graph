@@ -7,7 +7,7 @@
 #include<memory>
 
 #include "operations.h"
-#include "variables.h"
+#include "variable_number.h"
 #include "var_api.h"
 
 namespace dio
