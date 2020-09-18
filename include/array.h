@@ -9,10 +9,11 @@
 #include "variables.h"
 #include "op_api.h"
 #include "exceptions.h"
+#include "node.h"
 
 namespace dio
 {
-    class array
+    class array: public node
     {
         protected:
             int get_real_index(std::vector<int> vidx);

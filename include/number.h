@@ -7,7 +7,7 @@
 
 namespace dio 
 {
-    class number 
+    class number
     {
         protected:
             double value = 0;

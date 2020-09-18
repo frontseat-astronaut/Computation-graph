@@ -8,10 +8,11 @@
 
 #include "number.h"
 #include "operations.h"
+#include "node.h"
 
 namespace dio
 {
-    class constant: public number 
+    class constant: public number, public node
     {
         public:
             constant(double value)
@@ -22,7 +23,7 @@ namespace dio
             double get_gradient(std::shared_ptr<number>);
     };
 
-    class variable: public number 
+    class variable: public number
     {
         protected:
             std::vector<std::shared_ptr<number>>opargv;
