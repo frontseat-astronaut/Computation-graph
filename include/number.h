@@ -21,7 +21,7 @@ namespace dio
 
             virtual double get_gradient(std::shared_ptr<number>) = 0;
 
-            virtual void set_value(double) {}
+            virtual void set_value(double)=0;
     };
 }
 

@@ -4,9 +4,9 @@ namespace dio
 {
     std::shared_ptr<number> new_number(number_enum num_type)
     {
-        if(num_type == number_enum::constant)
+        if(num_type == number_enum::CONSTANT)
             return std::shared_ptr<number>(new constant_number(0));
-        if(num_type == number_enum::variable)
+        if(num_type == number_enum::VARIABLE)
             return std::shared_ptr<number>(new variable_number());
     }
 
@@ -66,6 +66,8 @@ namespace dio
             assert(init_args.size() >=2);
             init = std::shared_ptr<initializer>(new GaussianInitializer(init_args[0], init_args[1]));
         }
+        
+        init->initialize(arr);
     }
 
     std::vector<int> array::get_shape()

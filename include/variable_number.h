@@ -12,7 +12,7 @@
 
 namespace dio
 {
-    enum number_enum{constant, variable};
+    enum number_enum{CONSTANT, VARIABLE};
 
     class constant_number: public number
     {
@@ -23,6 +23,8 @@ namespace dio
             }
 
             double get_gradient(std::shared_ptr<number>);
+
+            void set_value(double);
     };
 
     class variable_number: public number

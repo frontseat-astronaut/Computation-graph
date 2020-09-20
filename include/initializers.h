@@ -8,15 +8,16 @@ namespace dio
     class initializer
     {
         public:
-            void virtual initialize(double &)=0;
+            void virtual initialize(std::vector<std::shared_ptr<number>>&)=0;
     };
 
     class ZerosInitializer: public initializer 
     {
         public:
-            void initialize(double &x)
+            void initialize(std::vector<std::shared_ptr<number>>&a)
             {
-                x = 0;
+                for(int i=0; i<a.size(); ++i)
+                    a[i]->set_value(0);
             }
     };
 
@@ -34,9 +35,10 @@ namespace dio
                 distribution = std::normal_distribution<double>(mean, variance);
             }
 
-            void initialize(double &x)
+            void initialize(std::vector<std::shared_ptr<number>>&a)
             {
-                x = distribution(generator);
+                for(int i=0; i<a.size(); ++i)
+                    a[i]->set_value(distribution(generator));
             }
     };
 }

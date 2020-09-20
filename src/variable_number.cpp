@@ -10,6 +10,11 @@ namespace dio
         return 0;
     }
 
+    void constant_number::set_value(double x)
+    {
+        value = x;
+    }
+
     // variable_number
     void variable_number::assign(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op)
     {
