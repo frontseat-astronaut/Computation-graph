@@ -45,6 +45,14 @@ namespace dio
             return "The array provided is not a grid";
         }
     };
+
+    class ShapeNotSpecified: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Shape required for allocation";
+        }
+    };
 }
 
 #endif

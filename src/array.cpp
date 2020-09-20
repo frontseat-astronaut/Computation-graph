@@ -2,6 +2,14 @@
 
 namespace dio
 {
+    std::shared_ptr<number> new_number(number_enum num_type)
+    {
+        if(num_type == number_enum::constant)
+            return std::shared_ptr<number>(new constant_number(0));
+        if(num_type == number_enum::variable)
+            return std::shared_ptr<number>(new variable_number());
+    }
+
     int array::get_real_index(std::vector<int> vidx)
     {
         assert(vidx.size() == shape.size());
@@ -32,6 +40,32 @@ namespace dio
         }
 
         return vidx;
+    }
+
+    void array::allocate(number_enum num_type)
+    {
+        if(shape.size() == 0)
+            throw ShapeNotSpecified();
+        
+        int size = 1;
+        for(int i=0; i<shape.size(); ++i) size *= shape[i];
+
+        arr = std::vector<std::shared_ptr<number>>(
+            size, std::shared_ptr<number>(new_number(num_type))
+        );
+    }
+
+    void array::initialize(std::string&init_str, std::vector<double>&init_args)
+    {
+        std::shared_ptr<initializer>init;
+
+        if(init_str == "zeros")
+            init = std::shared_ptr<initializer>(new ZerosInitializer());
+        else if(init_str == "gaussian")
+        {
+            assert(init_args.size() >=2);
+            init = std::shared_ptr<initializer>(new GaussianInitializer(init_args[0], init_args[1]));
+        }
     }
 
     std::vector<int> array::get_shape()

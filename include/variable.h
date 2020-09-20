@@ -13,13 +13,27 @@ namespace dio
     class constant: public array, public node
     {
         public:
-        template<typename T>
-        constant(T x, std::string name="")
-        {
-            set_name(name);
-            assign(x, 1);
-        }
+            template<typename T>
+            constant(T x, std::string name="")
+            {
+                set_name(name);
+                get_shape(0, x, shape);
+                allocate(number_enum::variable);
+                assign(x);
+            }
+    };
 
+    class variable: public array, public node 
+    {
+        public:
+            variable(std::vector<int>shape, std::string initializer, 
+                std::vector<double>init_args=std::vector<double>{}, std::string name=""):
+            {
+                array::shape = shape;
+                allocate(number_enum::variable);
+                initialize(initializer, init_args);
+                set_name(name);
+            }
     };
 }
 

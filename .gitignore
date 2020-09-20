@@ -2,3 +2,4 @@
 bin/*
 build/*
 *.o
+test/test2.cpp

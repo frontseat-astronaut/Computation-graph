@@ -12,6 +12,8 @@
 
 namespace dio
 {
+    enum number_enum{constant, variable};
+
     class constant_number: public number
     {
         public:
