@@ -33,4 +33,7 @@ int main()
     printf("nan + a: %lf\n", value(add(nan, a))); 
 
     line();
+
+    constant d(std::vector<std::vector<double>>{{2, 3}, {1, 4}});
+    printf("%lf\n", d.get_value(std::vector<int>{1, 1}));
 }

@@ -37,6 +37,14 @@ namespace dio
             return "The shapes of both arrays don't match";
         }
     };
+
+    class NotAGrid: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "The array provided is not a grid";
+        }
+    };
 }
 
 #endif

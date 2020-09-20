@@ -34,11 +34,9 @@ namespace dio
         return vidx;
     }
 
-    array::array(std::vector<int>shape): shape{shape}
+    std::vector<int> array::get_shape()
     {
-        int size = 1;
-        for(int i=0; i<shape.size(); ++i) size *= shape[i];
-        arr = std::vector<std::shared_ptr<number>>(size);
+        return shape;
     }
 
     std::shared_ptr<number> array::get(std::vector<int>vidx)
@@ -48,9 +46,6 @@ namespace dio
 
     double array::get_value(std::vector<int>vidx)
     {
-        if(is_init)
-            throw ArrayNotInitialized();
-
         return arr[get_real_index(vidx)]->get_value();
     }
 

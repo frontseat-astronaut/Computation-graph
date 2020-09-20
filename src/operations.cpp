@@ -3,7 +3,6 @@
 
 namespace dio
 {
-
     bool iszero(double a)
     {
         return fabs(a)<1e-9;
