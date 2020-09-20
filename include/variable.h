@@ -12,17 +12,17 @@ namespace dio
 {
     void get_shape(int d, double&x, std::vector<int>&shape)
     {
-        if(d == 1)
+        if(d == 0)
             shape.push_back(1);
     } 
 
     template<typename T>
     void get_shape(int d, std::vector<T>&a, std::vector<int>&shape)
     {
-        if(shape.size()==d-1)
+        if(shape.size()==d)
             shape.push_back(a.size());
         
-        if(shape[d-1] != a.size())
+        if(shape[d] != a.size())
             throw NotAGrid();
 
         for(int i=0; i<a.size(); ++i)
@@ -31,16 +31,24 @@ namespace dio
         }
     }
 
+    template<typename T>
+    std::vector<int> get_shape(T&a)
+    {
+        std::vector<int>shape;
+        get_shape(0, a, shape);
+        return shape;
+    }
+
     class constant: public array, public node
     {
         public:
             template<typename T>
-            constant(T x, std::string name="")
+            constant(T a, std::string name="")
             {
                 set_name(name);
-                dio::get_shape(0, x, shape);
+                shape = dio::get_shape(a);
                 allocate(number_enum::CONSTANT);
-                assign(x);
+                assign(a);
             }
     };
 
