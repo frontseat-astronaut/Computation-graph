@@ -32,22 +32,17 @@ namespace dio
         protected:
             std::vector<std::shared_ptr<number>>opargv;
             std::shared_ptr<operation>op = NULL;
-            bool is_assigned = 0;
         
         public:
             variable_number() {}
 
             variable_number(double x)
             {
-                is_assigned = 1;
                 value = x;
             }
 
             variable_number(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op)
-            :opargv{opargv}, op{op}
-            {
-                is_assigned = 1;
-            }
+            :opargv{opargv}, op{op} {}
 
             void assign(std::vector<std::shared_ptr<number>>opargv, std::shared_ptr<operation>op);
 

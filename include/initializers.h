@@ -2,6 +2,7 @@
 #define __INITIALIZERS_H_INCLUDED__  
 
 #include <random>
+#include <cmath>
 
 namespace dio
 {
@@ -25,20 +26,18 @@ namespace dio
     {
         private:
             double mean, variance;
-            std::default_random_engine generator;
-            std::normal_distribution<double> distribution;
 
         public:
             GaussianInitializer(double mean, double variance): 
-                mean{mean}, variance{variance}
-            {
-                distribution = std::normal_distribution<double>(mean, variance);
-            }
+                mean{mean}, variance{sqrt(variance)} {}
 
             void initialize(std::vector<std::shared_ptr<number>>&a)
             {
+                std::random_device rd{};
+                std::mt19937 gen{rd()};
+                std::normal_distribution <double> d{mean, variance};
                 for(int i=0; i<a.size(); ++i)
-                    a[i]->set_value(distribution(generator));
+                    a[i]->set_value(d(gen));
             }
     };
 }

@@ -36,4 +36,12 @@ int main()
 
     constant d(std::vector<std::vector<double>>{{2, 3}, {1, 4}});
     printf("%lf\n", d.get_value(std::vector<int>{1, 1}));
+
+    variable t(std::vector<int>{3, 2}, "normal"); 
+    for(int i=0; i<3; ++i)
+    {
+        for(int j=0; j<2; ++j)
+            printf("%lf ", t.get_value(std::vector<int>{i, j}));
+        printf("\n");
+    }
 }

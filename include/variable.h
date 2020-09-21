@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <stdio.h>
 
 #include "array.h"
 #include "node.h"
@@ -62,6 +63,11 @@ namespace dio
                 allocate(number_enum::VARIABLE);
                 initialize(initializer, init_args);
                 set_name(name);
+            }
+
+            variable(std::vector<int>shape, std::string initializer, std::string name)
+            {
+                variable(shape, initializer, std::vector<double>{}, name);
             }
     };
 }

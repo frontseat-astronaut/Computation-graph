@@ -50,9 +50,9 @@ namespace dio
         int size = 1;
         for(int i=0; i<shape.size(); ++i) size *= shape[i];
 
-        arr = std::vector<std::shared_ptr<number>>(
-            size, std::shared_ptr<number>(new_number(num_type))
-        );
+        arr = std::vector<std::shared_ptr<number>>(size);
+        for(int i=0; i<size; ++i)
+            arr[i] = new_number(VARIABLE);
     }
 
     void array::initialize(std::string&init_str, std::vector<double>&init_args)
@@ -61,18 +61,19 @@ namespace dio
 
         if(init_str == "zeros")
             init = std::shared_ptr<initializer>(new ZerosInitializer());
-        else if(init_str == "gaussian")
+        else if(init_str == "gaussian" || init_str == "normal")
         {
-            assert(init_args.size() >=2);
-            init = std::shared_ptr<initializer>(new GaussianInitializer(init_args[0], init_args[1]));
+            double mean, variance;
+            if(init_args.size()<2)
+                mean = 0, variance = 1;
+            else 
+                mean = init_args[0], variance = init_args[1];
+            init = std::shared_ptr<initializer>(new GaussianInitializer(mean, variance));
         }
-        
-        init->initialize(arr);
-    }
+        else 
+            return;
 
-    std::vector<int> array::get_shape()
-    {
-        return shape;
+        init->initialize(arr);
     }
 
     std::shared_ptr<number> array::get(std::vector<int>vidx)

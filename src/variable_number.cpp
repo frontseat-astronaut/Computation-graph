@@ -1,5 +1,4 @@
 #include <variable_number.h>
-#include<iostream>
 #include<exceptions.h>
 
 namespace dio
@@ -20,15 +19,10 @@ namespace dio
     {
         variable_number::opargv = opargv;
         variable_number::op = op;
-        is_assigned = 1;
     }
 
     double variable_number::get_value()
     {
-        if(!is_assigned)
-            throw NotAssignedError();
-        // if(is_valid) return value;
-
         if(op == NULL)
             return value;
 
@@ -50,9 +44,6 @@ namespace dio
 
     double variable_number::get_gradient(std::shared_ptr<number>x)
     {
-        if(!is_assigned)
-            throw NotAssignedError();
-
         if(x.get() == this)
             return 1;
 
@@ -73,7 +64,6 @@ namespace dio
 
     void variable_number::reset()
     {
-        is_assigned = 0;
         value = 0;
         opargv = std::vector<std::shared_ptr<number>>();
         op = NULL;
