@@ -6,9 +6,7 @@
 #include<map>
 #include<memory>
 
-#include "array_op.h"
 #include "number_op.h"
-#include "variable.h"
 #include "var_api.h"
 
 namespace dio

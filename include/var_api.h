@@ -11,10 +11,7 @@ namespace dio
     using Node = std::shared_ptr<array>;
 
     Node Variable(std::vector<int>shape, std::string initializer, 
-        std::vector<double>init_args=std::vector<double>{})
-    {
-        return Node(new variable(shape, initializer, init_args));
-    }
+        std::vector<double>init_args=std::vector<double>{});
 
     template<typename T>
     Node Variable(T a)

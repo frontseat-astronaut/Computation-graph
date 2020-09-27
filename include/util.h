@@ -3,13 +3,11 @@
 
 #include <vector>
 
+#include "exceptions.h"
+
 namespace dio
 {
-    void get_shape(int d, double&x, std::vector<int>&shape)
-    {
-        if(d == 0)
-            shape.push_back(1);
-    } 
+    void get_shape(int d, double&x, std::vector<int>&shape);
 
     template<typename T>
     void get_shape(int d, std::vector<T>&a, std::vector<int>&shape)
@@ -22,7 +20,7 @@ namespace dio
 
         for(int i=0; i<a.size(); ++i)
         {
-            dio::get_shape(d+1, a[i], shape);
+            get_shape(d+1, a[i], shape);
         }
     }
 
@@ -30,7 +28,7 @@ namespace dio
     std::vector<int> get_shape(T&a)
     {
         std::vector<int>shape;
-        dio::get_shape(0, a, shape);
+        get_shape(0, a, shape);
         return shape;
     }
 }

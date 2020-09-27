@@ -1,5 +1,4 @@
 #include <number_op.h>
-#include <exceptions.h>
 
 namespace dio
 {

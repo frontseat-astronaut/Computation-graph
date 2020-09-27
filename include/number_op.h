@@ -5,6 +5,8 @@
 #include<iostream>
 #include<cmath>
 
+#include "exceptions.h"
+
 namespace dio
 {
     class number_op

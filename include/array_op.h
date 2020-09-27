@@ -1,5 +1,5 @@
-#ifndef _ARRAY_OP_H_INCLUDED_
-#define _ARRAY_OP_H_INCLUDED_
+#ifndef __ARRAY_OP_H_INCLUDED__
+#define __ARRAY_OP_H_INCLUDED__
 
 #include <vector>
 #include <memory>
