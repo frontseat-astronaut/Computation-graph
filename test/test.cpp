@@ -24,4 +24,5 @@ int main()
         }
         printf("\n");
     }
+    Node b = Variable(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
 }

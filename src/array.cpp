@@ -73,4 +73,10 @@ namespace dio
     {
         return value[get_real_index(vidx)];
     }
+
+    void array::print()
+    {
+        for(int i=0; i<value.size(); ++i) printf("%lf ", value[i]);
+        printf("\n");
+    }
 }

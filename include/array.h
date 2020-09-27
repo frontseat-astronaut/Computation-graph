@@ -27,7 +27,7 @@ namespace dio
             void set_value(int &idx, std::vector<T>&a)
             {
                 for(int i=0; i<a.size(); ++i)
-                    assign(idx, a);
+                    set_value(idx, a[i]);
             }
             void set_value(int &idx, double &x)
             {
@@ -51,6 +51,8 @@ namespace dio
             std::vector<int> get_shape();
 
             double get_value(std::vector<int>vidx);
+
+            void print();
     };
 }
 

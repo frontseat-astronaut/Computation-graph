@@ -7,10 +7,10 @@
 
 namespace dio
 {
-    void get_shape(int d, double&x, std::vector<int>&shape);
+    void get_shape(int d, double &x, std::vector<int>&shape);
 
     template<typename T>
-    void get_shape(int d, std::vector<T>&a, std::vector<int>&shape)
+    void get_shape(int d, std::vector<T> &a, std::vector<int>&shape)
     {
         if(shape.size()==d)
             shape.push_back(a.size());
@@ -28,7 +28,7 @@ namespace dio
     std::vector<int> get_shape(T&a)
     {
         std::vector<int>shape;
-        get_shape(0, a, shape);
+        dio::get_shape(0, a, shape);
         return shape;
     }
 }
