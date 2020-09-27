@@ -1,4 +1,4 @@
-#include <operations.h>
+#include <number_op.h>
 #include <exceptions.h>
 
 namespace dio
@@ -77,7 +77,7 @@ namespace dio
     }
 
     // power 
-    double _power::run(std::vector<double>&op_arg)
+    double _powr::run(std::vector<double>&op_arg)
     {
         if(op_arg.size() != 2)
             throw "power operation requires exactly two arguments";
@@ -86,7 +86,7 @@ namespace dio
         return result;
     }
     
-    double _power::partial_diff_run(std::vector<double>&op_arg, int var_idx)
+    double _powr::partial_diff_run(std::vector<double>&op_arg, int var_idx)
     {
         double result = 0;
         if(var_idx == 0)

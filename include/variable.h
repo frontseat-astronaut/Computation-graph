@@ -6,68 +6,55 @@
 #include <stdio.h>
 
 #include "array.h"
-#include "node.h"
 #include "exceptions.h"
+#include "array_op.h"
+#include "util.h"
 
 namespace dio
 {
-    void get_shape(int d, double&x, std::vector<int>&shape)
-    {
-        if(d == 0)
-            shape.push_back(1);
-    } 
-
-    template<typename T>
-    void get_shape(int d, std::vector<T>&a, std::vector<int>&shape)
-    {
-        if(shape.size()==d)
-            shape.push_back(a.size());
-        
-        if(shape[d] != a.size())
-            throw NotAGrid();
-
-        for(int i=0; i<a.size(); ++i)
-        {
-            get_shape(d+1, a[i], shape);
-        }
-    }
-
-    template<typename T>
-    std::vector<int> get_shape(T&a)
-    {
-        std::vector<int>shape;
-        get_shape(0, a, shape);
-        return shape;
-    }
-
-    class constant: public array, public node
+    class constant: public array
     {
         public:
             template<typename T>
-            constant(T a, std::string name="")
+            constant(T a)
             {
-                set_name(name);
                 shape = dio::get_shape(a);
-                allocate(number_enum::CONSTANT);
-                assign(a);
+                allocate();
+                set_value(a);
             }
     };
 
-    class variable: public array, public node 
+    class variable: public array
     {
+        protected:
+            std::vector<std::shared_ptr<array>>op_args;
+            std::shared_ptr<array_op>op;
+            bool is_latent;
+
         public:
             variable(std::vector<int>shape, std::string initializer, 
-                std::vector<double>init_args=std::vector<double>{}, std::string name="")
+                     std::vector<double>init_args=std::vector<double>{})
             {
                 array::shape = shape;
-                allocate(number_enum::VARIABLE);
+                allocate();
                 initialize(initializer, init_args);
-                set_name(name);
+                is_latent = false;
             }
 
-            variable(std::vector<int>shape, std::string initializer, std::string name)
+            template<typename T>
+            variable(T a)
             {
-                variable(shape, initializer, std::vector<double>{}, name);
+                shape = dio::get_shape(a);
+                allocate();
+                set_value(a);
+
+                is_latent = false;
+            }
+
+            variable(std::vector<std::shared_ptr<array>>op_args, std::shared_ptr<array_op>op):
+                    op_args{op_args}, op{op}
+            {
+                is_latent = true;
             }
     };
 }

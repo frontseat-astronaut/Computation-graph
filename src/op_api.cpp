@@ -2,61 +2,61 @@
 
 namespace dio 
 {
-    std::map<std::string, std::shared_ptr<operation>>op;
+    std::map<std::string, std::shared_ptr<array_op>>op;
 
-    Number add(Number a, Number b)
+    Node add(Node a, Node b)
     {
         if(op.find("add") == op.end())
-            op["add"] = std::shared_ptr<operation>(new _add);
+            op["add"] = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _add)));
 
-        Number c = Number(new variable_number(std::vector<Number>{a, b}, op["add"]));
+        Node c = Node(new variable(std::vector<Node>{a, b}, op["add"]));
         return c;
     }
 
-    Number multiply(Number a, Number b)
+    Node multiply(Node a, Node b)
     {
         if(op.find("multiply") == op.end())
-            op["multiply"] = std::shared_ptr<operation>(new _multiply);
+            op["multiply"] = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _multiply)));
 
-        Number c = Number(new variable_number(std::vector<Number>{a, b}, op["multiply"]));
+        Node c = Node(new variable(std::vector<Node>{a, b}, op["multiply"]));
         return c;
     }
 
-    Number divide(Number a, Number b)
+    Node divide(Node a, Node b)
     {
         if(op.find("divide") == op.end())
-            op["divide"] = std::shared_ptr<operation>(new _divide);
+            op["divide"] = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _divide)));
 
-        Number c = Number(new variable_number(std::vector<Number>{a, b}, op["divide"]));
+        Node c = Node(new variable(std::vector<Node>{a, b}, op["divide"]));
         return c;
     }
 
-    Number reciprocal(Number a)
+    Node reciprocal(Node a)
     {
-        return divide(Number(new constant_number(1)), a);
+        return divide(Node(new constant(1.0)), a);
     }
 
-    Number minus(Number a)
+    Node minus(Node a)
     {
         if(op.find("minus") == op.end())
-            op["minus"] = std::shared_ptr<operation>(new _minus);
+            op["minus"] = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _minus)));
 
-        Number c = Number(new variable_number(std::vector<Number>{a}, op["minus"]));
+        Node c = Node(new variable(std::vector<Node>{a}, op["minus"]));
         return c;
     }
 
-    Number powr(Number a, Number b)
+    Node powr(Node a, Node b)
     {
         if(op.find("powr") == op.end())
-            op["powr"] = std::shared_ptr<operation>(new _power);
+            op["powr"] = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _powr)));
 
-        Number c = Number(new variable_number(std::vector<Number>{a, b}, op["powr"]));
+        Node c = Node(new variable(std::vector<Node>{a, b}, op["powr"]));
         return c;
     }
 
-    Number exp(Number a)
+    Node exp(Node a)
     {
-        return powr(Number(new constant_number(std::exp(1))), a); 
+        return powr(Node(new constant(std::exp(1.0))), a); 
     }
 
 }

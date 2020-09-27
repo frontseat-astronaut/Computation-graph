@@ -2,37 +2,29 @@
 
 namespace dio
 {
-    std::shared_ptr<number> new_number(number_enum num_type)
-    {
-        if(num_type == number_enum::CONSTANT)
-            return std::shared_ptr<number>(new constant_number(0));
-        if(num_type == number_enum::VARIABLE)
-            return std::shared_ptr<number>(new variable_number());
-    }
-
     int array::get_real_index(std::vector<int> vidx)
     {
         assert(vidx.size() == shape.size());
 
         int ridx = 0;
-        for(int i=0, j=arr.size(); i<shape.size(); ++i)
+        for(int i=0, j=value.size(); i<shape.size(); ++i)
         {
             j /= shape[i];
             ridx += vidx[i]*j;
         }
 
-        if(ridx >= arr.size())
+        if(ridx >= value.size())
             throw IndexOutofBounds();
         return ridx;
     }
 
     std::vector<int> array::get_virtual_index(int ridx)
     {
-        if(ridx >= arr.size() || ridx<0)
+        if(ridx >= value.size() || ridx<0)
             throw IndexOutofBounds();
 
         std::vector<int> vidx(shape.size());
-        for(int i=0, j=arr.size(); i<shape.size(); ++i)
+        for(int i=0, j=value.size(); i<shape.size(); ++i)
         {
             j /= shape[i];
             vidx[i] = ridx/j;
@@ -42,17 +34,13 @@ namespace dio
         return vidx;
     }
 
-    void array::allocate(number_enum num_type)
+    void array::allocate()
     {
-        if(shape.size() == 0)
-            throw ShapeNotSpecified();
-        
-        int size = 1;
-        for(int i=0; i<shape.size(); ++i) size *= shape[i];
-
-        arr = std::vector<std::shared_ptr<number>>(size);
-        for(int i=0; i<size; ++i)
-            arr[i] = new_number(VARIABLE);
+        size = 1;
+        for(int axis=0; axis<shape.size(); ++axis)
+            size *= shape[axis];
+        value = std::vector<double>(size);
+        is_allocated = true;
     }
 
     void array::initialize(std::string&init_str, std::vector<double>&init_args)
@@ -73,31 +61,16 @@ namespace dio
         else 
             return;
 
-        init->initialize(arr);
-    }
+        init->initialize(value);
+    }    
 
-    std::shared_ptr<number> array::get(std::vector<int>vidx)
+    std::vector<int> array::get_shape()
     {
-        return arr[get_real_index(vidx)];
+        return shape;
     }
 
     double array::get_value(std::vector<int>vidx)
     {
-        return arr[get_real_index(vidx)]->get_value();
-    }
-
-    std::vector<double> array::get_gradient(std::shared_ptr<number>x)
-    {
-        std::vector<double>ret(arr.size());
-        for(int i=0; i<arr.size(); ++i)
-            ret[i] = arr[i]->get_gradient(x);
-    }
-
-    std::shared_ptr<number> array::frobenius_norm()
-    {
-        auto ret = std::shared_ptr<number>(new constant_number(0));
-        for(int i=0; i<arr.size(); ++i)
-            ret = add(ret, multiply(arr[i], arr[i]));
-        return ret;
+        return value[get_real_index(vidx)];
     }
 }

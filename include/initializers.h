@@ -9,16 +9,16 @@ namespace dio
     class initializer
     {
         public:
-            void virtual initialize(std::vector<std::shared_ptr<number>>&)=0;
+            void virtual initialize(std::vector<double>&)=0;
     };
 
     class ZerosInitializer: public initializer 
     {
         public:
-            void initialize(std::vector<std::shared_ptr<number>>&a)
+            void initialize(std::vector<double>&a)
             {
                 for(int i=0; i<a.size(); ++i)
-                    a[i]->set_value(0);
+                    a[i] = 0;
             }
     };
 
@@ -31,13 +31,13 @@ namespace dio
             GaussianInitializer(double mean, double variance): 
                 mean{mean}, variance{sqrt(variance)} {}
 
-            void initialize(std::vector<std::shared_ptr<number>>&a)
+            void initialize(std::vector<double>&a)
             {
                 std::random_device rd{};
                 std::mt19937 gen{rd()};
                 std::normal_distribution <double> d{mean, variance};
                 for(int i=0; i<a.size(); ++i)
-                    a[i]->set_value(d(gen));
+                    a[i] = d(gen);
             }
     };
 }

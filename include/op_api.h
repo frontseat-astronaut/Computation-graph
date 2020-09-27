@@ -6,19 +6,20 @@
 #include<map>
 #include<memory>
 
-#include "operations.h"
-#include "variable_number.h"
+#include "array_op.h"
+#include "number_op.h"
+#include "variable.h"
 #include "var_api.h"
 
 namespace dio
 {
-    Number add(Number, Number);
-    Number multiply(Number, Number);
-    Number divide(Number, Number);
-    Number reciprocal(Number);
-    Number minus(Number);
-    Number powr(Number, Number);
-    Number exp(Number);
+    Node add(Node, Node);
+    Node multiply(Node, Node);
+    Node divide(Node, Node);
+    Node reciprocal(Node);
+    Node minus(Node);
+    Node powr(Node, Node);
+    Node exp(Node);
 }
 
 #endif

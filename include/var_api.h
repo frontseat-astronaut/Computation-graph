@@ -4,20 +4,29 @@
 #include<string>
 #include<memory>
 
-#include "number.h"
-#include "variable_number.h"
+#include "variable.h"
 
 namespace dio 
 {
-    using Number = std::shared_ptr<number>;
+    using Node = std::shared_ptr<array>;
 
-    Number Variable();
-    Number Variable(double);
-    Number Constant(double);
+    Node Variable(std::vector<int>shape, std::string initializer, 
+        std::vector<double>init_args=std::vector<double>{})
+    {
+        return Node(new variable(shape, initializer, init_args));
+    }
 
-    void assign(Number, double);
-    double value(Number);
-    double gradient(Number, Number);
+    template<typename T>
+    Node Variable(T a)
+    {
+        return Node(new variable(a));
+    }
+
+    template<typename T>
+    Node Constant(T a)
+    {
+        return Node(new constant(a));
+    }
 }
 
 #endif
