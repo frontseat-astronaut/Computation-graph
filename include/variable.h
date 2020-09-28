@@ -54,6 +54,14 @@ namespace dio
             variable(std::vector<std::shared_ptr<array>>op_args, std::shared_ptr<array_op>op):
                     op_args{op_args}, op{op}
             {
+                std::vector<std::vector<int>>shapes;
+                for(std::shared_ptr<array> arg: op_args)
+                {
+                    shapes.push_back(arg->get_shape());
+                }
+                shape = op->out_shape(shapes);
+                allocate();
+
                 is_latent = true;
             }
     };

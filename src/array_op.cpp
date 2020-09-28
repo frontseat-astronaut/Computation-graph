@@ -3,6 +3,20 @@
 namespace dio
 {
     // element_wise_op
+    void element_wise_op::assert_shape(std::vector<std::vector<int>>&shapes)
+    {
+        for(int i=1; i<shapes.size(); ++i)
+        {
+            if(shapes[i] != shapes[0]) throw ShapeMismatch();
+        }
+    }
+
+    std::vector<int> element_wise_op::out_shape(std::vector<std::vector<int>>&shapes)
+    {
+        assert_shape(shapes);
+        return shapes[0];
+    }
+
     std::vector<double> element_wise_op::run(std::vector<std::vector<double>>&op_args)
     {
         assert(!op_args.empty());

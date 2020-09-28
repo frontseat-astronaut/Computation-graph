@@ -16,13 +16,15 @@ void line()
 int main()
 {
     Node a = Variable(std::vector<int>{2, 2}, "normal");
-    for(int i=0; i<2; ++i)
-    {
-        for(int j=0; j<2; ++j)
-        {
-            printf("%lf ", a->get_value(std::vector<int>{i, j}));
-        }
-        printf("\n");
-    }
+    a->print();
     Node b = Variable(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
+    b->print();
+    for(auto x: a->get_shape())
+        std::cout<<x<<" ";
+    std::cout<<'\n';
+    for(auto x: b->get_shape())
+        std::cout<<x<<" ";
+    std::cout<<'\n';
+    Node c = add(a, b);
+    c->print();
 }

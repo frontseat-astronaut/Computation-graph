@@ -34,7 +34,7 @@ namespace dio
     {
         const char * what () const throw ()
         {
-            return "The shapes of both arrays don't match";
+            return "The shapes of arrays don't match";
         }
     };
 
