@@ -15,7 +15,7 @@ namespace dio
             void virtual assert_shape(std::vector<std::vector<int>>&shapes)=0;
             std::vector<int> virtual out_shape(std::vector<std::vector<int>>&shapes)=0;
             std::vector<double> virtual run(std::vector<std::vector<double>>&op_args)=0;
-            std::vector<double> virtual partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)=0;
+            std::vector<std::vector<double>> virtual partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)=0;
     };
 
     class element_wise_op: public array_op
@@ -32,7 +32,7 @@ namespace dio
 
             std::vector<double> run(std::vector<std::vector<double>>&op_args);
 
-            std::vector<double> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
+            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
     };
 }
 

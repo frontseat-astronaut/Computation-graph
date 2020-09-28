@@ -64,6 +64,11 @@ namespace dio
         init->initialize(value);
     }    
 
+    int array::get_size()
+    {
+        return size;
+    }
+
     std::vector<int> array::get_shape()
     {
         return shape;

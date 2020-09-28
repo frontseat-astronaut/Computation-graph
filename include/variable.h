@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <stdio.h>
+#include <assert.h>
 
 #include "array.h"
 #include "exceptions.h"
@@ -24,6 +25,8 @@ namespace dio
             }
 
             void compute_value() {}
+
+            std::vector<std::vector<double>> forward_diff(std::shared_ptr<array>&);
     };
 
     class variable: public array
@@ -50,6 +53,8 @@ namespace dio
             variable(std::vector<std::shared_ptr<array>>op_args, std::shared_ptr<array_op>op);
 
             void compute_value();
+
+            std::vector<std::vector<double>> forward_diff(std::shared_ptr<array>&);
     };
 }
 

@@ -17,15 +17,16 @@ int main()
 {
     Node a = Variable(std::vector<int>{2, 2}, "normal");
     a->print();
+
     Node b = Variable(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
     b->print();
-    for(auto x: a->get_shape())
-        std::cout<<x<<" ";
-    std::cout<<'\n';
-    for(auto x: b->get_shape())
-        std::cout<<x<<" ";
-    std::cout<<'\n';
+
     Node c = add(a, b);
     c->compute_value();
     c->print();
+
+    auto grad_c = c->forward_diff(b);
+    for(int i=0; i<4; ++i)
+        std::cout<<grad_c[i][i]<<" ";
+    std::cout<<'\n';
 }

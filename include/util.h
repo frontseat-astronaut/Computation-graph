@@ -2,6 +2,7 @@
 #define __UTIL_H_INCLUDED__   
 
 #include <vector>
+#include <assert.h>
 
 #include "exceptions.h"
 
@@ -31,6 +32,10 @@ namespace dio
         dio::get_shape(0, a, shape);
         return shape;
     }
+
+    void matrix_add(std::vector<std::vector<double>>&c, std::vector<std::vector<double>>&a, std::vector<std::vector<double>>&b);
+
+    void matrix_multiply(std::vector<std::vector<double>>&c, std::vector<std::vector<double>>&a, std::vector<std::vector<double>>&b);
 }
 
 #endif

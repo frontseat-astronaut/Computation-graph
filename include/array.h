@@ -50,11 +50,15 @@ namespace dio
 
             std::vector<int> get_shape();
 
+            int get_size();
+
             double get_idx_value(std::vector<int>vidx);
 
             void virtual compute_value()=0;
 
             std::vector<double> get_value();
+
+            std::vector<std::vector<double>> virtual forward_diff(std::shared_ptr<array>&)=0;
 
             void print();
     };

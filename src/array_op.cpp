@@ -34,19 +34,14 @@ namespace dio
         return ret;
     }
 
-    std::vector<double> element_wise_op::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
+    std::vector<std::vector<double>> element_wise_op::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
     {
-        assert(!op_args.empty());
-        std::vector<double> ret(op_args[0].size());
-        std::vector<double>number_op_args(op_args.size());
-        for(int j=0; j<op_args[0].size(); ++j)
+        std::vector<std::vector<double>>ret(op_args[var_idx].size(), std::vector<double>(op_args[var_idx].size()));
+        for(int i=0; i<ret.size(); ++i)
         {
-            for(int i=0; i<op_args.size(); ++i)
-            {
-                assert(op_args[i].size() == op_args[0].size());
-                number_op_args[i] = op_args[i][j];
-            }
-            ret[j] = op->partial_diff_run(number_op_args, var_idx);
+            std::vector<double>number_op_args(op_args.size());
+            for(int k=0; k<op_args.size(); ++k) number_op_args[k] = op_args[k][i];
+            ret[i][i] = op->partial_diff_run(number_op_args, var_idx);
         }
         return ret;
     }
