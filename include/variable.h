@@ -22,6 +22,8 @@ namespace dio
                 allocate();
                 set_value(a);
             }
+
+            void compute_value() {}
     };
 
     class variable: public array
@@ -33,13 +35,7 @@ namespace dio
 
         public:
             variable(std::vector<int>shape, std::string initializer, 
-                     std::vector<double>init_args=std::vector<double>{})
-            {
-                array::shape = shape;
-                allocate();
-                initialize(initializer, init_args);
-                is_latent = false;
-            }
+                     std::vector<double>init_args=std::vector<double>{});
 
             template<typename T>
             variable(T a)
@@ -51,19 +47,9 @@ namespace dio
                 is_latent = false;
             }
 
-            variable(std::vector<std::shared_ptr<array>>op_args, std::shared_ptr<array_op>op):
-                    op_args{op_args}, op{op}
-            {
-                std::vector<std::vector<int>>shapes;
-                for(std::shared_ptr<array> arg: op_args)
-                {
-                    shapes.push_back(arg->get_shape());
-                }
-                shape = op->out_shape(shapes);
-                allocate();
+            variable(std::vector<std::shared_ptr<array>>op_args, std::shared_ptr<array_op>op);
 
-                is_latent = true;
-            }
+            void compute_value();
     };
 }
 

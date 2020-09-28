@@ -69,9 +69,14 @@ namespace dio
         return shape;
     }
 
-    double array::get_value(std::vector<int>vidx)
+    double array::get_idx_value(std::vector<int>vidx)
     {
         return value[get_real_index(vidx)];
+    }
+
+    std::vector<double> array::get_value()
+    {
+        return value;
     }
 
     void array::print()

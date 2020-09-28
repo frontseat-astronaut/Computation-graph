@@ -26,5 +26,6 @@ int main()
         std::cout<<x<<" ";
     std::cout<<'\n';
     Node c = add(a, b);
+    c->compute_value();
     c->print();
 }
