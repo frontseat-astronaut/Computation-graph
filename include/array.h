@@ -40,7 +40,7 @@ namespace dio
                 set_value(idx, a);
             }
 
-            void allocate();
+            void allocate(double x=0);
 
             void initialize(std::string&, std::vector<double>&);
 

@@ -33,7 +33,7 @@ namespace dio
 
     Node reciprocal(Node a)
     {
-        return divide(Node(new constant(1.0)), a);
+        return divide(Node(new constant(a->get_shape(), 1.0)), a);
     }
 
     Node minus(Node a)
@@ -56,7 +56,7 @@ namespace dio
 
     Node exp(Node a)
     {
-        return powr(Node(new constant(std::exp(1.0))), a); 
+        return powr(Node(new constant(a->get_shape(), std::exp(1.0))), a); 
     }
 
 }

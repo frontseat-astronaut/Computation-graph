@@ -24,6 +24,8 @@ namespace dio
                 set_value(a);
             }
 
+            constant(std::vector<int>shape, double x);
+
             void compute_value() {}
 
             std::vector<std::vector<double>> forward_diff(std::shared_ptr<array>&);
@@ -37,6 +39,8 @@ namespace dio
             bool is_latent;
 
         public:
+            variable(std::vector<int>shape, double);
+
             variable(std::vector<int>shape, std::string initializer, 
                      std::vector<double>init_args=std::vector<double>{});
 

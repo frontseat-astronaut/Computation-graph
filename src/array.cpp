@@ -34,12 +34,12 @@ namespace dio
         return vidx;
     }
 
-    void array::allocate()
+    void array::allocate(double x)
     {
         size = 1;
         for(int axis=0; axis<shape.size(); ++axis)
             size *= shape[axis];
-        value = std::vector<double>(size);
+        value = std::vector<double>(size, x);
         is_allocated = true;
     }
 

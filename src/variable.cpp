@@ -3,12 +3,25 @@
 namespace dio
 {
     // constant
+    constant::constant(std::vector<int>shape, double x)
+    {
+        array::shape = shape;
+        allocate(x);
+    }
+
     std::vector<std::vector<double>> constant::forward_diff(std::shared_ptr<array>&x)
     {
         return std::vector<std::vector<double>>(size, std::vector<double>(x->get_size()));
     }
 
     // variable
+    variable::variable(std::vector<int>shape, double x)
+    {
+        array::shape = shape;
+        allocate(x);
+        is_latent = false;
+    }
+
     variable::variable(std::vector<int>shape, std::string initializer, 
                        std::vector<double>init_args)
     {
