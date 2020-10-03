@@ -26,9 +26,13 @@ namespace dio
 
             constant(std::vector<int>shape, double x);
 
+            constant(std::vector<int>shape, std::vector<double>&a);
+
             void compute_value() {}
 
             std::vector<std::vector<double>> forward_diff(std::shared_ptr<array>&);
+
+            std::shared_ptr<array> get_grad(std::shared_ptr<array>&x);
     };
 
     class variable: public array
@@ -59,6 +63,9 @@ namespace dio
             void compute_value();
 
             std::vector<std::vector<double>> forward_diff(std::shared_ptr<array>&);
+
+            std::shared_ptr<array> get_grad(std::shared_ptr<array>&);
+
     };
 }
 

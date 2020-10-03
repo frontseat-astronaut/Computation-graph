@@ -25,8 +25,6 @@ int main()
     c->compute_value();
     c->print();
 
-    auto grad_c = c->forward_diff(b);
-    for(int i=0; i<4; ++i)
-        std::cout<<grad_c[i][i]<<" ";
-    std::cout<<'\n';
+    Node gradca = grad(c, b);
+    gradca->print();
 }

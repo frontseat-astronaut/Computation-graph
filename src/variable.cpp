@@ -9,9 +9,20 @@ namespace dio
         allocate(x);
     }
 
+    constant::constant(std::vector<int>shape, std::vector<double>&a)
+    {
+        array::shape = shape;
+        array::value = a;
+    }
+
     std::vector<std::vector<double>> constant::forward_diff(std::shared_ptr<array>&x)
     {
         return std::vector<std::vector<double>>(size, std::vector<double>(x->get_size()));
+    }
+
+    std::shared_ptr<array> constant::get_grad(std::shared_ptr<array>&x)
+    {
+        throw NoGradForConstant();
     }
 
     // variable
@@ -96,5 +107,17 @@ namespace dio
             }
         }
         return Jzx;
+    }
+
+    std::shared_ptr<array> variable::get_grad(std::shared_ptr<array>&x)
+    {
+        std::vector<int>new_shape = shape;
+        std::vector<int>x_shape = x->get_shape();
+        new_shape.insert(new_shape.end(), x_shape.begin(), x_shape.end());
+        std::vector<std::vector<double>> J = forward_diff(x);
+        std::vector<double>grad(J.size());
+        for(int i=0; i<J.size(); ++i)
+            grad.insert(grad.end(), J[i].begin(), J[i].end());
+        return std::shared_ptr<array>(new constant(new_shape, grad));
     }
 }

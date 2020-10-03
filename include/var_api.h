@@ -24,6 +24,10 @@ namespace dio
     {
         return Node(new constant(a));
     }
+
+    double val(Node a, std::vector<int>index);
+
+    Node grad(Node a, Node b);
 }
 
 #endif

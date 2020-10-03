@@ -53,6 +53,22 @@ namespace dio
             return "Shape required for allocation";
         }
     };
+
+    class NotFlattened: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Expected a single dimensional double array";
+        }
+    };
+
+    class NoGradForConstant: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Constant node has no gradient";
+        }
+    };
 }
 
 #endif
