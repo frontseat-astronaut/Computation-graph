@@ -8,7 +8,7 @@ namespace dio
         return Node(new variable(shape, initializer, init_args));
     }
 
-    double value(Node a, std::vector<int>index)
+    double idx(Node a, std::vector<int>index)
     {
         return a->get_idx_value(index);
     }

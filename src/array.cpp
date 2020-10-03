@@ -97,7 +97,7 @@ namespace dio
         if(d == shape.size()-1)
         {
             printf("%s[%lf", tab.c_str(), value[idx++]);
-            for(int i=1; i<shape.back(); ++i)
+            for(int i=1; i<shape[d]; ++i)
                 printf(", %lf", value[idx++]);
             printf("]");
         }

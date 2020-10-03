@@ -21,7 +21,7 @@ int main()
     Node b = Variable(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
     print_val(b);
 
-    Node c = add(b, exp(b));
+    Node c = add(a, exp(b));
     c->compute_value();
     print_val(c);
 

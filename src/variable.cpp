@@ -115,7 +115,7 @@ namespace dio
         std::vector<int>x_shape = x->get_shape();
         new_shape.insert(new_shape.end(), x_shape.begin(), x_shape.end());
         std::vector<std::vector<double>> J = forward_diff(x);
-        std::vector<double>grad(J.size());
+        std::vector<double>grad;
         for(int i=0; i<J.size(); ++i)
             grad.insert(grad.end(), J[i].begin(), J[i].end());
         return std::shared_ptr<array>(new constant(new_shape, grad));
