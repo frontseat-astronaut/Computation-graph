@@ -86,7 +86,35 @@ namespace dio
 
     void array::print()
     {
-        for(int i=0; i<value.size(); ++i) printf("%lf ", value[i]);
-        printf("\n");
+        int idx=0;
+        std::string tab="";
+        print(idx, 0, tab);
+        printf("\n\n");
+    }
+
+    void array::print(int &idx, int d, std::string &tab)
+    {
+        if(d == shape.size()-1)
+        {
+            printf("%s[%lf", tab.c_str(), value[idx++]);
+            for(int i=1; i<shape.back(); ++i)
+                printf(", %lf", value[idx++]);
+            printf("]");
+        }
+        else 
+        {
+            printf("%s[\n", tab.c_str());
+            tab += " ";
+
+            print(idx, d+1, tab);
+            for(int i=1; i<shape[d]; ++i)
+            {
+                printf(",\n");
+                print(idx, d+1, tab);
+            }
+
+            tab.pop_back();
+            printf("\n%s]", tab.c_str());
+        }
     }
 }

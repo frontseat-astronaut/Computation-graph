@@ -28,6 +28,8 @@ namespace dio
     double val(Node a, std::vector<int>index);
 
     Node grad(Node a, Node b);
+
+    void print_val(Node a);
 }
 
 #endif

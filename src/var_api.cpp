@@ -17,4 +17,9 @@ namespace dio
     {
         return a->get_grad(b);
     }
+
+    void print_val(Node a)
+    {
+        a->print();
+    }
 }

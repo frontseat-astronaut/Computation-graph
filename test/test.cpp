@@ -16,15 +16,15 @@ void line()
 int main()
 {
     Node a = Variable(std::vector<int>{2, 2}, "normal");
-    a->print();
+    print_val(a);
 
     Node b = Variable(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
-    b->print();
+    print_val(b);
 
     Node c = add(b, exp(b));
     c->compute_value();
-    c->print();
+    print_val(c);
 
     Node gradca = grad(c, b);
-    gradca->print();
+    print_val(gradca);
 }

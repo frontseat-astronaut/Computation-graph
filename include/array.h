@@ -63,6 +63,8 @@ namespace dio
             std::shared_ptr<array> virtual get_grad(std::shared_ptr<array>&)=0;
 
             void print();
+
+            void print(int&, int, std::string&);
     };
 }
 
