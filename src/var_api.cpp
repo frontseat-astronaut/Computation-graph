@@ -18,6 +18,11 @@ namespace dio
         return a->get_grad(b);
     }
 
+    void compute_val(Node a)
+    {
+        a->compute_value();
+    }
+
     void print_val(Node a)
     {
         a->print();

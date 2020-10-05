@@ -6,6 +6,8 @@
 #include <assert.h>
 
 #include "number_op.h"
+#include "util.h"
+#include "array_op.h"
 
 namespace dio
 {
@@ -13,7 +15,7 @@ namespace dio
     {
         public:
             void virtual assert_shape(std::vector<std::vector<int>>&shapes)=0;
-            std::vector<int> virtual out_shape(std::vector<std::vector<int>>&shapes)=0;
+            std::vector<int> virtual get_out_shape(std::vector<std::vector<int>>&shapes)=0;
             std::vector<double> virtual run(std::vector<std::vector<double>>&op_args)=0;
             std::vector<std::vector<double>> virtual partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)=0;
     };
@@ -28,7 +30,22 @@ namespace dio
 
             void assert_shape(std::vector<std::vector<int>>&shapes);
 
-            std::vector<int> out_shape(std::vector<std::vector<int>>&shapes);
+            std::vector<int> get_out_shape(std::vector<std::vector<int>>&shapes);
+
+            std::vector<double> run(std::vector<std::vector<double>>&op_args);
+
+            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
+    };
+
+    class _matmul: public array_op
+    {
+        protected:
+            std::vector<std::vector<int>> shapes;
+
+        public:
+            void assert_shape(std::vector<std::vector<int>>&shapes);
+
+            std::vector<int> get_out_shape(std::vector<std::vector<int>>&shapes);
 
             std::vector<double> run(std::vector<std::vector<double>>&op_args);
 

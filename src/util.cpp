@@ -30,4 +30,22 @@ namespace dio
                     c[i][j] += a[i][k]*b[k][j];
             }
     }
+
+    void matrix_multiply(std::vector<double>&c, std::vector<double>&a, std::vector<double>&b, int p, int q, int r)
+    {
+        assert(a.size() == p*q);
+        assert(b.size() == q*r);
+        assert(c.size() == p*r);
+        for(int i=0; i<p; ++i)
+        {
+            for(int j=0; j<r; ++j)
+            {
+                int cidx = i*r + j;
+                for(int k=0; k<q; ++k)
+                {
+                    c[cidx] += a[i*q + k]*b[k*q + j];
+                }
+            }
+        }
+    }
 }

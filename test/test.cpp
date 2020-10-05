@@ -15,16 +15,18 @@ void line()
 
 int main()
 {
-    Node a = Variable(std::vector<int>{2, 2}, "normal");
+    Node a = Variable(std::vector<std::vector<double>>{{100, 1}, {10, 1000}});
     print_val(a);
 
     Node b = Variable(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
     print_val(b);
 
-    Node c = add(a, exp(b));
-    c->compute_value();
+    Node c = matmul(a, b);
+    compute_val(c);
     print_val(c);
 
-    Node gradca = grad(c, b);
+    Node gradcb = grad(c, b);
+    print_val(gradcb);
+    Node gradca = grad(c, a);
     print_val(gradca);
 }

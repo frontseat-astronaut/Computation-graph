@@ -17,7 +17,7 @@ namespace dio
 
     std::vector<std::vector<double>> constant::forward_diff(std::shared_ptr<array>&x)
     {
-        return std::vector<std::vector<double>>(size, std::vector<double>(x->get_size()));
+        return std::vector<std::vector<double>>(size, std::vector<double>(x->get_size(), 0.0));
     }
 
     std::shared_ptr<array> constant::get_grad(std::shared_ptr<array>&x)
@@ -50,7 +50,7 @@ namespace dio
         {
             shapes.push_back(arg->get_shape());
         }
-        shape = op->out_shape(shapes);
+        shape = op->get_out_shape(shapes);
         allocate();
 
         is_latent = true;

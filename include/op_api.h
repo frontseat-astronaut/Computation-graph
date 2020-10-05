@@ -18,6 +18,8 @@ namespace dio
     Node minus(Node);
     Node powr(Node, Node);
     Node exp(Node);
+
+    Node matmul(Node, Node);
 }
 
 #endif

@@ -59,4 +59,9 @@ namespace dio
         return powr(Node(new constant(a->get_shape(), std::exp(1.0))), a); 
     }
 
+    Node matmul(Node a, Node b)
+    {
+        Node c = Node(new variable(std::vector<Node>{a, b}, std::shared_ptr<array_op>(new _matmul)));
+        return c;
+    }
 }

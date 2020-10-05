@@ -29,6 +29,8 @@ namespace dio
 
     Node grad(Node a, Node b);
 
+    void compute_val(Node a);
+
     void print_val(Node a);
 }
 

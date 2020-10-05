@@ -69,6 +69,33 @@ namespace dio
             return "Constant node has no gradient";
         }
     };
+
+    class WrongArgCount: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            // char ret[50];
+            // sprintf(ret, "Expected number of arguments: %d instead of %d", correct_cnt, wrong_cnt);
+            // return ret;
+            return "Wrong number of arguments";
+        }
+    };
+
+    class Expected2DMatrix: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Expected a 2D Matrix";
+        }
+    };
+    
+    class IncompatibleMatrices: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Shapes not compatible for matmul";
+        }
+    };
 }
 
 #endif

@@ -11,7 +11,7 @@ namespace dio
         }
     }
 
-    std::vector<int> element_wise_op::out_shape(std::vector<std::vector<int>>&shapes)
+    std::vector<int> element_wise_op::get_out_shape(std::vector<std::vector<int>>&shapes)
     {
         assert_shape(shapes);
         return shapes[0];
@@ -42,6 +42,56 @@ namespace dio
             std::vector<double>number_op_args(op_args.size());
             for(int k=0; k<op_args.size(); ++k) number_op_args[k] = op_args[k][i];
             ret[i][i] = op->partial_diff_run(number_op_args, var_idx);
+        }
+        return ret;
+    }
+
+    // _matmul
+    void _matmul::assert_shape(std::vector<std::vector<int>>&shapes)
+    {
+        if(shapes.size() != 2)
+            throw WrongArgCount();
+        
+        if(shapes[0].size() != 2 || shapes[1].size() != 2)
+            throw Expected2DMatrix();
+
+        if(shapes[0][1] != shapes[1][0])
+            throw IncompatibleMatrices();
+        
+        _matmul::shapes = shapes;
+    }
+
+    std::vector<int> _matmul::get_out_shape(std::vector<std::vector<int>>&shapes)
+    {
+        assert_shape(shapes);
+        return std::vector<int>{shapes[0][0], shapes[1][1]};
+    }
+
+    std::vector<double> _matmul::run(std::vector<std::vector<double>>&op_args)
+    {
+        assert(op_args.size() == 2);
+        std::vector<double>result(shapes[0][0]*shapes[1][1]);
+        matrix_multiply(result, op_args[0], op_args[1], shapes[0][0], shapes[0][1], shapes[1][1]);
+        return result;
+    }
+
+    std::vector<std::vector<double>> _matmul::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
+    {
+        assert(op_args.size() == 2);
+        std::vector<std::vector<double>>ret(shapes[0][0]*shapes[1][1], std::vector<double>(shapes[var_idx][0]*shapes[var_idx][1]));
+        for(int i=0; i<shapes[0][0]; ++i)
+        {
+            for(int j=0; j<shapes[1][1]; ++j)
+            {
+                int ridx = i*shapes[1][1] + j;
+                for(int k=0; k<shapes[0][1]; ++k)
+                {
+                    if(!var_idx)
+                        ret[ridx][i*shapes[0][1] + k] = op_args[1][k*shapes[1][0] + j];
+                    else
+                        ret[ridx][k*shapes[1][0] + j] = op_args[0][i*shapes[0][1] + k];
+                }
+            }
         }
         return ret;
     }
