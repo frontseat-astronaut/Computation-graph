@@ -1,4 +1,4 @@
-## Some piece of theory
+## Some piece of theory (DEPRECATED)
 Let's setup the problem first.
 Assume we have 
  - A set `X` of independent variables. The value of any of these variables is not dependent on any other variable.
