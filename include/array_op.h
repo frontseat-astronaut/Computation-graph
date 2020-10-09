@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <assert.h>
+#include <pair>
 
 #include "number_op.h"
 #include "util.h"
@@ -67,6 +68,31 @@ namespace dio
             std::vector<int> get_out_shape(std::vector<std::vector<int>>&shapes);
 
             void map_real_indices(int d, int &ridx_arg, int &ridx_res, std::vector<int>&shape_size_cache);
+
+            std::vector<double> run(std::vector<std::vector<double>>&op_args);
+
+            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
+    }
+
+    class _concat: public array_op 
+    {
+        protected:
+            int axis=0;
+            int res_size=0;
+            std::vector<std::pair<int,int>>ridx_map;
+            int axis_partition;
+            std::vector<int>out_shape;
+
+        public:
+            _concat() {}
+
+            _concat(int axis): axis{axis} {}
+
+            void assert_shape(std::vector<std::vector<int>>&shapes);
+
+            std::vector<int> get_out_shape(std::vector<std::vector<int>>&shapes);
+
+            void map_real_indices(int d, bool arg, int ridx_arg[2], int &ridx_res);
 
             std::vector<double> run(std::vector<std::vector<double>>&op_args);
 

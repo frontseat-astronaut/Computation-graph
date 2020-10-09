@@ -50,6 +50,7 @@ namespace dio
         {
             shapes.push_back(arg->get_shape());
         }
+        op->assert_shape(shapes);
         shape = op->get_out_shape(shapes);
         allocate();
 

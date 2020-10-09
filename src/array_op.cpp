@@ -13,7 +13,6 @@ namespace dio
 
     std::vector<int> element_wise_op::get_out_shape(std::vector<std::vector<int>>&shapes)
     {
-        assert_shape(shapes);
         return shapes[0];
     }
 
@@ -63,7 +62,6 @@ namespace dio
 
     std::vector<int> _matmul::get_out_shape(std::vector<std::vector<int>>&shapes)
     {
-        assert_shape(shapes);
         return std::vector<int>{shapes[0][0], shapes[1][1]};
     }
 
@@ -123,8 +121,6 @@ namespace dio
     
     std::vector<int> index::get_out_shape(std::vector<std::vector<int>>&shapes)
     {
-        assert_shape(shapes);
-
         std::vector<int>shape_size_cache(idx.size());
         for(int i=shapes[0].size()-1, mul=1; i>=0; --i)
         {
@@ -179,6 +175,85 @@ namespace dio
         for(int i=0; i<res_size; ++i)
             J[i][ridx_map[i]] = 1;
         
+        return J;
+    }
+
+    // concat
+    void _concat::assert_shape(std::vector<std::vector<int>>&shapes)
+    {
+        if(shapes.size()!=2)
+            throw WrongArgCount();
+
+        if(shapes[0].size() != shapes[1].size())
+            throw InvalidDimensionCount();
+
+        for(int d=0; d<shapes[0].size(); ++d)
+        {
+            if(d == axis) continue;
+            if(shapes[0][d] != shapes[1][d])
+                throw ConcatShapeMismatch();
+        }
+
+        axis_partition = shapes[0][axis];
+    }
+
+    std::vector<int> _concat::get_out_shape(std::vector<std::vector<int>>&shapes)
+    {
+        out_shape = shapes[0];
+        out_shape[axis] += shapes[1][axis];
+
+        res_size = 1;
+        for(int d=0; d<out_shape.size(); ++d)
+            res_size *= out_shape[d];
+
+        int ridx_arg[2] = {0, 0};
+        int ridx_res = 0;
+        ridx_map = std::vector<std::pair<int,int>>(res_size);
+        map_real_indices(0, 0, ridx_arg, ridx_res);
+
+        return out_shape;
+    }
+
+
+    void _concat::map_real_indices(int d, bool arg, int ridx_arg[2], int &ridx_res)
+    {
+        if(d == out_shape.size()) 
+        {
+            ridx_map[ridx_res++] = {arg, ridx_arg[arg]++};
+            return;
+        }
+        if(d!=axis)
+            for(int i=0; i<out_shape[d]; ++i)
+                map_real_indices(d+1, arg, ridx_arg, ridx_res);
+        else 
+        {
+            for(int i=0; i<axis_partition; ++i)
+                map_real_indices(d+1, 0, ridx_arg, ridx_res);
+            for(int i=axis_partition; i<out_shape[axis]; ++i)
+                map_real_indices(d+1, 1, ridx_arg, ridx_res);
+        }
+    }
+
+    std::vector<double> _concat::run(std::vector<std::vector<double>>&op_args)
+    {
+        assert(op_args.size()==2);
+        std::vector<double>ret(res_size);
+        for(int i=0; i<res_size; ++i)
+            ret[i] = op_args[ridx_map[i].first][ridx_map[i].second];
+        return ret;
+    }
+
+    std::vector<std::vector<double>> _concat::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
+    {
+        assert(op_args.size() == 2);
+        assert(var_idx<2 && var_idx>=0);
+        std::vector<std::vector<double>>J(res_size, std::vector<double>(op_args[var_idx].size()));
+
+        for(int i=0; i<res_size; ++i)
+        {
+            if(ridx_map[i].first == var_idx)
+                J[i][ridx_map[i].second] = 1;
+        }
         return J;
     }
 
