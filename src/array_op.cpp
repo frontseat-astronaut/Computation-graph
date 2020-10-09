@@ -95,4 +95,91 @@ namespace dio
         }
         return ret;
     }
+
+    // indexing 
+    void index::assert_shape(std::vector<std::vector<int>>&shapes)
+    {
+        if(shapes.size() != 1)
+            throw WrongArgCount();
+        if(shapes[0].size()<idx.size())
+            throw InvalidDimensionCount();
+        for(int d=0; d<idx.size(); ++d)
+        {
+            for(int idx_d: idx[d])
+            {
+                if(idx_d >= shapes[0][d] || idx_d<0)
+                    throw IndexOutofBounds();
+            }
+        }
+        while(idx.size()<shapes[0].size())
+        {
+            int d = idx.size();
+            std::vector<int>idx_d(shapes[0][d]);
+            for(int i=0; i<shapes[0][d]; ++i) idx_d[i] = i;
+            // sort(idx_d.begin(), idx_d.end());
+            idx.push_back(idx_d);
+        }
+    }
+    
+    std::vector<int> index::get_out_shape(std::vector<std::vector<int>>&shapes)
+    {
+        assert_shape(shapes);
+
+        std::vector<int>shape_size_cache(idx.size());
+        for(int i=shapes[0].size()-1, mul=1; i>=0; --i)
+        {
+            shape_size_cache[i] = mul;
+            mul *= shapes[0][i];
+        }
+        res_size = 1;
+        std::vector<int>out_shape(shapes[0].size());
+        for(int d=0; d<idx.size(); ++d)
+        {
+            res_size *= idx[d].size();
+            out_shape[d] = idx[d].size();
+        }
+
+        int ridx_arg=0, ridx_res=0;
+        ridx_map = std::vector<int>(res_size);
+        map_real_indices(0, ridx_arg, ridx_res, shape_size_cache); 
+
+        return out_shape;
+    }
+
+    void index::map_real_indices(int d, int &ridx_arg, int &ridx_res, std::vector<int>&shape_size_cache)
+    {
+        if(d == idx.size())
+        {
+            ridx_map[ridx_res++] = ridx_arg++;
+            return;
+        }
+        int prev = 0;
+        for(int x: idx[d])
+        {
+            ridx_arg += (x-prev)*shape_size_cache[d];
+            map_real_indices(d+1, ridx_arg, ridx_res, shape_size_cache);
+            prev = x;
+        }
+    }
+
+    std::vector<double> index::run(std::vector<std::vector<double>>&op_args)
+    {
+        assert(op_args.size() == 1);
+        std::vector<double>ret(res_size);
+        for(int i=0; i<ret.size(); ++i) ret[i] = op_args[0][ridx_map[i]];
+        return ret;
+    }
+    
+    std::vector<std::vector<double>> index::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
+    {
+        assert(op_args.size() == 1);
+        assert(var_idx == 0);
+
+        std::vector<std::vector<double>>J(res_size, std::vector<double>(op_args[0].size()));
+        for(int i=0; i<res_size; ++i)
+            J[i][ridx_map[i]] = 1;
+        
+        return J;
+    }
+
 }

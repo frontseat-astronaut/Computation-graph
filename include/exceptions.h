@@ -96,6 +96,23 @@ namespace dio
             return "Shapes not compatible for matmul";
         }
     };
+    
+    class InvalidDimensionCount: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Got more dimensions in slice than the shape of object";
+        }
+    };
+    
+    class InvalidIndex: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "ith index should be an int less than th
+        }
+    }
+    
 }
 
 #endif

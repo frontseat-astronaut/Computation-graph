@@ -51,6 +51,27 @@ namespace dio
 
             std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
     };
+
+    class index: public array_op 
+    {
+        protected: 
+            std::vector<std::vector<int>> idx;
+            int res_size=0;
+            std::vector<int>ridx_map;
+
+        public: 
+            index(std::vector<std::vector<int>>&idx): idx{idx} {};
+
+            void assert_shape(std::vector<std::vector<int>>&shapes);
+
+            std::vector<int> get_out_shape(std::vector<std::vector<int>>&shapes);
+
+            void map_real_indices(int d, int &ridx_arg, int &ridx_res, std::vector<int>&shape_size_cache);
+
+            std::vector<double> run(std::vector<std::vector<double>>&op_args);
+
+            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
+    }
 }
 
 #endif
