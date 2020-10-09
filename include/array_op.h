@@ -67,7 +67,7 @@ namespace dio
 
             std::vector<int> get_out_shape(std::vector<std::vector<int>>&shapes);
 
-            void map_real_indices(int d, int &ridx_arg, int &ridx_res, std::vector<int>&shape_size_cache);
+            void map_real_indices(int d, int ridx_arg, int &ridx_res, std::vector<int>&shape_size_cache);
 
             std::vector<double> run(std::vector<std::vector<double>>&op_args);
 

@@ -55,15 +55,17 @@ int main()
     line();
 
     // index
-    Node a10 = index(a, 0, 1);
-    compute_val(a10);
-    print_val(a10);
+    print_val(a);
+    Node a01 = index(a, 0, 1);
+    compute_val(a01);
+    print_val(a01);
 
-    Node a_i = index(a, 0, std::vector<int>{0, 1});
+    Node a_i = index(a, 1, std::vector<int>{0, 1});
     compute_val(a_i);
     print_val(a_i);
 
     Node gradf_i = index(gradf, 0, std::vector<int>{1});
     compute_val(gradf_i);
+    print_val(gradf);
     print_val(gradf_i);
 }

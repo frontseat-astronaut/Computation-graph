@@ -135,27 +135,22 @@ namespace dio
             out_shape[d] = idx[d].size();
         }
 
-        int ridx_arg=0, ridx_res=0;
         ridx_map = std::vector<int>(res_size);
-        map_real_indices(0, ridx_arg, ridx_res, shape_size_cache); 
+        int ridx_res=0;
+        map_real_indices(0, 0, ridx_res, shape_size_cache); 
 
         return out_shape;
     }
 
-    void _index::map_real_indices(int d, int &ridx_arg, int &ridx_res, std::vector<int>&shape_size_cache)
+    void _index::map_real_indices(int d, int ridx_arg, int &ridx_res, std::vector<int>&shape_size_cache)
     {
         if(d == idx.size())
         {
-            ridx_map[ridx_res++] = ridx_arg++;
+            ridx_map[ridx_res++] = ridx_arg;
             return;
         }
-        int prev = 0;
         for(int x: idx[d])
-        {
-            ridx_arg += (x-prev)*shape_size_cache[d];
-            map_real_indices(d+1, ridx_arg, ridx_res, shape_size_cache);
-            prev = x;
-        }
+            map_real_indices(d+1, ridx_arg+x*shape_size_cache[d], ridx_res, shape_size_cache);
     }
 
     std::vector<double> _index::run(std::vector<std::vector<double>>&op_args)
