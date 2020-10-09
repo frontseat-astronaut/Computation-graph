@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 #include <assert.h>
-#include <pair>
+#include <utility>
 
 #include "number_op.h"
 #include "util.h"
@@ -53,7 +53,7 @@ namespace dio
             std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
     };
 
-    class index: public array_op 
+    class _index: public array_op 
     {
         protected: 
             std::vector<std::vector<int>> idx;
@@ -61,7 +61,7 @@ namespace dio
             std::vector<int>ridx_map;
 
         public: 
-            index(std::vector<std::vector<int>>&idx): idx{idx} {};
+            _index(std::vector<std::vector<int>>&idx): idx{idx} {};
 
             void assert_shape(std::vector<std::vector<int>>&shapes);
 
@@ -72,7 +72,7 @@ namespace dio
             std::vector<double> run(std::vector<std::vector<double>>&op_args);
 
             std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
-    }
+    };
 
     class _concat: public array_op 
     {
@@ -97,7 +97,7 @@ namespace dio
             std::vector<double> run(std::vector<std::vector<double>>&op_args);
 
             std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
-    }
+    };
 }
 
 #endif

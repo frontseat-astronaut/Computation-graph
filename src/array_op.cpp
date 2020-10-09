@@ -95,7 +95,7 @@ namespace dio
     }
 
     // indexing 
-    void index::assert_shape(std::vector<std::vector<int>>&shapes)
+    void _index::assert_shape(std::vector<std::vector<int>>&shapes)
     {
         if(shapes.size() != 1)
             throw WrongArgCount();
@@ -119,7 +119,7 @@ namespace dio
         }
     }
     
-    std::vector<int> index::get_out_shape(std::vector<std::vector<int>>&shapes)
+    std::vector<int> _index::get_out_shape(std::vector<std::vector<int>>&shapes)
     {
         std::vector<int>shape_size_cache(idx.size());
         for(int i=shapes[0].size()-1, mul=1; i>=0; --i)
@@ -142,7 +142,7 @@ namespace dio
         return out_shape;
     }
 
-    void index::map_real_indices(int d, int &ridx_arg, int &ridx_res, std::vector<int>&shape_size_cache)
+    void _index::map_real_indices(int d, int &ridx_arg, int &ridx_res, std::vector<int>&shape_size_cache)
     {
         if(d == idx.size())
         {
@@ -158,7 +158,7 @@ namespace dio
         }
     }
 
-    std::vector<double> index::run(std::vector<std::vector<double>>&op_args)
+    std::vector<double> _index::run(std::vector<std::vector<double>>&op_args)
     {
         assert(op_args.size() == 1);
         std::vector<double>ret(res_size);
@@ -166,7 +166,7 @@ namespace dio
         return ret;
     }
     
-    std::vector<std::vector<double>> index::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
+    std::vector<std::vector<double>> _index::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
     {
         assert(op_args.size() == 1);
         assert(var_idx == 0);

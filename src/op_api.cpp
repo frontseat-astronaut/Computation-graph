@@ -64,4 +64,17 @@ namespace dio
         Node c = Node(new variable(std::vector<Node>{a, b}, std::shared_ptr<array_op>(new _matmul)));
         return c;
     }
+
+    void get_indices(std::vector<std::vector<int>>&idx) {}
+
+    Node ret_index(Node a, std::vector<std::vector<int>>&idx)
+    {
+        return Node(new variable(std::vector<Node>{a}, std::shared_ptr<array_op>(new _index(idx))));
+    }
+
+    Node concat(Node a, Node b, int axis)
+    {
+        axis = (axis+a->get_size())%(a->get_size());
+        return Node(new variable(std::vector<Node>{a, b}, std::shared_ptr<array_op>(new _concat(axis))));
+    }
 }

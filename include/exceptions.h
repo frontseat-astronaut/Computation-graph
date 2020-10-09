@@ -105,13 +105,13 @@ namespace dio
         }
     };
     
-    class InvalidIndex: public std::exception
+    class ConcatShapeMismatch: public std::exception
     {
         const char * what () const throw ()
         {
-            return "ith index should be an int less than th
+            return "All shape dimensions should be same, except for axis";
         }
-    }
+    };
     
 }
 
