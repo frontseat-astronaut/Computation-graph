@@ -68,4 +68,10 @@ int main()
     compute_val(gradf_i);
     print_val(gradf);
     print_val(gradf_i);
+
+    Node arr = Variable(std::vector<double>{1, 2, 3, 4});
+    print_val(arr);
+    Node parr = index(arr, std::vector<int>{3, 1, 2, 0});
+    compute_val(parr);
+    print_val(parr);
 }
