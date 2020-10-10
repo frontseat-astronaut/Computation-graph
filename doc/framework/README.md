@@ -2,7 +2,7 @@
 `include/` folder contains header files, while `src/` contains corresponding cpp files for the headers.
 I'd suggest to first go over headers, and then to cpp for implementations.
 
-As with any project, there's a partial order of dependencies between files here. One valid ordering is:
+I'd suggest you go in this order (or the exact opposite order):
 1. `array`: a single node in the computation graph, is a multidimensional array
 2. `variable`: inherit array class, two classes: constant and variable
 3. `number_op`: operators defined on numbers, not on arrays
