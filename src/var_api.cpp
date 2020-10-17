@@ -10,21 +10,22 @@ namespace dio
 
     double idx(Node a, std::vector<int>index)
     {
-        return a->get_idx_value(index);
+        return a.get()->get_idx_value(index);
     }
 
     Node grad(Node a, Node b)
     {
-        return a->get_grad(b);
+        auto b_ptr = b.get();
+        return a.get()->get_grad(b_ptr);
     }
 
     void compute_val(Node a)
     {
-        a->compute_value();
+        a.get()->compute_value();
     }
 
     void print_val(Node a)
     {
-        a->print();
+        a.get()->print();
     }
 }

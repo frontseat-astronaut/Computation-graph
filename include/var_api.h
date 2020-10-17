@@ -8,7 +8,21 @@
 
 namespace dio 
 {
-    using Node = std::shared_ptr<array>;
+    class Node
+    {
+        private:
+            std::shared_ptr<array> arr_ptr = NULL;
+        
+        public:
+            Node() {};
+            Node(std::shared_ptr<array>arr_ptr): arr_ptr{arr_ptr} {}
+            Node(array *arr_ptr)
+            {
+                this->arr_ptr = std::shared_ptr<array>(arr_ptr);
+            }
+
+            std::shared_ptr<array> get() { return arr_ptr; }
+    };
 
     Node Variable(std::vector<int>shape, std::string initializer, 
         std::vector<double>init_args=std::vector<double>{});
