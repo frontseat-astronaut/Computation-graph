@@ -98,6 +98,23 @@ namespace dio
 
             std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
     };
+
+    class _reshape: public array_op
+    {
+        protected:
+            std::vector<int>out_shape;
+
+        public:
+            _reshape(std::vector<int>&shape): out_shape(out_shape) {}
+
+            void assert_shape(std::vector<std::vector<int>>&shapes);
+
+            std::vector<int> get_out_shape(std::vector<std::vector<int>>&shapes) { return out_shape; }
+
+            std::vector<double> run(std::vector<std::vector<double>>&op_args);
+
+            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
+    };
 }
 
 #endif

@@ -252,4 +252,32 @@ namespace dio
         return J;
     }
 
+    // reshape
+    void _reshape::assert_shape(std::vector<std::vector<int>>&shapes)
+    {
+        if(shapes.size() != 1)
+            throw WrongArgCount();
+
+        int outsz=!out_shape.empty(), insz=!shapes[0].empty();
+        for(int i=0; i<shapes[0].size(); ++i) insz *= shapes[0][i];
+        for(int i=0; i<out_shape.size(); ++i) outsz *= out_shape[i];
+        
+        if(insz == outsz)
+            throw SizeMismatch();
+    }
+
+    std::vector<double> _reshape::run(std::vector<std::vector<double>>&op_args)
+    {
+        assert(op_args.size() == 1);
+        return op_args[0];
+    }
+
+    std::vector<std::vector<double>> _reshape::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
+    {
+        assert(op_args.size() == 1);
+        assert(var_idx==0);
+        std::vector<std::vector<double>> J(op_args[0].size(), std::vector<double>(op_args[0].size()));
+        for(int i=0; i<op_args[0].size(); ++i) J[i][i] = 1;
+        return J;
+    }
 }

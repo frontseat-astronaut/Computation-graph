@@ -112,6 +112,14 @@ namespace dio
             return "All shape dimensions should be same, except for axis";
         }
     };
+
+    class SizeMismatch: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Size should be same";
+        }
+    };
     
 }
 
