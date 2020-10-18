@@ -18,10 +18,10 @@ int main()
     // elementwise operations
     Node x = Variable(std::vector<std::vector<double>>{{100, 1}, {10, 1000}});
     Node y = Constant(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
-    Node z = x+y*x; // notice that precendence(*) > precedence(+)
+    Node z = x*2+y*3; // notice that precendence(*) > precedence(+)
     z.compute_val();
     z.print_val();
-    Node w = (x^y) + exp(y) - x;
+    Node w = 1/x;
     w.compute_val();
     w.print_val();
 

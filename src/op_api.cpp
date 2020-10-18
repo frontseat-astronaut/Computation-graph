@@ -2,6 +2,7 @@
 
 namespace dio 
 {
+    // add
     Node Node::operator+(Node other)
     {
         auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _add)));
@@ -9,6 +10,18 @@ namespace dio
         return c;
     }
 
+    Node operator+(double a, Node b)
+    {
+        Node a_node = Node(new constant(b.get()->get_shape(), a));
+        return a_node + b;
+    }
+
+    Node operator+(Node a, double b)
+    {
+        return b+a;
+    }
+
+    // multiply
     Node Node::operator*(Node other)
     {
         auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _multiply)));
@@ -16,6 +29,18 @@ namespace dio
         return c;
     }
 
+    Node operator*(double a, Node b)
+    {
+        Node a_node = Node(new constant(b.get()->get_shape(), a));
+        return a_node * b;
+    }
+
+    Node operator*(Node a, double b)
+    {
+        return b*a;
+    }
+
+    // divide
     Node Node::operator/(Node other)
     {
         auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _divide)));
@@ -23,6 +48,19 @@ namespace dio
         return c;
     }
 
+    Node operator/(double a, Node b)
+    {
+        Node a_node = Node(new constant(b.get()->get_shape(), a));
+        return a_node / b;
+    }
+
+    Node operator/(Node a, double b)
+    {
+        Node b_node = Node(new constant(a.get()->get_shape(), b));
+        return a / b_node;
+    }
+
+    // subtract
     Node Node::operator-(Node other)
     {
         auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _add)));
@@ -30,13 +68,26 @@ namespace dio
         return c;
     }
 
+    Node operator-(double a, Node b)
+    {
+        Node a_node = Node(new constant(b.get()->get_shape(), a));
+        return a_node - b;
+    }
+
+    Node operator-(Node a, double b)
+    {
+        Node b_node = Node(new constant(a.get()->get_shape(), b));
+        return a - b_node;
+    }
+
+    // unary minus
     Node Node::operator-()
     {
         auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _minus)));
-        Node c = Node(new variable(std::vector<std::shared_ptr<array>>{arr_ptr}, op));
-        return c;
+        return Node(new variable(std::vector<std::shared_ptr<array>>{arr_ptr}, op));
     }
-    
+
+    // powr
     Node Node::operator^(Node other)
     {
         auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _powr)));
@@ -44,18 +95,25 @@ namespace dio
         return c;
     }
 
-    Node Node::operator^(double other)
+    Node operator^(double a, Node b)
     {
-        Node other_node = Node(new constant(arr_ptr->get_shape(), other));
-        Node c = (*this)^other_node;
-        return c;
+        Node a_node = Node(new constant(b.get()->get_shape(), a));
+        return a_node ^ b;
     }
 
+    Node operator^(Node a, double b)
+    {
+        Node b_node = Node(new constant(a.get()->get_shape(), b));
+        return a ^ b_node;
+    }
+
+    // e^x
     Node exp(Node a)
     {
         return Node(new constant(a.get()->get_shape(), std::exp(1.0)))^a;
     }
 
+    // matrix multiplication
     Node matmul(Node a, Node b)
     {
         return Node(new variable(std::vector<std::shared_ptr<array>>{a.get(), b.get()}, std::shared_ptr<array_op>(new _matmul)));

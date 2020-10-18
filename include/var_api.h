@@ -25,25 +25,33 @@ namespace dio
 
             Node grad(Node b);
             
-            void compute_val();
-            
+            void compute_val(); 
             void print_val();
 
-            double idx(std::vector<int>index);
+            double val_at_index(std::vector<int>index);
 
             // implementations in src/op_api.cpp
             Node operator+(Node other);
+            friend Node operator+(double a, Node b);
+            friend Node operator+(Node a, double b);
 
             Node operator*(Node other);
+            friend Node operator*(double a, Node b);
+            friend Node operator*(Node a, double b);
 
             Node operator/(Node other);
+            friend Node operator/(double a, Node b);
+            friend Node operator/(Node a, double b);
 
             Node operator-(Node other);
+            friend Node operator-(double a, Node b);
+            friend Node operator-(Node a, double b);
 
             Node operator-();
 
             Node operator^(Node other);
-            Node operator^(double other);
+            friend Node operator^(double a, Node b);
+            friend Node operator^(Node a, double b);
     };
 
     Node Variable(std::vector<int>shape, std::string initializer, 

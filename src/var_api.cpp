@@ -18,11 +18,10 @@ namespace dio
         arr_ptr->print();
     }
 
-    double Node::idx(std::vector<int>index)
+    double Node::val_at_index(std::vector<int>index)
     {
         return arr_ptr->get_idx_value(index);
     }
-
 
     Node Variable(std::vector<int>shape, std::string initializer, 
         std::vector<double>init_args)
