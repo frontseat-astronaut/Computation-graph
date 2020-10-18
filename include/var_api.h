@@ -43,6 +43,7 @@ namespace dio
             Node operator-();
 
             Node operator^(Node other);
+            Node operator^(double other);
     };
 
     Node Variable(std::vector<int>shape, std::string initializer, 

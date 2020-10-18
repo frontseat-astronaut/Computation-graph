@@ -44,6 +44,13 @@ namespace dio
         return c;
     }
 
+    Node Node::operator^(double other)
+    {
+        Node other_node = Node(new constant(arr_ptr->get_shape(), other));
+        Node c = (*this)^other_node;
+        return c;
+    }
+
     Node exp(Node a)
     {
         return Node(new constant(a.get()->get_shape(), std::exp(1.0)))^a;

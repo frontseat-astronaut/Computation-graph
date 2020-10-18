@@ -84,4 +84,8 @@ int main()
     Node parr = index(arr, std::vector<int>{3, 1, 2, 0});
     parr.compute_val();
     parr.print_val();
+
+    // re-assignment possible now
+    z = Variable(std::vector<int>{1, 1}, "normal");
+    z.print_val();
 }
