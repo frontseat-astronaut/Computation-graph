@@ -2,61 +2,51 @@
 
 namespace dio 
 {
-    std::map<std::string, std::shared_ptr<array_op>>op;
-
-    Node add(Node a, Node b)
+    Node Node::operator+(Node other)
     {
-        if(op.find("add") == op.end())
-            op["add"] = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _add)));
-
-        Node c = Node(new variable(std::vector<std::shared_ptr<array>>{a.get(), b.get()}, op["add"]));
+        auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _add)));
+        Node c = Node(new variable(std::vector<std::shared_ptr<array>>{arr_ptr,other.get()}, op));
         return c;
     }
 
-    Node multiply(Node a, Node b)
+    Node Node::operator*(Node other)
     {
-        if(op.find("multiply") == op.end())
-            op["multiply"] = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _multiply)));
-
-        Node c = Node(new variable(std::vector<std::shared_ptr<array>>{a.get(), b.get()}, op["multiply"]));
+        auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _multiply)));
+        Node c = Node(new variable(std::vector<std::shared_ptr<array>>{arr_ptr,other.get()}, op));
         return c;
     }
 
-    Node divide(Node a, Node b)
+    Node Node::operator/(Node other)
     {
-        if(op.find("divide") == op.end())
-            op["divide"] = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _divide)));
-
-        Node c = Node(new variable(std::vector<std::shared_ptr<array>>{a.get(), b.get()}, op["divide"]));
+        auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _divide)));
+        Node c = Node(new variable(std::vector<std::shared_ptr<array>>{arr_ptr,other.get()}, op));
         return c;
     }
 
-    Node reciprocal(Node a)
+    Node Node::operator-(Node other)
     {
-        return divide(Node(new constant(a.get()->get_shape(), 1.0)), a);
-    }
-
-    Node minus(Node a)
-    {
-        if(op.find("minus") == op.end())
-            op["minus"] = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _minus)));
-
-        Node c = Node(new variable(std::vector<std::shared_ptr<array>>{a.get()}, op["minus"]));
+        auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _add)));
+        Node c = Node(new variable(std::vector<std::shared_ptr<array>>{arr_ptr, (-other).get()}, op));
         return c;
     }
 
-    Node powr(Node a, Node b)
+    Node Node::operator-()
     {
-        if(op.find("powr") == op.end())
-            op["powr"] = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _powr)));
-
-        Node c = Node(new variable(std::vector<std::shared_ptr<array>>{a.get(), b.get()}, op["powr"]));
+        auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _minus)));
+        Node c = Node(new variable(std::vector<std::shared_ptr<array>>{arr_ptr}, op));
+        return c;
+    }
+    
+    Node Node::operator^(Node other)
+    {
+        auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _powr)));
+        Node c = Node(new variable(std::vector<std::shared_ptr<array>>{arr_ptr, other.get()}, op));
         return c;
     }
 
     Node exp(Node a)
     {
-        return powr(Node(new constant(a.get()->get_shape(), std::exp(1.0))), a); 
+        return Node(new constant(a.get()->get_shape(), std::exp(1.0)))^a;
     }
 
     Node matmul(Node a, Node b)

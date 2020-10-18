@@ -262,7 +262,7 @@ namespace dio
         for(int i=0; i<shapes[0].size(); ++i) insz *= shapes[0][i];
         for(int i=0; i<out_shape.size(); ++i) outsz *= out_shape[i];
         
-        if(insz == outsz)
+        if(insz != outsz)
             throw SizeMismatch();
     }
 

@@ -11,12 +11,6 @@
 
 namespace dio
 {
-    Node add(Node, Node);
-    Node multiply(Node, Node);
-    Node divide(Node, Node);
-    Node reciprocal(Node);
-    Node minus(Node);
-    Node powr(Node, Node);
     Node exp(Node);
 
     Node matmul(Node, Node);

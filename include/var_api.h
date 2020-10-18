@@ -22,6 +22,27 @@ namespace dio
             }
 
             std::shared_ptr<array> get() { return arr_ptr; }
+
+            Node grad(Node b);
+            
+            void compute_val();
+            
+            void print_val();
+
+            double idx(std::vector<int>index);
+
+            // implementations in src/op_api.cpp
+            Node operator+(Node other);
+
+            Node operator*(Node other);
+
+            Node operator/(Node other);
+
+            Node operator-(Node other);
+
+            Node operator-();
+
+            Node operator^(Node other);
     };
 
     Node Variable(std::vector<int>shape, std::string initializer, 
@@ -39,13 +60,6 @@ namespace dio
         return Node(new constant(a));
     }
 
-    double idx(Node a, std::vector<int>index);
-
-    Node grad(Node a, Node b);
-
-    void compute_val(Node a);
-
-    void print_val(Node a);
 }
 
 #endif

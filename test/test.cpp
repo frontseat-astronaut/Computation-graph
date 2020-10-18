@@ -15,63 +15,73 @@ void line()
 
 int main()
 {
+    // elementwise operations
+    Node x = Variable(std::vector<std::vector<double>>{{100, 1}, {10, 1000}});
+    Node y = Constant(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
+    Node z = x+y*x; // notice that precendence(*) > precedence(+)
+    z.compute_val();
+    z.print_val();
+    Node w = (x^y) + exp(y) - x;
+    w.compute_val();
+    w.print_val();
+
     // matmul
     Node a = Variable(std::vector<std::vector<double>>{{100, 1}, {10, 1000}});
-    print_val(a);
+    a.print_val();
 
     Node b = Variable(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
-    print_val(b);
+    b.print_val();
 
     Node c = matmul(a, b);
-    compute_val(c);
-    print_val(c);
+    c.compute_val();
+    c.print_val();
 
-    Node gradcb = grad(c, b);
-    print_val(gradcb);
-    Node gradca = grad(c, a);
-    print_val(gradca);
+    Node gradcb = c.grad(b);
+    gradcb.print_val();
+    Node gradca = c.grad(a);
+    gradca.print_val();
 
     line();
 
     // concat
     Node d = Variable(std::vector<std::vector<double>>{{1, 2}, {3, 4}}); 
-    print_val(d);
+    d.print_val();
     Node e = Variable(std::vector<std::vector<double>>{{5, 6}});
-    print_val(e);
+    e.print_val();
     Node e_ = Variable(std::vector<std::vector<double>>{{5}, {6}});
-    print_val(e_);
+    e_.print_val();
 
     Node f = concat(d, e);
-    compute_val(f);
-    print_val(f);
+    f.compute_val();
+    f.print_val();
 
     Node f_ = concat(d, e_, 1);
-    compute_val(f_);
-    print_val(f_);
+    f_.compute_val();
+    f_.print_val();
 
-    Node gradf = grad(f, d);
-    print_val(gradf);
+    Node gradf = f.grad(d);
+    gradf.print_val();
 
     line();
 
     // index
-    print_val(a);
+    a.print_val();
     Node a01 = index(a, 0, 1);
-    compute_val(a01);
-    print_val(a01);
+    a01.compute_val();
+    a01.print_val();
 
     Node a_i = index(a, 1, std::vector<int>{0, 1});
-    compute_val(a_i);
-    print_val(a_i);
+    a_i.compute_val();
+    a_i.print_val();
 
     Node gradf_i = index(gradf, 0, 1);
-    compute_val(gradf_i);
-    print_val(gradf);
-    print_val(gradf_i);
+    gradf_i.compute_val();
+    gradf.print_val();
+    gradf_i.print_val();
 
     Node arr = Variable(std::vector<double>{1, 2, 3, 4});
-    print_val(arr);
+    arr.print_val();
     Node parr = index(arr, std::vector<int>{3, 1, 2, 0});
-    compute_val(parr);
-    print_val(parr);
+    parr.compute_val();
+    parr.print_val();
 }
