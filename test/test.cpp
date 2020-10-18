@@ -24,6 +24,9 @@ int main()
     Node w = 1/x;
     w.compute_val();
     w.print_val();
+    Node gradw = w.grad(x);
+    gradw.compute_val();
+    gradw.print_val();
 
     // matmul
     Node a = Variable(std::vector<std::vector<double>>{{100, 1}, {10, 1000}});
