@@ -128,12 +128,14 @@ namespace dio
             mul *= shapes[0][i];
         }
         res_size = 1;
-        std::vector<int>out_shape(shapes[0].size());
+        std::vector<int>out_shape;
         for(int d=0; d<idx.size(); ++d)
         {
             res_size *= idx[d].size();
-            out_shape[d] = idx[d].size();
+            if(d>=int_idx.size() || !int_idx[d])
+                out_shape.push_back(idx[d].size());
         }
+        if(out_shape.empty()) out_shape.push_back(1);
 
         ridx_map = std::vector<int>(res_size);
         int ridx_res=0;

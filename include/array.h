@@ -65,6 +65,8 @@ namespace dio
             void print();
 
             void print(int&, int, std::string&);
+
+            void _change_shape(std::vector<int>&new_shape);
     };
 }
 

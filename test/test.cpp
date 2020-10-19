@@ -21,7 +21,7 @@ int main()
     Node z = x*2+y*3; // notice that precendence(*) > precedence(+)
     z.compute_val();
     z.print_val();
-    Node w = 1/x;
+    Node w = 1/(y^2);
     w.compute_val();
     w.print_val();
     Node gradw = w.grad(x);
@@ -90,5 +90,11 @@ int main()
 
     // re-assignment possible now
     z = Variable(std::vector<int>{1}, "normal");
+    z.print_val();
+
+    // reshape
+    z = Variable(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
+    z = reshape(z, std::vector<int>{4});
+    z.compute_val();
     z.print_val();
 }

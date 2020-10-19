@@ -57,11 +57,12 @@ namespace dio
     {
         protected: 
             std::vector<std::vector<int>> idx;
+            std::vector<bool>int_idx;
             int res_size=0;
             std::vector<int>ridx_map;
 
         public: 
-            _index(std::vector<std::vector<int>>&idx): idx{idx} {};
+            _index(std::vector<bool>&int_idx, std::vector<std::vector<int>>&idx): idx{idx}, int_idx{int_idx} {}
 
             void assert_shape(std::vector<std::vector<int>>&shapes);
 
@@ -105,7 +106,7 @@ namespace dio
             std::vector<int>out_shape;
 
         public:
-            _reshape(std::vector<int>&shape): out_shape(out_shape) {}
+            _reshape(std::vector<int>&shape): out_shape(shape) {}
 
             void assert_shape(std::vector<std::vector<int>>&shapes);
 

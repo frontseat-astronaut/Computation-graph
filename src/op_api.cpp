@@ -120,9 +120,10 @@ namespace dio
     }
 
     // indexing
-    Node Node::ret_index(std::vector<std::vector<int>>&idx)
+    Node Node::ret_index(std::vector<bool>&int_idx, std::vector<std::vector<int>>&idx)
     {
-        return Node(new variable(std::vector<std::shared_ptr<array>>{arr_ptr}, std::shared_ptr<array_op>(new _index(idx))));
+        Node c = Node(new variable(std::vector<std::shared_ptr<array>>{arr_ptr}, std::shared_ptr<array_op>(new _index(int_idx, idx))));
+        return c;
     }
 
     // concat
@@ -131,4 +132,17 @@ namespace dio
         axis = (axis+a.get()->get_size())%(a.get()->get_size());
         return Node(new variable(std::vector<std::shared_ptr<array>>{a.get(), b.get()}, std::shared_ptr<array_op>(new _concat(axis))));
     }
+
+    // reshape
+    Node reshape(Node a, std::vector<int>shape)
+    {
+        return Node(new variable(std::vector<std::shared_ptr<array>>{a.get()}, std::shared_ptr<array_op>(new _reshape(shape))));
+    }
+
+    // in-place reshape
+    void Node::reshape(std::vector<int>new_shape)
+    {
+        arr_ptr->_change_shape(new_shape);
+    } 
+
 }

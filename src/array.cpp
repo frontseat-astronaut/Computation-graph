@@ -117,4 +117,19 @@ namespace dio
             printf("\n%s]", tab.c_str());
         }
     }
+
+    void array::_change_shape(std::vector<int>&new_shape)
+    {
+        int new_size = !new_shape.empty();
+        for(int i=0; i<new_shape.size(); ++i)
+            new_size *= new_shape[i];
+        
+        if(new_size!=size)
+        {
+            printf("%d %d\n", new_size, size);
+            throw SizeMismatch();
+        }
+        
+        shape = new_shape;
+    }
 }
