@@ -52,6 +52,31 @@ namespace dio
             Node operator^(Node other);
             friend Node operator^(double a, Node b);
             friend Node operator^(Node a, double b);
+
+            // index operator, implementation in src/op_api.cpp
+            // Variadic templates in C++: https://eli.thegreenplace.net/2014/variadic-templates-in-c/
+            Node ret_index(std::vector<std::vector<int>>&);
+            void get_indices(std::vector<std::vector<int>>&idx) {}
+            template<typename... Args>
+            void get_indices(std::vector<std::vector<int>>&idx, std::vector<int>tail, Args... args)
+            {
+                idx.push_back(tail);
+                get_indices(idx, args...);
+            }
+            template<typename... Args>
+            void get_indices(std::vector<std::vector<int>>&idx, int tail, Args... args)
+            {
+                idx.push_back(std::vector<int>{tail});
+                get_indices(idx, args...);
+            }
+            template<typename... Args>
+            Node index(Args... args)
+            {
+                std::vector<std::vector<int>>idx;
+                get_indices(idx, args...);
+
+                return ret_index(idx);
+            }
     };
 
     Node Variable(std::vector<int>shape, std::string initializer, 

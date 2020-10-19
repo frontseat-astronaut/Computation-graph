@@ -119,13 +119,13 @@ namespace dio
         return Node(new variable(std::vector<std::shared_ptr<array>>{a.get(), b.get()}, std::shared_ptr<array_op>(new _matmul)));
     }
 
-    void get_indices(std::vector<std::vector<int>>&idx) {}
-
-    Node ret_index(Node a, std::vector<std::vector<int>>&idx)
+    // indexing
+    Node Node::ret_index(std::vector<std::vector<int>>&idx)
     {
-        return Node(new variable(std::vector<std::shared_ptr<array>>{a.get()}, std::shared_ptr<array_op>(new _index(idx))));
+        return Node(new variable(std::vector<std::shared_ptr<array>>{arr_ptr}, std::shared_ptr<array_op>(new _index(idx))));
     }
 
+    // concat
     Node concat(Node a, Node b, int axis)
     {
         axis = (axis+a.get()->get_size())%(a.get()->get_size());

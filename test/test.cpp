@@ -69,26 +69,26 @@ int main()
 
     // index
     a.print_val();
-    Node a01 = index(a, 0, 1);
+    Node a01 = a.index(0, 1);
     a01.compute_val();
     a01.print_val();
 
-    Node a_i = index(a, 1, std::vector<int>{0, 1});
+    Node a_i = a.index(1, std::vector<int>{0, 1});
     a_i.compute_val();
     a_i.print_val();
 
-    Node gradf_i = index(gradf, 0, 1);
+    Node gradf_i = gradf.index(0, 1);
     gradf_i.compute_val();
     gradf.print_val();
     gradf_i.print_val();
 
     Node arr = Variable(std::vector<double>{1, 2, 3, 4});
     arr.print_val();
-    Node parr = index(arr, std::vector<int>{3, 1, 2, 0});
+    Node parr = arr.index(std::vector<int>{3, 1, 2, 0});
     parr.compute_val();
     parr.print_val();
 
     // re-assignment possible now
-    z = Variable(std::vector<int>{1, 1}, "normal");
+    z = Variable(std::vector<int>{1}, "normal");
     z.print_val();
 }
