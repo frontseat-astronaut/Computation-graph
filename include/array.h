@@ -55,6 +55,7 @@ namespace dio
             double get_idx_value(std::vector<int>vidx);
 
             void virtual compute_value()=0;
+            void virtual update_value(std::shared_ptr<array>)=0;
 
             std::vector<double> get_value();
 

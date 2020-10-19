@@ -8,6 +8,12 @@ namespace dio
         return arr_ptr->get_grad(b_ptr);
     }
 
+    void Node::update_val(Node a)
+    {
+        a.compute_val();
+        arr_ptr->update_value(a.get());
+    }
+
     void Node::compute_val()
     {
         arr_ptr->compute_value();

@@ -120,6 +120,22 @@ namespace dio
             return "Size should be same";
         }
     };
+
+    class IsLatent: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Can't change value of latent variable";
+        }
+    };
+
+    class IsConstant: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Can't change value of constant";
+        }
+    };
     
 }
 

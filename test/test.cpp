@@ -97,4 +97,5 @@ int main()
     z = reshape(z, std::vector<int>{4});
     z.compute_val();
     z.print_val();
+
 }

@@ -25,6 +25,7 @@ namespace dio
 
             Node grad(Node b);
             
+            void update_val(Node);
             void compute_val(); 
             void print_val();
 

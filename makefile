@@ -8,14 +8,17 @@ EXEDIR := bin
  
 SRCEXT := cpp
 HEADEREXT := h
-SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+SOURCES := $(shell find $(SRCDIR) -name '*.$(SRCEXT)')
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-HEADERS := $(shell find $(INCLUDEDIR) -type f -name *.$(HEADEREXT))
+HEADERS := $(shell find $(INCLUDEDIR) -name '*.$(HEADEREXT)')
 CFLAGS := -g 
 INC := -I include
 
 TESTSRC := test/test.cpp
 TESTOBJ := test/test.o
+
+DEMOSRC := demo.cpp
+DEMOOBJ := demo.o
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) $(HEADERS)
 	@mkdir -p $(BUILDDIR)
@@ -25,6 +28,11 @@ test: test/test.cpp $(HEADERS) $(OBJECTS)
 	@mkdir -p $(EXEDIR)
 	@echo " $(CC) $(CFLAGS) $(INC) -c -o $(TESTOBJ) $(TESTSRC)";  $(CC) $(CFLAGS) $(INC) -c -o $(TESTOBJ) $(TESTSRC)
 	@echo " $(CC) $(CFLAGS) $(INC) -o $(EXEDIR)/test $(TESTOBJ) $(OBJECTS)"; $(CC) $(CFLAGS) $(INC) -o $(EXEDIR)/test $(TESTOBJ) $(OBJECTS)
+
+demo: demo.cpp $(HEADERS) $(OBJECTS)
+	@mkdir -p $(EXEDIR)
+	@echo " $(CC) $(CFLAGS) $(INC) -c -o $(DEMOOBJ) $(DEMOSRC)";  $(CC) $(CFLAGS) $(INC) -c -o $(DEMOOBJ) $(DEMOSRC)
+	@echo " $(CC) $(CFLAGS) $(INC) -o $(EXEDIR)/demo $(DEMOOBJ) $(OBJECTS)"; $(CC) $(CFLAGS) $(INC) -o $(EXEDIR)/demo $(DEMOOBJ) $(OBJECTS)
 
 show: 
 	@echo "headers: $(HEADERS)\n"

@@ -2,6 +2,11 @@
  
 namespace dio
 {
+    bool iszero(double a)
+    {
+        return fabs(a)<1e-9;
+    }
+
     void get_shape(int d, double&x, std::vector<int>&shape)
     {
         if(d == 0)
@@ -27,7 +32,12 @@ namespace dio
             {
                 c[i][j] = 0;
                 for(int k=0; k<a[0].size(); ++k)
-                    c[i][j] += a[i][k]*b[k][j];
+                {
+                    if(iszero(a[i][k]) || iszero(b[k][j]))
+                        c[i][j] = 0;
+                    else 
+                        c[i][j] += a[i][k]*b[k][j];
+                }
             }
     }
 
@@ -43,7 +53,10 @@ namespace dio
                 int cidx = i*r + j;
                 for(int k=0; k<q; ++k)
                 {
-                    c[cidx] += a[i*q + k]*b[k*q + j];
+                    if(iszero(a[i*q + k]) || iszero(b[k*q + j]))
+                        c[cidx] = 0;
+                    else 
+                        c[cidx] += a[i*q + k]*b[k*q + j];
                 }
             }
         }

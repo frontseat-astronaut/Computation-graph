@@ -89,7 +89,6 @@ namespace dio
         int idx=0;
         std::string tab="";
         print(idx, 0, tab);
-        printf("\n\n");
     }
 
     void array::print(int &idx, int d, std::string &tab)

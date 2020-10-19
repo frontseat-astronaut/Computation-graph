@@ -71,6 +71,17 @@ namespace dio
             value = op->run(op_arg_val);
         }
     }
+
+    void variable::update_value(std::shared_ptr<array>a)
+    {
+        if(is_latent)
+            throw IsLatent();
+        
+        auto a_val = a->get_value();
+        if(a_val.size() != value.size())
+            throw SizeMismatch();
+        value = a_val;
+    }
     
     std::vector<std::vector<double>> variable::forward_diff(std::shared_ptr<array>&x)
     {
@@ -112,6 +123,7 @@ namespace dio
 
     std::shared_ptr<array> variable::get_grad(std::shared_ptr<array>&x)
     {
+        compute_value();
         std::vector<int>new_shape = shape;
         std::vector<int>x_shape = x->get_shape();
         new_shape.insert(new_shape.end(), x_shape.begin(), x_shape.end());

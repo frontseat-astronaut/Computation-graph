@@ -2,11 +2,6 @@
 
 namespace dio
 {
-    bool iszero(double a)
-    {
-        return fabs(a)<1e-9;
-    }
-
     // add
     double _add::run(std::vector<double>&op_arg)
     {
@@ -89,9 +84,16 @@ namespace dio
     {
         double result = 0;
         if(var_idx == 0)
-            result = std::pow(op_arg[0], op_arg[1]);
+        {
+            if(iszero(op_arg[1]))
+                result = 0;
+            else 
+                result = op_arg[1]*std::pow(op_arg[0], op_arg[1]-1);
+        }
         else if(var_idx == 1)
+        {
             result = std::log(op_arg[0])*std::pow(op_arg[0], op_arg[1]);
+        }
         
         return result;
     }

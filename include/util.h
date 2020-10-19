@@ -3,11 +3,14 @@
 
 #include <vector>
 #include <assert.h>
+#include <math.h>
 
 #include "exceptions.h"
 
 namespace dio
 {
+    bool iszero(double);
+
     void get_shape(int d, double &x, std::vector<int>&shape);
 
     template<typename T>

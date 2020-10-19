@@ -29,6 +29,7 @@ namespace dio
             constant(std::vector<int>shape, std::vector<double>&a);
 
             void compute_value() {}
+            void update_value(std::shared_ptr<array> a) { throw IsConstant(); }
 
             std::vector<std::vector<double>> forward_diff(std::shared_ptr<array>&);
 
@@ -61,6 +62,8 @@ namespace dio
             variable(std::vector<std::shared_ptr<array>>op_args, std::shared_ptr<array_op>op);
 
             void compute_value();
+
+            void update_value(std::shared_ptr<array>);
 
             std::vector<std::vector<double>> forward_diff(std::shared_ptr<array>&);
 
