@@ -140,9 +140,10 @@ namespace dio
     }
 
     // in-place reshape
-    void Node::reshape(std::vector<int>new_shape)
+    Node Node::reshape(std::vector<int>new_shape)
     {
         arr_ptr->_change_shape(new_shape);
+        return *this;
     } 
 
 }

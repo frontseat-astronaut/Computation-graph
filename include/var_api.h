@@ -11,10 +11,9 @@ namespace dio
     class Node
     {
         private:
-            std::shared_ptr<array> arr_ptr = NULL;
+            std::shared_ptr<array> arr_ptr;
         
         public:
-            Node() {};
             Node(std::shared_ptr<array>arr_ptr): arr_ptr{arr_ptr} {}
             Node(array *arr_ptr)
             {
@@ -87,7 +86,7 @@ namespace dio
             }
 
             // in-place reshape, implementation in src/op_api.cpp
-            void reshape(std::vector<int>new_shape);
+            Node reshape(std::vector<int>new_shape);
     };
 
     Node Variable(std::vector<int>shape, std::string initializer, 

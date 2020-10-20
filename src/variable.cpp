@@ -20,7 +20,7 @@ namespace dio
         return std::vector<std::vector<double>>(size, std::vector<double>(x->get_size(), 0.0));
     }
 
-    std::shared_ptr<array> constant::get_grad(std::shared_ptr<array>&x)
+    std::shared_ptr<array> constant::get_grad(std::shared_ptr<array>x)
     {
         throw NoGradForConstant();
     }
@@ -55,6 +55,7 @@ namespace dio
         allocate();
 
         is_latent = true;
+        compute_value();
     }
 
     void variable::compute_value()
@@ -87,7 +88,7 @@ namespace dio
     {
         int n = x->get_size();
         int m = size;
-        std::vector<std::vector<double>> Jzx(m, std::vector<double>(n)); // Jzx shape: (m, n)
+        std::vector<std::vector<double>> Jzx(m, std::vector<double>(n, 0.0)); // Jzx shape: (m, n)
         if(is_latent)
         {
             std::vector<std::vector<double>>op_arg_val;
@@ -108,20 +109,22 @@ namespace dio
 
                 std::vector<std::vector<double>> temp(m, std::vector<double>(n));
                 matrix_multiply(temp, Jzy, Jyx);
-                matrix_add(Jzx, Jzx, temp);
+                std::vector<std::vector<double>> temp2 = Jzx;
+                matrix_add(Jzx, temp2, temp);
             }
         }
         else
         {
             if(x.get() == this)
             {
+                assert(m==n);
                 for(int i=0; i<n; ++i) Jzx[i][i] = 1;
             }
         }
         return Jzx;
     }
 
-    std::shared_ptr<array> variable::get_grad(std::shared_ptr<array>&x)
+    std::shared_ptr<array> variable::get_grad(std::shared_ptr<array>x)
     {
         compute_value();
         std::vector<int>new_shape = shape;

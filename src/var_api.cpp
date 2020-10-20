@@ -5,7 +5,7 @@ namespace dio
     Node Node::grad(Node b)
     {
         auto b_ptr = b.get();
-        return arr_ptr->get_grad(b_ptr);
+        return Node(arr_ptr->get_grad(b_ptr));
     }
 
     void Node::update_val(Node a)

@@ -33,7 +33,7 @@ namespace dio
 
             std::vector<std::vector<double>> forward_diff(std::shared_ptr<array>&);
 
-            std::shared_ptr<array> get_grad(std::shared_ptr<array>&x);
+            std::shared_ptr<array> get_grad(std::shared_ptr<array>x);
     };
 
     class variable: public array
@@ -67,7 +67,7 @@ namespace dio
 
             std::vector<std::vector<double>> forward_diff(std::shared_ptr<array>&);
 
-            std::shared_ptr<array> get_grad(std::shared_ptr<array>&);
+            std::shared_ptr<array> get_grad(std::shared_ptr<array>);
 
     };
 }

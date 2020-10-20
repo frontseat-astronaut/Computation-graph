@@ -34,7 +34,7 @@ namespace dio
                 for(int k=0; k<a[0].size(); ++k)
                 {
                     if(iszero(a[i][k]) || iszero(b[k][j]))
-                        c[i][j] = 0;
+                        c[i][j] += 0;
                     else 
                         c[i][j] += a[i][k]*b[k][j];
                 }
@@ -51,10 +51,11 @@ namespace dio
             for(int j=0; j<r; ++j)
             {
                 int cidx = i*r + j;
+                c[cidx] = 0;
                 for(int k=0; k<q; ++k)
                 {
                     if(iszero(a[i*q + k]) || iszero(b[k*q + j]))
-                        c[cidx] = 0;
+                        c[cidx] += 0;
                     else 
                         c[cidx] += a[i*q + k]*b[k*q + j];
                 }

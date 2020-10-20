@@ -76,6 +76,7 @@ namespace dio
     std::vector<std::vector<double>> _matmul::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
     {
         assert(op_args.size() == 2);
+        assert(var_idx<2);
         std::vector<std::vector<double>>ret(shapes[0][0]*shapes[1][1], std::vector<double>(shapes[var_idx][0]*shapes[var_idx][1]));
         for(int i=0; i<shapes[0][0]; ++i)
         {
@@ -85,9 +86,9 @@ namespace dio
                 for(int k=0; k<shapes[0][1]; ++k)
                 {
                     if(!var_idx)
-                        ret[ridx][i*shapes[0][1] + k] = op_args[1][k*shapes[1][0] + j];
+                        ret[ridx][i*shapes[0][1] + k] = op_args[1][k*shapes[1][1] + j];
                     else
-                        ret[ridx][k*shapes[1][0] + j] = op_args[0][i*shapes[0][1] + k];
+                        ret[ridx][k*shapes[1][1] + j] = op_args[0][i*shapes[0][1] + k];
                 }
             }
         }
