@@ -92,6 +92,22 @@ namespace dio
         return result;
     }
 
+    // natural log 
+    double _log::run(std::vector<double>&op_arg)
+    {
+        if(op_arg.size() != 1)
+            throw "log operation requires exactly one arguments";
+        
+        double result = std::log(op_arg[0]);
+        return result;
+    }
+    
+    double _log::partial_diff_run(std::vector<double>&op_arg, int var_idx)
+    {
+        double result = 1/op_arg[0];
+        return result;
+    }
+
     // sigmoid 
     double _sigmoid::run(std::vector<double>&op_arg)
     {
@@ -110,19 +126,19 @@ namespace dio
         return result;
     }
 
-    // natural log 
-    double _log::run(std::vector<double>&op_arg)
+    // relu 
+    double _relu::run(std::vector<double>&op_arg)
     {
         if(op_arg.size() != 1)
-            throw "log operation requires exactly one arguments";
+            throw "relu operation requires exactly one arguments";
         
-        double result = std::log(op_arg[0]);
+        double result = (op_arg[0]>0)?op_arg[0]:0;
         return result;
     }
     
-    double _log::partial_diff_run(std::vector<double>&op_arg, int var_idx)
+    double _relu::partial_diff_run(std::vector<double>&op_arg, int var_idx)
     {
-        double result = 1/op_arg[0];
+        double result = (op_arg[0]>0)?1:0;
         return result;
     }
 }

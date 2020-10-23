@@ -13,9 +13,11 @@ namespace dio
 {
     Node exp(Node);
 
+    Node log(Node);
+
     Node sigmoid(Node);
 
-    Node log(Node);
+    Node relu(Node);
 
     Node matmul(Node, Node);
 

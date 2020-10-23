@@ -136,7 +136,7 @@ void TwoLayerNeuralNetwork()
 
     // latent variables
     Node z_1 = matmul(x, W_1); // shape: (#num_samples, m_hidden)
-    Node a_1 = sigmoid(z_1);
+    Node a_1 = relu(z_1);
     Node z_2 = matmul(a_1, W_2); // shape: (#num_samples, 1)
     Node logits = sigmoid(z_2).reshape(std::vector<int>{num_samples});  // shape: (#num_samples)
 
@@ -159,7 +159,6 @@ void TwoLayerNeuralNetwork()
         W_1.update_val(W_1- lr*(Loss.grad(W_1).index(0)));
         W_2.update_val(W_2 - lr*(Loss.grad(W_2).index(0)));
     }
-
 }
 
 int main()

@@ -56,6 +56,14 @@ namespace dio
             double partial_diff_run(std::vector<double>&op_arg, int var_idx);
     };
 
+    class _log: public number_op 
+    {
+        public:
+            double run(std::vector<double>&op_arg);
+
+            double partial_diff_run(std::vector<double>&op_arg, int var_idx);
+    };
+
     class _sigmoid: public number_op 
     {
         public:
@@ -64,7 +72,7 @@ namespace dio
             double partial_diff_run(std::vector<double>&op_arg, int var_idx);
     };
 
-    class _log: public number_op 
+    class _relu: public number_op 
     {
         public:
             double run(std::vector<double>&op_arg);
