@@ -21,32 +21,36 @@ double gen_random_normal(double mean=0, double var=1)
     return distribution(generator);
 }
 
-int main()
+void OneVariableOptimization()
 {
-    // /* Simple example involving optimization of a one variable function */
-    // Node x = Variable(5.00);
-    // // Node z = -((0.5-x)^2); // precendence(^) < precedence(-)
-    // Node z = (0.5-x)^2; 
+    /* Simple example involving optimization of a one variable function */
+    Node x = Variable(5.00);
+    // Node z = -((0.5-x)^2); // precendence(^) < precedence(-)
+    Node z = (0.5-x)^2; 
 
-    // for(int epoch=0; epoch<12; ++epoch)
-    // {
-    //     printf("Epoch %d: z:", epoch);
-    //     z.compute_val(); // re-calculates value of z
-    //     z.print_val();
-    //     printf(" x: ");
-    //     x.print_val();
-    //     printf(" new x: ");
-    //     x.update_val(x - 0.3*z.grad(x).index(0)); // DO NOT do: x = x - 0.3*z.grad(x).index(0), as it creates a new node
-    //     x.print_val();
-    //     printf("\n");
-    // }
+    for(int epoch=0; epoch<12; ++epoch)
+    {
+        printf("Epoch %d: z:", epoch);
+        z.compute_val(); // re-calculates value of z
+        z.print_val();
+        printf(" x: ");
+        x.print_val();
+        printf(" new x: ");
+        x.update_val(x - 0.3*z.grad(x).index(0)); // DO NOT do: x = x - 0.3*z.grad(x).index(0), as it creates a new node
+        x.print_val();
+        printf("\n");
+    }
+}
 
-    // line();
-
+void LinearRegression()
+{
     /* Linear Regression */
     // dataset
-    int x_dim = 3;
-    int num_samples = 7;
+    int x_dim = 10;
+    int num_samples = 1000;
+    
+    printf("dimension of x: %d, number of samples: %d\n\n", x_dim, num_samples);
+
     std::vector<std::vector<double>> data_x(num_samples, std::vector<double>(x_dim));
     std::vector<double> data_y(num_samples);
     std::vector<double> true_params(x_dim);
@@ -62,13 +66,13 @@ int main()
         data_y[i] += gen_random_normal(); // random noise
     }
 
-
     // build model
     Node theta = Variable(std::vector<int>{x_dim, 1}, "normal");
     double lr = 0.05;
     Node xi = Variable(data_x); // shape: (#num_samples, x_dim)
     Node yi = Variable(data_y); // shape: (#num_samples)
 
+    // training
     for(int epoch=0; epoch<30; epoch++)
     {
         Node z = matmul(xi, theta).reshape(std::vector<int>{num_samples}); // shape: (#num_samples)
@@ -83,11 +87,24 @@ int main()
         new_theta.compute_val();
         theta.update_val(new_theta);
     }
+
+    // predicted parameters
     printf("\n\npredicted params: ");
     theta.reshape(std::vector<int>{x_dim}).print_val();
     printf("\n");
-    printf("true theta: ");
+    printf("true params: [");
     for(double thetai: true_params)
         printf("%lf ", thetai);
-    printf("\n");
+    printf("]\n");
+}
+
+int main()
+{
+    OneVariableOptimization();
+    line();
+
+    LinearRegression();
+    line();
+
+
 }
