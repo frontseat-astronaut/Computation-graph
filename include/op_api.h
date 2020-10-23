@@ -13,6 +13,10 @@ namespace dio
 {
     Node exp(Node);
 
+    Node sigmoid(Node);
+
+    Node log(Node);
+
     Node matmul(Node, Node);
 
     Node concat(Node a, Node b, int axis=0);

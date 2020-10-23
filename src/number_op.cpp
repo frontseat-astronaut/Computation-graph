@@ -91,4 +91,38 @@ namespace dio
         
         return result;
     }
+
+    // sigmoid 
+    double _sigmoid::run(std::vector<double>&op_arg)
+    {
+        if(op_arg.size() != 1)
+            throw "sigmoid operation requires exactly one arguments";
+        
+        double result = 1.0/(1 + std::exp(-op_arg[0]));
+        return result;
+    }
+    
+    double _sigmoid::partial_diff_run(std::vector<double>&op_arg, int var_idx)
+    {
+        double sgmd = run(op_arg);
+        double result = sgmd*(1-sgmd);
+        
+        return result;
+    }
+
+    // natural log 
+    double _log::run(std::vector<double>&op_arg)
+    {
+        if(op_arg.size() != 1)
+            throw "log operation requires exactly one arguments";
+        
+        double result = std::log(op_arg[0]);
+        return result;
+    }
+    
+    double _log::partial_diff_run(std::vector<double>&op_arg, int var_idx)
+    {
+        double result = 1/op_arg[0];
+        return result;
+    }
 }

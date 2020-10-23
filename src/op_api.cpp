@@ -113,6 +113,20 @@ namespace dio
         return Node(new constant(a.get()->get_shape(), std::exp(1.0)))^a;
     }
 
+    // sigmoid 
+    Node sigmoid(Node a)
+    {
+        auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _sigmoid)));
+        return Node(new variable(std::vector<std::shared_ptr<array>>{a.get()}, op));
+    }
+
+    // log 
+    Node log(Node a)
+    {
+        auto op = std::shared_ptr<array_op>(new element_wise_op(std::shared_ptr<number_op>(new _log)));
+        return Node(new variable(std::vector<std::shared_ptr<array>>{a.get()}, op));
+    }
+
     // matrix multiplication
     Node matmul(Node a, Node b)
     {

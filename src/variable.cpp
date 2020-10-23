@@ -55,6 +55,7 @@ namespace dio
         allocate();
 
         is_latent = true;
+        compute_value();
     }
 
     void variable::compute_value()
