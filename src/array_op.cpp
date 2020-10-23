@@ -68,7 +68,7 @@ namespace dio
     std::vector<double> _matmul::run(std::vector<std::vector<double>>&op_args)
     {
         assert(op_args.size() == 2);
-        std::vector<double>result(shapes[0][0]*shapes[1][1]);
+        std::vector<double>result(shapes[0][0]*shapes[1][1], 0.0);
         matrix_multiply(result, op_args[0], op_args[1], shapes[0][0], shapes[0][1], shapes[1][1]);
         return result;
     }

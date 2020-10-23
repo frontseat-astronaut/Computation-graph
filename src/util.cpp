@@ -101,10 +101,10 @@ namespace dio
                 c[cidx] = 0;
                 for(int k=0; k<q; ++k)
                 {
-                    if(iszero(a[i*q + k]) || iszero(b[k*q + j]))
+                    if(iszero(a[i*q + k]) || iszero(b[k*r + j]))
                         c[cidx] += 0;
                     else 
-                        c[cidx] += a[i*q + k]*b[k*q + j];
+                        c[cidx] += a[i*q + k]*b[k*r + j];
                 }
             }
         }

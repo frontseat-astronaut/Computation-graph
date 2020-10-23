@@ -105,4 +105,18 @@ int main()
     b.compute_val();
     b.print_val();
     printf("\n");
+
+    line();
+
+    // exp
+    z = Variable(std::vector<int>{2, 5}, "normal").reshape(std::vector<int>{10, 1});
+    z.print_val();
+    y = Variable(std::vector<int>{1, 2}, "normal");
+    x = matmul(z, y);
+    x.compute_val();
+    x.print_val();
+    printf("\n");
+    z.print_val();
+    printf("\n");
+    
 }

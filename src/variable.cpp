@@ -67,7 +67,14 @@ namespace dio
                 arg->compute_value();
                 op_arg_val.push_back(arg->get_value());
             }
-
+            // printf("computing value of %lld: \n", this);
+            // for(auto arg: op_arg_val)
+            // {
+            //     for(auto argi: arg)
+            //         printf("%lf ", argi);
+            //     printf("\n");
+            // }
+            // printf("\n");
             value = op->run(op_arg_val);
         }
     }

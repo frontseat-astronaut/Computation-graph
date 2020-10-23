@@ -32,7 +32,7 @@ namespace dio
     Node operator*(double a, Node b)
     {
         Node a_node = Node(new constant(b.get()->get_shape(), a));
-        return a_node * b;
+        return b * a_node;
     }
 
     Node operator*(Node a, double b)
@@ -129,7 +129,7 @@ namespace dio
     // concat
     Node concat(Node a, Node b, int axis)
     {
-        axis = (axis+a.get()->get_size())%(a.get()->get_size());
+        // axis = (axis+a.get()->get_size())%(a.get()->get_size());
         return Node(new variable(std::vector<std::shared_ptr<array>>{a.get(), b.get()}, std::shared_ptr<array_op>(new _concat(axis))));
     }
 
