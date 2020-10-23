@@ -5,6 +5,7 @@
 #include <memory>
 #include <assert.h>
 #include <utility>
+#include <algorithm>
 
 #include "number_op.h"
 #include "util.h"
@@ -116,6 +117,30 @@ namespace dio
 
             std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
     };
-}
 
+    class _reduce_op: public array_op
+    {
+        protected:
+            std::shared_ptr<number_op> op;
+            std::vector<std::vector<int>>ridx_map;
+            std::vector<int>axes;
+
+        public:
+            _reduce_op(std::shared_ptr<number_op>op, std::vector<int>axes): op{op}, axes{axes}
+            {
+                std::sort(axes.begin(), axes.end());
+            }
+
+            void assert_shape(std::vector<std::vector<int>>&shapes);
+
+            std::vector<int> get_out_shape(std::vector<std::vector<int>>&shapes);
+
+            void map_real_indices(int d, int axes_idx, int &ridx_arg, std::vector<int>&vidx_res, std::vector<int>&res_shape,
+                                  std::vector<int>&arg_shape);
+
+            std::vector<double> run(std::vector<std::vector<double>>&op_args);
+
+            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
+    };
+}
 #endif

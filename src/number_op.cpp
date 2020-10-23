@@ -5,9 +5,6 @@ namespace dio
     // add
     double _add::run(std::vector<double>&op_arg)
     {
-        if(op_arg.size() != 2)
-            throw "add operation requires exactly two arguments";
-        
         double result = 0;
         for(auto arg: op_arg)
             result += arg;
@@ -22,9 +19,6 @@ namespace dio
     // multiply
     double _multiply::run(std::vector<double>&op_arg)
     {
-        if(op_arg.size() != 2)
-            throw "multiply operation requires exactly two arguments";
-        
         double result = 1;
         for(auto arg: op_arg)
             result *= arg;

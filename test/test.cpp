@@ -88,14 +88,21 @@ int main()
     parr.compute_val();
     parr.print_val();
 
-    // re-assignment possible now
-    z = Variable(std::vector<int>{1}, "normal");
-    z.print_val();
+    line();
 
     // reshape
     z = Variable(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
     z = reshape(z, std::vector<int>{4});
     z.compute_val();
     z.print_val();
+    printf("\n");
 
+    line();
+
+    //reduce sum 
+    a = Variable(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
+    b = reduce_sum(a, std::vector<int>{1});
+    b.compute_val();
+    b.print_val();
+    printf("\n");
 }

@@ -146,4 +146,11 @@ namespace dio
         return *this;
     } 
 
+    // reduce sum 
+    Node reduce_sum(Node a, std::vector<int>axes)
+    {
+        std::shared_ptr<number_op>op(new _add);
+        return Node(new variable(std::vector<std::shared_ptr<array>>{a.get()}, std::shared_ptr<array_op>(new _reduce_op(op, axes))));
+    }
+
 }

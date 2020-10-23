@@ -136,6 +136,14 @@ namespace dio
             return "Can't change value of constant";
         }
     };
+
+    class InvalidAxes: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Axis value should be >=0 and <dim(array)";
+        }
+    };
     
 }
 

@@ -7,6 +7,7 @@
 
 #include "exceptions.h"
 #include "initializers.h"
+#include "util.h"
 
 namespace dio
 {
@@ -18,9 +19,6 @@ namespace dio
             int size = 0;
 
             bool is_allocated = 0;
-
-            int get_real_index(std::vector<int> vidx);
-            std::vector<int> get_virtual_index(int ridx);
 
             // set value
             template<typename T>

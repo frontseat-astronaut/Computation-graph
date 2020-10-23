@@ -2,41 +2,9 @@
 
 namespace dio
 {
-    int array::get_real_index(std::vector<int> vidx)
-    {
-        assert(vidx.size() == shape.size());
-
-        int ridx = 0;
-        for(int i=0, j=value.size(); i<shape.size(); ++i)
-        {
-            j /= shape[i];
-            ridx += vidx[i]*j;
-        }
-
-        if(ridx >= value.size())
-            throw IndexOutofBounds();
-        return ridx;
-    }
-
-    std::vector<int> array::get_virtual_index(int ridx)
-    {
-        if(ridx >= value.size() || ridx<0)
-            throw IndexOutofBounds();
-
-        std::vector<int> vidx(shape.size());
-        for(int i=0, j=value.size(); i<shape.size(); ++i)
-        {
-            j /= shape[i];
-            vidx[i] = ridx/j;
-            ridx = ridx%j;
-        }
-
-        return vidx;
-    }
-
     void array::allocate(double x)
     {
-        size = 1;
+        size = !shape.empty();
         for(int axis=0; axis<shape.size(); ++axis)
             size *= shape[axis];
         value = std::vector<double>(size, x);
@@ -76,7 +44,7 @@ namespace dio
 
     double array::get_idx_value(std::vector<int>vidx)
     {
-        return value[get_real_index(vidx)];
+        return value[get_real_index(vidx, shape, size)];
     }
 
     std::vector<double> array::get_value()

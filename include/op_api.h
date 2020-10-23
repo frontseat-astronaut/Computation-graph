@@ -18,6 +18,8 @@ namespace dio
     Node concat(Node a, Node b, int axis=0);
 
     Node reshape(Node a, std::vector<int>new_shape);
+
+    Node reduce_sum(Node a, std::vector<int>axes);
 }
 
 #endif

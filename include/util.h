@@ -36,6 +36,10 @@ namespace dio
         return shape;
     }
 
+    int get_real_index(std::vector<int>vidx, std::vector<int>&shape, int size=-1);
+
+    std::vector<int> get_virtual_index(int ridx, std::vector<int>&shape, int size=-1);
+
     void matrix_add(std::vector<std::vector<double>>&c, std::vector<std::vector<double>>&a, std::vector<std::vector<double>>&b);
 
     void matrix_multiply(std::vector<std::vector<double>>&c, std::vector<std::vector<double>>&a, std::vector<std::vector<double>>&b);

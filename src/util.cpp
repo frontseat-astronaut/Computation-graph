@@ -13,6 +13,53 @@ namespace dio
             shape.push_back(1);
     } 
 
+    int get_real_index(std::vector<int>vidx, std::vector<int>&shape, int size)
+    {
+        assert(vidx.size() == shape.size());
+        
+        if(size == -1)
+        {
+            size = !shape.empty();
+            for(int d=0; d<shape.size(); ++d) size *= shape[d];
+        }
+
+        int ridx = 0;
+        for(int i=0, j=size; i<shape.size(); ++i)
+        {
+            j /= shape[i];
+            ridx += vidx[i]*j;
+        }
+
+        if(ridx >= size)
+        {
+            printf("%d\n", size);
+            throw IndexOutofBounds();
+        }
+        return ridx;
+    }
+
+    std::vector<int> get_virtual_index(int ridx, std::vector<int>&shape, int size)
+    {
+        if(size == -1)
+        {
+            size = !shape.empty();
+            for(int d=0; d<shape.size(); ++d) size *= shape[d];
+        }
+
+        if(ridx >= size|| ridx<0)
+            throw IndexOutofBounds();
+
+        std::vector<int> vidx(shape.size());
+        for(int i=0, j=size; i<shape.size(); ++i)
+        {
+            j /= shape[i];
+            vidx[i] = ridx/j;
+            ridx = ridx%j;
+        }
+
+        return vidx;
+    }
+
     void matrix_add(std::vector<std::vector<double>>&c, std::vector<std::vector<double>>&a, std::vector<std::vector<double>>&b)
     {
         assert(c.size() == a.size() && a.size() == b.size());
