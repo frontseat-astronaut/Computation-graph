@@ -16,12 +16,12 @@ If you are unfamiliar with computation graphs or automatic differentiation, plea
 ### How to run
 This library is written and tested in my local machine with GNU `g++ (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0`. 
 To run this on your local machine:
-1. Clone this repository to your local machine
+1. Clone this repository to your local machine.
 2. Run the following in a terminal to build the library:
     ```
     make -C /path/to/repo/build
     ```
-     A new directory `build/` should be created in the repository, that stores the `.o` object files. This step only needs to be repeated only if you make changes to the library code. Otherwise, it needs to be done only once.
+     A new directory `build/` should be created in the repository, that stores the `.o` object files. This step needs to be repeated only if you make changes to the library code. Otherwise, once is enough.
 3. If you want to run `demo.cpp`, do:
     ```
     make -C /path/to/repo/ demo 
