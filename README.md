@@ -11,7 +11,7 @@ There is also a [demo.cpp](https://github.com/frontseat-astronaut/Computation-gr
 If you are unfamiliar with computation graphs or automatic differentiation, please refer to the following:
 - [colah's blog](https://colah.github.io/posts/2015-08-Backprop/) explaining computational graphs and automatic differentiation.
 - [Wikipedia](https://en.wikipedia.org/wiki/Automatic_differentiation) on automatic differentiation.
-- [doc/theory.md](https://github.com/frontseat-astronaut/Computation-graph/tree/master/doc/theory.md) explaining computation graphs with multi-dimensional arrays.
+- [doc/theory](https://github.com/frontseat-astronaut/Computation-graph/tree/master/doc/theory) explaining computation graphs with multi-dimensional arrays.
 
 ### How to run
 This library is written and tested in my local machine with GNU `g++ (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0`. 
