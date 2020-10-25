@@ -28,7 +28,7 @@ To run this on your local machine:
     ./path/to/repo/bin/demo
     ```
     `make demo` is for compilation and `./path/to/repo/bin/demo` is to run the executable in the newly created `bin/` directory. 
-4. To run your own `a.cpp` th the library (make sure it has `#include <dio.h>`):
+4. To run your own `a.cpp` using the library (make sure it has `#include <dio.h>`):
     ```
     g++ -g -I /path/to/repo/include -c -o a.o a.cpp
     g++ -g -I /path/to/repo/include -o a a.o /path/to/repo/build/*
