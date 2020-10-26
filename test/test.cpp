@@ -33,18 +33,23 @@ int main()
     // matmul
     Node a = Variable(std::vector<std::vector<double>>{{100, 1}, {10, 1000}});
     a.print_val();
+    printf("\n");
 
     Node b = Variable(std::vector<std::vector<double>>{{1}, {3}});
     b.print_val();
+    printf("\n");
 
     Node c = matmul(a, b);
     c.compute_val();
     c.print_val();
+    printf("\n");
 
     Node gradcb = c.grad(b);
     gradcb.print_val();
+    printf("\n");
     Node gradca = c.grad(a);
     gradca.print_val();
+    printf("\n");
 
     line();
 
@@ -111,20 +116,5 @@ int main()
     printf("\n");
 
     line();
-
-    a = dio::Variable(std::vector<std::vector<double>>{{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
-    a.index(1, 2).print_val();
-    printf("\n");
-    a.index(0, std::vector<int>{0, 2}).print_val();
-    printf("\n");
-    a.index(0).print_val();
-    printf("\n");
-    a.index(-1, std::vector<int>{1}).print_val();
-    printf("\n");
-    a.index(-1).print_val();
-    printf("\n");
-    a.index(0, std::vector<int>{2, 1, 0}).print_val();
-    printf("\n");
-
     
 }
