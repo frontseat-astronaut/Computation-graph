@@ -7,6 +7,13 @@ namespace dio
         return fabs(a)<1e-9;
     }
 
+    std::vector<int> range(int lim)
+    {
+        std::vector<int>ret(lim);
+        for(int i=0; i<lim; ++i) ret[i] = i;
+        return ret;
+    }
+
     void get_shape(int d, double&x, std::vector<int>&shape)
     {
         if(d == 0)

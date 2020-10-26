@@ -104,6 +104,10 @@ namespace dio
             throw InvalidDimensionCount();
         for(int d=0; d<idx.size(); ++d)
         {
+            if(idx[d].size() == 1 and idx[d][0] == -1)
+            {
+                idx[d] = range(shapes[0][d]);
+            }
             for(int idx_d: idx[d])
             {
                 if(idx_d >= shapes[0][d] || idx_d<0)

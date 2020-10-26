@@ -120,14 +120,16 @@ void TwoLayerNeuralNetwork()
         for(int j=0; j<x_dim; ++j)
         {
             data_x[i][j] = gen_random_normal(0, 10);
+            data_y[i] += j*data_x[i][j];
         }
-        data_y[i] = rand()%2;
+        data_y[i] = (int)(sin(data_y[i])+1);
     }
 
     // build model
     // data 
     Node x = Variable(data_x); // shape: (#num_samples, x_dim)
     Node y = Variable(data_y); // shape: (#num_samples)
+    // y.print_val();
 
     // weights
     int m_hidden = 4;
@@ -138,13 +140,13 @@ void TwoLayerNeuralNetwork()
     Node z_1 = matmul(x, W_1); // shape: (#num_samples, m_hidden)
     Node a_1 = relu(z_1);
     Node z_2 = matmul(a_1, W_2); // shape: (#num_samples, 1)
-    Node logits = sigmoid(z_2).reshape(std::vector<int>{num_samples});  // shape: (#num_samples)
+    Node a_2 = reshape(sigmoid(z_2), std::vector<int>{num_samples});  // shape: (#num_samples)
 
-    Node Loss_term = y*log(logits) + (1-y)*log(1-logits);
+    Node Loss_term = y*log(a_2) + (1-y)*log(1-a_2);
     Node Loss = (-1.0/num_samples)*(reduce_sum(Loss_term, std::vector<int>{0})); // Binary Cross-entropy
 
     // training (full batch gradient descent)
-    double lr = 1;
+    double lr = 0.1;
     for(int epoch=0; epoch<1000; epoch++)
     {
         Loss.compute_val();

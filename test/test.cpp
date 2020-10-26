@@ -28,11 +28,13 @@ int main()
     gradw.compute_val();
     gradw.print_val();
 
+    line();
+
     // matmul
     Node a = Variable(std::vector<std::vector<double>>{{100, 1}, {10, 1000}});
     a.print_val();
 
-    Node b = Variable(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
+    Node b = Variable(std::vector<std::vector<double>>{{1}, {3}});
     b.print_val();
 
     Node c = matmul(a, b);
@@ -100,23 +102,29 @@ int main()
     line();
 
     //reduce sum 
-    a = Variable(std::vector<std::vector<double>>{{1, 2}, {3, 4}});
-    b = reduce_sum(a, std::vector<int>{1});
-    b.compute_val();
+    std::vector<std::vector<std::vector<double>>>arg{{{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}}, {{6.0, 7.0, 8.0}, {9.0, 10.0, 11.0}}};
+    a = Variable(arg);
+    a.print_val();
+    printf("\n");
+    b = reduce_sum(a, std::vector<int>{2});
     b.print_val();
     printf("\n");
 
     line();
 
-    // exp
-    z = Variable(std::vector<int>{2, 5}, "normal").reshape(std::vector<int>{10, 1});
-    z.print_val();
-    y = Variable(std::vector<int>{1, 2}, "normal");
-    x = matmul(z, y);
-    x.compute_val();
-    x.print_val();
+    a = dio::Variable(std::vector<std::vector<double>>{{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}});
+    a.index(1, 2).print_val();
     printf("\n");
-    z.print_val();
+    a.index(0, std::vector<int>{0, 2}).print_val();
     printf("\n");
+    a.index(0).print_val();
+    printf("\n");
+    a.index(-1, std::vector<int>{1}).print_val();
+    printf("\n");
+    a.index(-1).print_val();
+    printf("\n");
+    a.index(0, std::vector<int>{2, 1, 0}).print_val();
+    printf("\n");
+
     
 }

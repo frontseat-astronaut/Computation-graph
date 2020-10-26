@@ -71,7 +71,7 @@ namespace dio
             void get_indices(std::vector<bool>&int_idx, std::vector<std::vector<int>>&idx, int tail, Args... args)
             {
                 idx.push_back(std::vector<int>{tail});
-                int_idx.push_back(1);
+                int_idx.push_back(tail!=-1);
                 get_indices(int_idx, idx, args...);
             }
 

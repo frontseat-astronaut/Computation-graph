@@ -11,6 +11,8 @@ namespace dio
 {
     bool iszero(double);
 
+    std::vector<int> range(int lim);
+
     void get_shape(int d, double &x, std::vector<int>&shape);
 
     template<typename T>
