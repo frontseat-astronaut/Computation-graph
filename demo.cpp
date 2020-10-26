@@ -70,8 +70,8 @@ void LinearRegression()
     }
 
     // build model
-    Node x = Variable(data_x); // shape: (#num_samples, x_dim)
-    Node y = Variable(data_y); // shape: (#num_samples)
+    Node x = Constant(data_x); // shape: (#num_samples, x_dim)
+    Node y = Constant(data_y); // shape: (#num_samples)
 
     Node theta = Variable(std::vector<int>{x_dim, 1}, "normal");
     Node z = matmul(x, theta).reshape(std::vector<int>{num_samples}); // shape: (#num_samples)
@@ -127,8 +127,8 @@ void TwoLayerNeuralNetwork()
 
     // build model
     // data 
-    Node x = Variable(data_x); // shape: (#num_samples, x_dim)
-    Node y = Variable(data_y); // shape: (#num_samples)
+    Node x = Constant(data_x); // shape: (#num_samples, x_dim)
+    Node y = Constant(data_y); // shape: (#num_samples)
     // y.print_val();
 
     // weights
