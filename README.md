@@ -17,17 +17,20 @@ This library is written and tested in my local machine with GNU `g++ 7.4.0`.
 To run this on your local machine:
 1. Clone this repository to your local machine and make it your present working directory.
 2. Run the following in a terminal to build the library:
+
     ```
     make build
     ```
      A new directory `build/` should be created in the repository, that stores the `.o` object files. This step needs to be repeated only if you make changes to the library code. Otherwise, once is enough.
 3. If you want to run `demo.cpp`, do:
+
     ```
     make demo 
     ./bin/demo
     ```
     `make demo` is for compilation and `./bin/demo` is to run the executable in the newly created `bin/` directory. 
 4. To run your own `/path/a.cpp` using the library (make sure it has `#include <dio.h>`):
+
     ```
     g++ -g -I include -c -o /path/a.o /path/a.cpp
     g++ -g -I include -o /path/a /path/a.o build/*
