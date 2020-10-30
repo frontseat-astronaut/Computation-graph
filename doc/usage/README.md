@@ -5,7 +5,7 @@ Please refer to [README](https://github.com/frontseat-astronaut/Computation-grap
 - [Header file and namespace](#Header-file-and-namespace)
 - [Nodes, Variables and Constants](#Nodes,-Variables-and-Constants)
 - [Operators](#Operators)
-    - [Member function operators](#Member-function-operators)
+    - [Member function operators](##Member-function-operators)
     - [Non-member function operators](#2.-Non/-Member-function-operators) 
     - [Overloaded operators](#3.-overloaded-operators) 
 - [Updating Values](#Updating-values)
