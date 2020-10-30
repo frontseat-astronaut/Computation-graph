@@ -1,6 +1,16 @@
 # Usage guide
 Please refer to [README](https://github.com/frontseat-astronaut/Computation-graph/blob/master/README.md) for instructions on how to run the library. 
 
+## Contents
+- [Header file and namespace](#Header-file-and-namespace)
+- [Nodes, Variables and Constants](#Nodes,-Variables-and-Constants)
+- [Operators](#Operators)
+    - [Member function operators](#1.-Member-function-operators)
+    - [Non-member function operators](#2.-Non/-Member-function-operators) 
+    - [Overloaded operators](#3.-overloaded-operators) 
+- [Updating Values](#Updating-values)
+- [Jacobian](#Jacobian)
+
 ## Header file and namespace
 To use the library in your `.cpp` file, you only need to include one header file:
 ```
