@@ -15,9 +15,9 @@ namespace dio
         array::value = a;
     }
 
-    std::vector<std::vector<double>> constant::forward_diff(std::shared_ptr<array>&x)
+    void constant::forward_diff(std::vector<std::vector<double>>&Jzx, std::shared_ptr<array>&x)
     {
-        return std::vector<std::vector<double>>(size, std::vector<double>(x->get_size(), 0.0));
+        Jzx = std::vector<std::vector<double>>(size, std::vector<double>(x->get_size(), 0.0));
     }
 
     std::shared_ptr<array> constant::get_grad(std::shared_ptr<array>x)
@@ -91,11 +91,11 @@ namespace dio
         value = a_val;
     }
     
-    std::vector<std::vector<double>> variable::forward_diff(std::shared_ptr<array>&x)
+    void variable::forward_diff(std::vector<std::vector<double>>&Jzx, std::shared_ptr<array>&x)
     {
         int n = x->get_size();
         int m = size;
-        std::vector<std::vector<double>> Jzx(m, std::vector<double>(n, 0.0)); // Jzx shape: (m, n)
+        Jzx = std::vector<std::vector<double>>(m, std::vector<double>(n, 0.0)); // Jzx shape: (m, n)
         if(is_latent)
         {
             std::vector<std::vector<double>>op_arg_val;
@@ -111,7 +111,9 @@ namespace dio
                 std::vector<std::vector<double>> Jzy = op->partial_diff_run(op_arg_val, k); 
                 assert(Jzy.size() == m && Jzy[0].size() == p); // Jzy shape: (m, p)
 
-                std::vector<std::vector<double>> Jyx = op_args[k]->forward_diff(x);
+                std::vector<std::vector<double>> Jyx;
+                op_args[k]->forward_diff(Jyx, x);
+
                 assert(Jyx.size() == p && Jyx[0].size() == n); // Jyx shape: (p, n)
 
                 std::vector<std::vector<double>> temp(m, std::vector<double>(n));
@@ -128,7 +130,7 @@ namespace dio
                 for(int i=0; i<n; ++i) Jzx[i][i] = 1;
             }
         }
-        return Jzx;
+        // return Jzx;
     }
 
     std::shared_ptr<array> variable::get_grad(std::shared_ptr<array>x)
@@ -137,7 +139,8 @@ namespace dio
         std::vector<int>new_shape = shape;
         std::vector<int>x_shape = x->get_shape();
         new_shape.insert(new_shape.end(), x_shape.begin(), x_shape.end());
-        std::vector<std::vector<double>> J = forward_diff(x);
+        std::vector<std::vector<double>> J;
+        forward_diff(J, x);
         std::vector<double>grad;
         for(int i=0; i<J.size(); ++i)
             grad.insert(grad.end(), J[i].begin(), J[i].end());

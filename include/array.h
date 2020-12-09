@@ -57,7 +57,7 @@ namespace dio
 
             std::vector<double> get_value();
 
-            std::vector<std::vector<double>> virtual forward_diff(std::shared_ptr<array>&)=0;
+            void virtual forward_diff(std::vector<std::vector<double>>&, std::shared_ptr<array>&)=0;
 
             std::shared_ptr<array> virtual get_grad(std::shared_ptr<array>)=0;
 

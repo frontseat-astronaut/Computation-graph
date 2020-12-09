@@ -31,7 +31,7 @@ namespace dio
             void compute_value() {}
             void update_value(std::shared_ptr<array> a) { throw IsConstant(); }
 
-            std::vector<std::vector<double>> forward_diff(std::shared_ptr<array>&);
+            void forward_diff(std::vector<std::vector<double>>&, std::shared_ptr<array>&);
 
             std::shared_ptr<array> get_grad(std::shared_ptr<array>x);
     };
@@ -65,7 +65,7 @@ namespace dio
 
             void update_value(std::shared_ptr<array>);
 
-            std::vector<std::vector<double>> forward_diff(std::shared_ptr<array>&);
+            void forward_diff(std::vector<std::vector<double>>&, std::shared_ptr<array>&);
 
             std::shared_ptr<array> get_grad(std::shared_ptr<array>);
 
