@@ -163,14 +163,36 @@ void TwoLayerNeuralNetwork()
     }
 }
 
-int main()
+void error(std::vector<std::string>&demos)
 {
-    // OneVariableOptimization();
-    // line();
+    printf("Please specify one of the following demos as argument:\n");
+    for(int i=0; i<demos.size(); ++i)
+        printf("%d: %s\n", i, demos[i].c_str());
+    exit(1);
+}
 
-    // LinearRegression();
-    // line();
+int main(int argc, char **argv)
+{
+    std::string demo_arg;
+    std::vector<std::string>demos{
+        "one_variable_optimization",
+        "linear_regression",
+        "two_layer_neural_network"
+    };
+    if(argc == 1)
+        error(demos);
+    else
+        demo_arg = argv[1];
 
-    TwoLayerNeuralNetwork();
-    line();
+    if(demo_arg == demos[0]) 
+        OneVariableOptimization();
+
+    else if(demo_arg == demos[1])
+        LinearRegression();
+
+    else if(demo_arg == demos[2])
+        TwoLayerNeuralNetwork();
+    
+    else 
+        error(demos);
 }
