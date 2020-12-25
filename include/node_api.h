@@ -1,26 +1,26 @@
-#ifndef __VARAPI_H_INCLUDED__   
-#define __VARAPI_H_INCLUDED__  
+#ifndef __NODE_API_H_INCLUDED__   
+#define __NODE_API_H_INCLUDED__  
 
 #include<string>
 #include<memory>
 
-#include "variable.h"
+#include "node.h"
 
 namespace dio 
 {
     class Node
     {
         private:
-            std::shared_ptr<array> arr_ptr;
+            std::shared_ptr<node> node_ptr;
         
         public:
-            Node(std::shared_ptr<array>arr_ptr): arr_ptr{arr_ptr} {}
-            Node(array *arr_ptr)
+            Node(std::shared_ptr<node>node_ptr): node_ptr{node_ptr} {}
+            Node(node *node_ptr)
             {
-                this->arr_ptr = std::shared_ptr<array>(arr_ptr);
+                this->node_ptr = std::shared_ptr<node>(node_ptr);
             }
 
-            std::shared_ptr<array> get() { return arr_ptr; }
+            std::shared_ptr<node> get() { return node_ptr; }
 
             Node grad(Node b);
             
@@ -90,20 +90,19 @@ namespace dio
     };
 
     Node Variable(std::vector<int>shape, std::string initializer, 
-        std::vector<double>init_args=std::vector<double>{});
+                  std::vector<double>init_args=std::vector<double>{});
 
     template<typename T>
     Node Variable(T a)
     {
-        return Node(new variable(a));
+        return Node(new node(false, a));
     }
 
     template<typename T>
     Node Constant(T a)
     {
-        return Node(new constant(a));
+        return Node(new node(true, a));
     }
-
 }
 
 #endif

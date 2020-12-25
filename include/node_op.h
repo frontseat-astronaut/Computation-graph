@@ -1,5 +1,5 @@
-#ifndef __ARRAY_OP_H_INCLUDED__
-#define __ARRAY_OP_H_INCLUDED__
+#ifndef __NODE_OP_H_INCLUDED__
+#define __NODE_OP_H_INCLUDED__
 
 #include <vector>
 #include <memory>
@@ -9,11 +9,10 @@
 
 #include "number_op.h"
 #include "util.h"
-#include "array_op.h"
 
 namespace dio
 {
-    class array_op
+    class node_op
     {
         public:
             void virtual assert_shape(std::vector<std::vector<int>>&shapes)=0;
@@ -22,7 +21,7 @@ namespace dio
             std::vector<std::vector<double>> virtual partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)=0;
     };
 
-    class element_wise_op: public array_op
+    class element_wise_op: public node_op
     {
         protected:
             std::shared_ptr<number_op> op;
@@ -39,7 +38,7 @@ namespace dio
             std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
     };
 
-    class _matmul: public array_op
+    class _matmul: public node_op
     {
         protected:
             std::vector<std::vector<int>> shapes;
@@ -54,7 +53,7 @@ namespace dio
             std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
     };
 
-    class _index: public array_op 
+    class _index: public node_op 
     {
         protected: 
             std::vector<std::vector<int>> idx;
@@ -76,7 +75,7 @@ namespace dio
             std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
     };
 
-    class _concat: public array_op 
+    class _concat: public node_op 
     {
         protected:
             int axis=0;
@@ -101,7 +100,7 @@ namespace dio
             std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
     };
 
-    class _reshape: public array_op
+    class _reshape: public node_op
     {
         protected:
             std::vector<int>out_shape;
@@ -118,7 +117,7 @@ namespace dio
             std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
     };
 
-    class _reduce_op: public array_op
+    class _reduce_op: public node_op
     {
         protected:
             std::shared_ptr<number_op> op;
