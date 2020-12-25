@@ -2,7 +2,7 @@
 Hello there! This is a computation graph library in C++ that supports automatic differentiation.
 Currently, it can:
 1. Construct directed acyclic computation graphs, where each node is a multi-dimensional array (akin to tensors in Tensorflow and Pytorch) and each directed edge is an operation on these nodes, like an element-wise arithmetic operation or matrix multiplication.
-2. Find the Jacobian `Jab` for any node `a` w.r.t. another node `b`, using forward-mode auto-differentiation (reverse-mode is currently [being implemented](https://github.com/frontseat-astronaut/Computation-graph/tree/reverse-mode-autodiff)).
+2. Find the Jacobian `Jab` for any node `a` w.r.t. another node `b`, using forward-mode auto-differentiation (reverse-mode is currently [being implemented](https://github.com/frontseat-astronaut/Computation-graph/tree/reverse-mode)).
 
 Please find the usage guide in [doc/usage](https://github.com/frontseat-astronaut/Computation-graph/tree/master/doc/usage).
 There is also a [demo.cpp](https://github.com/frontseat-astronaut/Computation-graph/blob/master/demo.cpp) with examples like implementing a basic neural network using the library.
