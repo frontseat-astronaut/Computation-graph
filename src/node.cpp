@@ -226,6 +226,9 @@ namespace dio
 
         compute_value();
 
+        if(x->is_constant)
+            throw IsConstant();
+
         std::vector<int>new_shape = shape;
         std::vector<int>x_shape = x->get_shape();
         new_shape.insert(new_shape.end(), x_shape.begin(), x_shape.end());
