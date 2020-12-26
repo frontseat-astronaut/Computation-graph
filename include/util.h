@@ -1,6 +1,7 @@
 #ifndef __UTIL_H_INCLUDED__   
 #define __UTIL_H_INCLUDED__   
 
+#include <map>
 #include <vector>
 #include <assert.h>
 #include <math.h>
@@ -42,11 +43,14 @@ namespace dio
 
     std::vector<int> get_virtual_index(int ridx, std::vector<int>&shape, int size=-1);
 
+    std::vector<std::vector<double>> get_identity_matrix(int n);
+
     void matrix_add(std::vector<std::vector<double>>&c, std::vector<std::vector<double>>&a, std::vector<std::vector<double>>&b);
 
     void matrix_multiply(std::vector<std::vector<double>>&c, std::vector<std::vector<double>>&a, std::vector<std::vector<double>>&b);
 
     void matrix_multiply(std::vector<double>&c, std::vector<double>&a, std::vector<double>&b, int p, int q, int r);
+
 }
 
 #endif

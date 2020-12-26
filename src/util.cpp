@@ -67,6 +67,13 @@ namespace dio
         return vidx;
     }
 
+    std::vector<std::vector<double>> get_identity_matrix(int n)
+    {
+        std::vector<std::vector<double>>I(n, std::vector<double>(n));
+        for(int i=0; i<n; ++i) I[i][i] = 1;
+        return I;
+    }
+
     void matrix_add(std::vector<std::vector<double>>&c, std::vector<std::vector<double>>&a, std::vector<std::vector<double>>&b)
     {
         assert(c.size() == a.size() && a.size() == b.size());
@@ -116,4 +123,6 @@ namespace dio
             }
         }
     }
+
+    
 }

@@ -177,6 +177,64 @@ namespace dio
             throw SizeMismatch();
         value = a_val;
     }
+
+    void node::traverse_graph(std::map<std::shared_ptr<node>,int>&node_idx, std::vector<std::shared_ptr<node>>&node_list)
+    {
+        auto src = std::shared_ptr<node>{this};
+        if(node_idx.find(src) != node_idx.end())
+        {
+            assert(node_idx[src]!=-1);
+            return;
+        }
+        node_idx[src] = -1;
+
+        for(auto arg: op_args)
+            arg->traverse_graph(node_idx, node_list);
+
+        node_idx[src] = node_list.size();
+        node_list.push_back(src);
+    }
+
+    void node::reverse_diff(std::map<std::shared_ptr<node>,std::vector<std::vector<double>>>&Jcache)
+    {
+        std::map<std::shared_ptr<node>,int>node_idx;
+        std::vector<std::shared_ptr<node>>node_list;
+        traverse_graph(node_idx, node_list);
+
+        compute_value();
+        
+        /*
+            Propagation of Jacobians:
+            Let the graph be like z <- y's <- x
+            J_{z, x}[i, j] = dz_i / dx_j = sum_y{ sum_k{ (dz_i / dy_k)*(dy_k / dx_j) } }
+                                         = sum_y{ sum_k{ J_{z, y}[i, k]*J_{y, x}[k, j] } }
+                                         = sum_y{ (J_{z, y}*J_{y, x})[i, j] }
+            => J_{z, x} = sum_y{ J_{z, y}*J_{y, x} }
+        */
+        assert(node_list.back().get() == this);
+
+        for(int i=node_list.size()-2; i>=0; --i)
+            Jcache[node_list[i]] = std::vector<std::vector<double>>(size, std::vector<double>(node_list[i]->get_size()));
+        Jcache[node_list.back()] = get_identity_matrix(size);
+
+        for(int i=node_list.size()-1; i>=0; --i)
+        {
+            auto nodey = node_list[i];
+
+            std::vector<std::vector<double>>op_arg_vals;
+            for(auto arg: nodey->op_args)
+                op_arg_vals.push_back(arg->get_value());
+
+            for(int k=0; k<(nodey->op_args.size()); ++k)
+            {
+                auto arg = op_args[k];
+                std::vector<std::vector<double>>Jyx = nodey->op->partial_diff_run(op_arg_vals, k);
+                std::vector<std::vector<double>>tmp(size, std::vector<double>(nodey->get_size()));
+                matrix_multiply(tmp, Jcache[nodey], Jyx);
+                matrix_add(Jcache[arg], Jcache[arg], tmp);
+            }
+        }
+    }
     
     void node::forward_diff(std::vector<std::vector<double>>&Jzx, std::shared_ptr<node>&x)
     {
@@ -187,10 +245,7 @@ namespace dio
         {
             std::vector<std::vector<double>>op_arg_val;
             for(std::shared_ptr<node> arg: op_args)
-            {
-                arg->compute_value();
                 op_arg_val.push_back(arg->get_value());
-            }
 
             for(int k=0; k<op_args.size(); ++k)
             {
@@ -205,8 +260,7 @@ namespace dio
 
                 std::vector<std::vector<double>> temp(m, std::vector<double>(n));
                 matrix_multiply(temp, Jzy, Jyx);
-                std::vector<std::vector<double>> temp2 = Jzx;
-                matrix_add(Jzx, temp2, temp);
+                matrix_add(Jzx, Jzx, temp);
             }
         }
         else
@@ -222,12 +276,9 @@ namespace dio
     std::shared_ptr<node> node::get_grad(std::shared_ptr<node>x)
     {
         if(is_constant)
-            throw IsConstant();
+            throw NoGradForConstant();
 
         compute_value();
-
-        if(x->is_constant)
-            throw IsConstant();
 
         std::vector<int>new_shape = shape;
         std::vector<int>x_shape = x->get_shape();

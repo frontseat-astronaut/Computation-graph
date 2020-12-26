@@ -38,7 +38,7 @@ int main(int argc, char** argv)
         w.print_val();
         printf("\n");
         printf("\n");
-        Node gradw = z.grad(y);
+        Node gradw = z.grad(x);
         gradw.compute_val();
         gradw.print_val();
         printf("\n");

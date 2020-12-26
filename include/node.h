@@ -1,6 +1,7 @@
 #ifndef __NODE_H_INCLUDED__   
 #define __NODE_H_INCLUDED__  
 
+#include <map>
 #include <memory>
 #include <vector>
 #include <assert.h>
@@ -69,8 +70,11 @@ namespace dio
             void update_value(std::shared_ptr<node>);
             std::vector<double> get_value();
 
+            void traverse_graph(std::map<std::shared_ptr<node>,int>&node_idx, std::vector<std::shared_ptr<node>>&node_list);
+            void reverse_diff(std::map<std::shared_ptr<node>,std::vector<std::vector<double>>>&jacobs);
+
             void forward_diff(std::vector<std::vector<double>>&, std::shared_ptr<node>&);
-            std::shared_ptr<node> virtual get_grad(std::shared_ptr<node>);
+            std::shared_ptr<node> get_grad(std::shared_ptr<node>);
 
             void print();
             void print(int&, int, std::string&);
