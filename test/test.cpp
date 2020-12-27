@@ -221,6 +221,19 @@ int main(int argc, char** argv)
         printf("\n");
     }
 
+    if(test_case==-1 || test_case == 7)
+    {
+        line();
+
+        Node a = Variable(std::vector<double>{1.0, 2.0});
+        Node b = a^2;
+        b.compute_val();
+        b.compute_val();
+        b.compute_val();
+        b.print_val();
+        printf("\n");
+    }
+
     line();
     
 }

@@ -223,7 +223,10 @@ namespace dio
         std::vector<std::shared_ptr<node>>node_list;
         traverse_graph(node_idx, node_list);
 
-        compute_value();
+        node::compute_value();
+
+        printf("\n\n[FLAG]\n\n");
+        fflush(stdout);
         
         /*
             Propagation of Jacobians:

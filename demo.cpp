@@ -147,9 +147,10 @@ void TwoLayerNeuralNetwork()
 
     // training (full batch gradient descent)
     double lr = 0.1;
+    Optimizer opt = SGD(std::vector<Node>{W_1, W_2}, lr);
     for(int epoch=0; epoch<1000; epoch++)
     {
-        Loss.compute_val();
+        optimize(Loss, opt);
 
         if(epoch%10 == 0)
         {
@@ -157,9 +158,6 @@ void TwoLayerNeuralNetwork()
             Loss.print_val();
             printf("\n");
         }
-
-        W_1.update_val(W_1- lr*(Loss.get_jacobian(W_1).index(0)));
-        W_2.update_val(W_2 - lr*(Loss.get_jacobian(W_2).index(0)));
     }
 }
 

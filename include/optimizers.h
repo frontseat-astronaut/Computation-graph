@@ -20,14 +20,17 @@ namespace dio
             void virtual update_parameters(std::map<std::shared_ptr<node>,std::vector<double>>&grads)=0;
 
         public: 
+            optimizer(std::vector<std::shared_ptr<node>>p, double lr): parameters{p}, learning_rate{lr} {}
+
             void step(std::shared_ptr<node>);
             double get_lr();
             void virtual update_lr();
     };
 
-    class SGD: public optimizer
+    class sgd: public optimizer
     {
         public:
+            sgd(std::vector<std::shared_ptr<node>>parameters, double learning_rate);
             void update_parameters(std::map<std::shared_ptr<node>,std::vector<double>>&grads);
     };
 }

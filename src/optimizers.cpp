@@ -21,6 +21,8 @@ namespace dio
         std::map<std::shared_ptr<node>, std::vector<std::vector<double>>>Jcache;
         f->reverse_diff(Jcache);
 
+        printf("reverse-diff done!");
+
         for(auto param: parameters)
         {
             auto it = Jcache.find(param);
@@ -40,8 +42,10 @@ namespace dio
         update_parameters(grads);
     }
 
-    // SGD 
-    void SGD::update_parameters(std::map<std::shared_ptr<node>,std::vector<double>>&grads)
+    // sgd 
+    sgd::sgd(std::vector<std::shared_ptr<node>>parameters, double learning_rate): optimizer(parameters, learning_rate) {}
+
+    void sgd::update_parameters(std::map<std::shared_ptr<node>,std::vector<double>>&grads)
     {
         for(auto &item: grads)
         {
