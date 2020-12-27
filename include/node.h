@@ -73,7 +73,7 @@ namespace dio
             void compute_value();
             void update_value(std::shared_ptr<node>);
             void _update_value(std::vector<double>&);
-            std::vector<double> get_value();
+            std::vector<double>* get_value();
 
             void traverse_graph(std::map<std::shared_ptr<node>,int>&node_idx, std::vector<std::shared_ptr<node>>&node_list);
             void reverse_diff(std::map<std::shared_ptr<node>,std::vector<std::vector<double>>>&jacobs);

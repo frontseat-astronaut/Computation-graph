@@ -16,30 +16,30 @@ namespace dio
         return shapes[0];
     }
 
-    std::vector<double> element_wise_op::run(std::vector<std::vector<double>>&op_args)
+    std::vector<double> element_wise_op::run(std::vector<std::vector<double>*>&op_args)
     {
         assert(!op_args.empty());
-        std::vector<double> ret(op_args[0].size());
+        std::vector<double> ret((op_args[0])->size());
         std::vector<double>number_op_args(op_args.size());
-        for(int j=0; j<op_args[0].size(); ++j)
+        for(int j=0; j<(op_args[0])->size(); ++j)
         {
             for(int i=0; i<op_args.size(); ++i)
             {
-                assert(op_args[i].size() == op_args[0].size());
-                number_op_args[i] = op_args[i][j];
+                assert((op_args[i])->size() == (op_args[0])->size());
+                number_op_args[i] = op_args[i]->at(j);
             }
             ret[j] = op->run(number_op_args);
         }
         return ret;
     }
 
-    std::vector<std::vector<double>> element_wise_op::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
+    std::vector<std::vector<double>> element_wise_op::partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx)
     {
-        std::vector<std::vector<double>>ret(op_args[var_idx].size(), std::vector<double>(op_args[var_idx].size()));
+        std::vector<std::vector<double>>ret(op_args[var_idx]->size(), std::vector<double>(op_args[var_idx]->size()));
         for(int i=0; i<ret.size(); ++i)
         {
             std::vector<double>number_op_args(op_args.size());
-            for(int k=0; k<op_args.size(); ++k) number_op_args[k] = op_args[k][i];
+            for(int k=0; k<op_args.size(); ++k) number_op_args[k] = op_args[k]->at(i);
             ret[i][i] = op->partial_diff_run(number_op_args, var_idx);
         }
         return ret;
@@ -65,15 +65,15 @@ namespace dio
         return std::vector<int>{shapes[0][0], shapes[1][1]};
     }
 
-    std::vector<double> _matmul::run(std::vector<std::vector<double>>&op_args)
+    std::vector<double> _matmul::run(std::vector<std::vector<double>*>&op_args)
     {
         assert(op_args.size() == 2);
         std::vector<double>result(shapes[0][0]*shapes[1][1], 0.0);
-        matrix_multiply(result, op_args[0], op_args[1], shapes[0][0], shapes[0][1], shapes[1][1]);
+        matrix_multiply(result, *op_args[0], *op_args[1], shapes[0][0], shapes[0][1], shapes[1][1]);
         return result;
     }
 
-    std::vector<std::vector<double>> _matmul::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
+    std::vector<std::vector<double>> _matmul::partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx)
     {
         assert(op_args.size() == 2);
         assert(var_idx<2);
@@ -86,9 +86,9 @@ namespace dio
                 for(int k=0; k<shapes[0][1]; ++k)
                 {
                     if(!var_idx)
-                        ret[ridx][i*shapes[0][1] + k] = op_args[1][k*shapes[1][1] + j];
+                        ret[ridx][i*shapes[0][1] + k] = op_args[1]->at(k*shapes[1][1] + j);
                     else
-                        ret[ridx][k*shapes[1][1] + j] = op_args[0][i*shapes[0][1] + k];
+                        ret[ridx][k*shapes[1][1] + j] = op_args[0]->at(i*shapes[0][1] + k);
                 }
             }
         }
@@ -160,20 +160,20 @@ namespace dio
             map_real_indices(d+1, ridx_arg+x*shape_size_cache[d], ridx_res, shape_size_cache);
     }
 
-    std::vector<double> _index::run(std::vector<std::vector<double>>&op_args)
+    std::vector<double> _index::run(std::vector<std::vector<double>*>&op_args)
     {
         assert(op_args.size() == 1);
         std::vector<double>ret(res_size);
-        for(int i=0; i<ret.size(); ++i) ret[i] = op_args[0][ridx_map[i]];
+        for(int i=0; i<ret.size(); ++i) ret[i] = op_args[0]->at(ridx_map[i]);
         return ret;
     }
     
-    std::vector<std::vector<double>> _index::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
+    std::vector<std::vector<double>> _index::partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx)
     {
         assert(op_args.size() == 1);
         assert(var_idx == 0);
 
-        std::vector<std::vector<double>>J(res_size, std::vector<double>(op_args[0].size()));
+        std::vector<std::vector<double>>J(res_size, std::vector<double>(op_args[0]->size()));
         for(int i=0; i<res_size; ++i)
             J[i][ridx_map[i]] = 1;
         
@@ -236,20 +236,20 @@ namespace dio
         }
     }
 
-    std::vector<double> _concat::run(std::vector<std::vector<double>>&op_args)
+    std::vector<double> _concat::run(std::vector<std::vector<double>*>&op_args)
     {
         assert(op_args.size()==2);
         std::vector<double>ret(res_size);
         for(int i=0; i<res_size; ++i)
-            ret[i] = op_args[ridx_map[i].first][ridx_map[i].second];
+            ret[i] = op_args[ridx_map[i].first]->at(ridx_map[i].second);
         return ret;
     }
 
-    std::vector<std::vector<double>> _concat::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
+    std::vector<std::vector<double>> _concat::partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx)
     {
         assert(op_args.size() == 2);
         assert(var_idx<2 && var_idx>=0);
-        std::vector<std::vector<double>>J(res_size, std::vector<double>(op_args[var_idx].size()));
+        std::vector<std::vector<double>>J(res_size, std::vector<double>(op_args[var_idx]->size()));
 
         for(int i=0; i<res_size; ++i)
         {
@@ -273,18 +273,18 @@ namespace dio
             throw SizeMismatch();
     }
 
-    std::vector<double> _reshape::run(std::vector<std::vector<double>>&op_args)
+    std::vector<double> _reshape::run(std::vector<std::vector<double>*>&op_args)
     {
         assert(op_args.size() == 1);
-        return op_args[0];
+        return *op_args[0];
     }
 
-    std::vector<std::vector<double>> _reshape::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
+    std::vector<std::vector<double>> _reshape::partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx)
     {
         assert(op_args.size() == 1);
         assert(var_idx==0);
-        std::vector<std::vector<double>> J(op_args[0].size(), std::vector<double>(op_args[0].size()));
-        for(int i=0; i<op_args[0].size(); ++i) J[i][i] = 1;
+        std::vector<std::vector<double>> J(op_args[0]->size(), std::vector<double>(op_args[0]->size()));
+        for(int i=0; i<op_args[0]->size(); ++i) J[i][i] = 1;
         return J;
     }
     
@@ -348,7 +348,7 @@ namespace dio
         }
     }
 
-    std::vector<double> _reduce_op::run(std::vector<std::vector<double>>&op_args)
+    std::vector<double> _reduce_op::run(std::vector<std::vector<double>*>&op_args)
     {
         assert(op_args.size() == 1);
         std::vector<double>res(ridx_map.size());
@@ -356,24 +356,24 @@ namespace dio
         {
             std::vector<double>number_op_args;
             for(int ridx_arg: ridx_map[i])
-                number_op_args.push_back(op_args[0][ridx_arg]);
+                number_op_args.push_back(op_args[0]->at(ridx_arg));
             res[i] = op->run(number_op_args);
         }
         return res;
     }
 
-    std::vector<std::vector<double>> _reduce_op::partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)
+    std::vector<std::vector<double>> _reduce_op::partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx)
     {
         assert(op_args.size() == 1);
         assert(var_idx == 0);
 
-        std::vector<std::vector<double>> J(ridx_map.size(), std::vector<double>(op_args[0].size()));
+        std::vector<std::vector<double>> J(ridx_map.size(), std::vector<double>(op_args[0]->size()));
         for(int i=0; i<ridx_map.size(); ++i)
         {
             std::vector<double>number_op_args;
             for(int ridx_arg: ridx_map[i])
             {
-                number_op_args.push_back(op_args[0][ridx_arg]);
+                number_op_args.push_back(op_args[0]->at(ridx_arg));
             }
             for(int j=0; j<ridx_map[i].size(); ++j)
                 J[i][ridx_map[i][j]] = op->partial_diff_run(number_op_args, j);

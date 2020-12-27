@@ -17,8 +17,8 @@ namespace dio
         public:
             void virtual assert_shape(std::vector<std::vector<int>>&shapes)=0;
             std::vector<int> virtual get_out_shape(std::vector<std::vector<int>>&shapes)=0;
-            std::vector<double> virtual run(std::vector<std::vector<double>>&op_args)=0;
-            std::vector<std::vector<double>> virtual partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx)=0;
+            std::vector<double> virtual run(std::vector<std::vector<double>*>&op_args)=0;
+            std::vector<std::vector<double>> virtual partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx)=0;
     };
 
     class element_wise_op: public node_op
@@ -33,9 +33,9 @@ namespace dio
 
             std::vector<int> get_out_shape(std::vector<std::vector<int>>&shapes);
 
-            std::vector<double> run(std::vector<std::vector<double>>&op_args);
+            std::vector<double> run(std::vector<std::vector<double>*>&op_args);
 
-            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
+            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx);
     };
 
     class _matmul: public node_op
@@ -48,9 +48,9 @@ namespace dio
 
             std::vector<int> get_out_shape(std::vector<std::vector<int>>&shapes);
 
-            std::vector<double> run(std::vector<std::vector<double>>&op_args);
+            std::vector<double> run(std::vector<std::vector<double>*>&op_args);
 
-            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
+            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx);
     };
 
     class _index: public node_op 
@@ -70,9 +70,9 @@ namespace dio
 
             void map_real_indices(int d, int ridx_arg, int &ridx_res, std::vector<int>&shape_size_cache);
 
-            std::vector<double> run(std::vector<std::vector<double>>&op_args);
+            std::vector<double> run(std::vector<std::vector<double>*>&op_args);
 
-            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
+            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx);
     };
 
     class _concat: public node_op 
@@ -95,9 +95,9 @@ namespace dio
 
             void map_real_indices(int d, bool arg, int ridx_arg[2], int &ridx_res);
 
-            std::vector<double> run(std::vector<std::vector<double>>&op_args);
+            std::vector<double> run(std::vector<std::vector<double>*>&op_args);
 
-            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
+            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx);
     };
 
     class _reshape: public node_op
@@ -112,9 +112,9 @@ namespace dio
 
             std::vector<int> get_out_shape(std::vector<std::vector<int>>&shapes) { return out_shape; }
 
-            std::vector<double> run(std::vector<std::vector<double>>&op_args);
+            std::vector<double> run(std::vector<std::vector<double>*>&op_args);
 
-            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
+            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx);
     };
 
     class _reduce_op: public node_op
@@ -137,9 +137,9 @@ namespace dio
             void map_real_indices(int d, int axes_idx, int &ridx_arg, std::vector<int>&vidx_res, std::vector<int>&res_shape,
                                   std::vector<int>&arg_shape);
 
-            std::vector<double> run(std::vector<std::vector<double>>&op_args);
+            std::vector<double> run(std::vector<std::vector<double>*>&op_args);
 
-            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>>&op_args, int var_idx);
+            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx);
     };
 }
 #endif

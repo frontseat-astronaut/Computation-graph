@@ -57,9 +57,9 @@ namespace dio
         return value[get_real_index(vidx, shape, size)];
     }
 
-    std::vector<double> node::get_value()
+    std::vector<double>* node::get_value()
     {
-        return value;
+        return &value;
     }
 
     void node::print()
@@ -157,7 +157,7 @@ namespace dio
     {
         if(is_latent)
         {
-            std::vector<std::vector<double>>op_arg_val;
+            std::vector<std::vector<double>*>op_arg_val;
             for(std::shared_ptr<node> arg: op_args)
             {
                 arg->compute_value();
@@ -182,7 +182,7 @@ namespace dio
         if(is_latent)
             throw IsLatent();
         
-        auto a_val = a->get_value();
+        auto a_val = *(a->get_value());
         if(a_val.size() != value.size())
             throw SizeMismatch();
         value = a_val;
@@ -219,15 +219,12 @@ namespace dio
 
     void node::reverse_diff(std::map<std::shared_ptr<node>,std::vector<std::vector<double>>>&Jcache)
     {
+        node::compute_value();
+
         std::map<std::shared_ptr<node>,int>node_idx;
         std::vector<std::shared_ptr<node>>node_list;
         traverse_graph(node_idx, node_list);
 
-        node::compute_value();
-
-        printf("\n\n[FLAG]\n\n");
-        fflush(stdout);
-        
         /*
             Propagation of Jacobians:
             Let the graph be like z <- y's <- x
@@ -246,19 +243,39 @@ namespace dio
         {
             auto nodey = node_list[i];
 
-            std::vector<std::vector<double>>op_arg_vals;
-            for(auto arg: nodey->op_args)
-                op_arg_vals.push_back(arg->get_value());
+            std::vector<std::vector<double>*>op_arg_vals;
+            try
+            {
+                for(auto arg: nodey->op_args)
+                    op_arg_vals.push_back(arg->get_value());
+            }
+            catch(const std::exception& e)
+            {
+                printf("[op_arg_vals] ");
+                std::cerr << e.what() << '\n';
+                exit(0);
+            }
 
             for(int k=0; k<(nodey->op_args.size()); ++k)
             {
-                auto arg = op_args[k];
-                std::vector<std::vector<double>>Jyx = nodey->op->partial_diff_run(op_arg_vals, k);
-                std::vector<std::vector<double>>tmp(size, std::vector<double>(nodey->get_size()));
-                matrix_multiply(tmp, Jcache[nodey], Jyx);
-                matrix_add(Jcache[arg], Jcache[arg], tmp);
+                try
+                {
+                    auto nodex = nodey->op_args[k];
+                    std::vector<std::vector<double>>Jyx = nodey->op->partial_diff_run(op_arg_vals, k);
+                    std::vector<std::vector<double>>tmp(size, std::vector<double>(nodex->get_size()));
+                    matrix_multiply(tmp, Jcache[nodey], Jyx);
+                    matrix_add(Jcache[nodex], Jcache[nodex], tmp);
+                }
+                catch(const std::exception& e)
+                {
+                    printf("[reverse diff loop] ");
+                    std::cerr << e.what() << '\n';
+                    exit(0);
+                }
             }
         }
+        printf("\n[FLAG]\n");
+        fflush(stdout);
     }
     
     void node::forward_diff(std::vector<std::vector<double>>&Jzx, std::shared_ptr<node>&x)
@@ -268,7 +285,7 @@ namespace dio
         Jzx = std::vector<std::vector<double>>(m, std::vector<double>(n, 0.0)); // Jzx shape: (m, n)
         if(is_latent)
         {
-            std::vector<std::vector<double>>op_arg_val;
+            std::vector<std::vector<double>*>op_arg_val;
             for(std::shared_ptr<node> arg: op_args)
                 op_arg_val.push_back(arg->get_value());
 

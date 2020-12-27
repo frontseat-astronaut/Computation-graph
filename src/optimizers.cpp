@@ -49,12 +49,11 @@ namespace dio
     {
         for(auto &item: grads)
         {
-            std::shared_ptr<node>param = item.first;
-            std::vector<double>value = param->get_value();
-            std::vector<double>grad = item.second;
+            std::shared_ptr<node> param = item.first;
+            std::vector<double> &value = *(param->get_value());
+            std::vector<double> grad = item.second;
             scale_vector(grad, -learning_rate);
             add_vectors(value, value, grad);
-            param->_update_value(value);
         }
     }
 }
