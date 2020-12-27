@@ -63,8 +63,8 @@ namespace dio
             node(std::vector<std::shared_ptr<node>>op_args, std::shared_ptr<node_op>op);
             node(bool is_constant, std::vector<int>shape, std::vector<double>&a);
 
-            bool is_constant();
-            bool is_latent();
+            bool check_constant();
+            bool check_latent();
 
             std::vector<int> get_shape();
             int get_size();
@@ -72,6 +72,7 @@ namespace dio
 
             void compute_value();
             void update_value(std::shared_ptr<node>);
+            void _update_value(std::vector<double>&);
             std::vector<double> get_value();
 
             void traverse_graph(std::map<std::shared_ptr<node>,int>&node_idx, std::vector<std::shared_ptr<node>>&node_list);

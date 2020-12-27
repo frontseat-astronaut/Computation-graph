@@ -51,6 +51,9 @@ namespace dio
 
     void matrix_multiply(std::vector<double>&c, std::vector<double>&a, std::vector<double>&b, int p, int q, int r);
 
+    void scale_vector(std::vector<double>&v, double lambda);
+
+    void add_vectors(std::vector<double>&w, std::vector<double>&u, std::vector<double>&v);
 }
 
 #endif

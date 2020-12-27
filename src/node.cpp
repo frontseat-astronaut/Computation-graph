@@ -32,12 +32,12 @@ namespace dio
         init->initialize(value);
     }    
 
-    bool node::is_constant()
+    bool node::check_constant()
     {
         return is_constant;
     }
 
-    bool node::is_latent()
+    bool node::check_latent()
     {
         return is_latent;
     }
@@ -186,6 +186,18 @@ namespace dio
         if(a_val.size() != value.size())
             throw SizeMismatch();
         value = a_val;
+    }
+
+    void node::_update_value(std::vector<double>&v)
+    {
+        if(is_constant)
+            throw IsConstant();
+        if(is_latent)
+            throw IsLatent();
+
+        if(v.size() == value.size())
+            throw SizeMismatch();
+        value = v;
     }
 
     void node::traverse_graph(std::map<std::shared_ptr<node>,int>&node_idx, std::vector<std::shared_ptr<node>>&node_list)

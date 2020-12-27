@@ -124,5 +124,15 @@ namespace dio
         }
     }
 
+    void scale_vector(std::vector<double>&v, double lambda)
+    {
+        for(auto &vi: v) vi *= lambda;
+    }
+
+    void add_vectors(std::vector<double>&w, std::vector<double>&u, std::vector<double>&v)
+    {
+        assert(w.size() == u.size() && v.size() == u.size());
+        for(int i=0; i<w.size(); ++i) w[i] = v[i] + u[i];
+    }
     
 }
