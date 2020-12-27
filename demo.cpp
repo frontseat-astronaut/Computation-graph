@@ -36,7 +36,7 @@ void OneVariableOptimization()
         printf(" x: ");
         x.print_val();
         printf(" new x: ");
-        x.update_val(x - 0.3*z.grad(x).index(0)); // DO NOT do: x = x - 0.3*z.grad(x).index(0), as it creates a new node
+        x.update_val(x - 0.3*z.get_jacobian(x).index(0)); // DO NOT do: x = x - 0.3*z.get_jacobian(x).index(0), as it creates a new node
         x.print_val();
         printf("\n");
     }
@@ -87,7 +87,7 @@ void LinearRegression()
         Loss.print_val();
         printf("\n");
 
-        theta.update_val(theta - lr*(Loss.grad(theta).index(0)));
+        theta.update_val(theta - lr*(Loss.get_jacobian(theta).index(0)));
     }
 
     // predicted parameters
@@ -158,8 +158,8 @@ void TwoLayerNeuralNetwork()
             printf("\n");
         }
 
-        W_1.update_val(W_1- lr*(Loss.grad(W_1).index(0)));
-        W_2.update_val(W_2 - lr*(Loss.grad(W_2).index(0)));
+        W_1.update_val(W_1- lr*(Loss.get_jacobian(W_1).index(0)));
+        W_2.update_val(W_2 - lr*(Loss.get_jacobian(W_2).index(0)));
     }
 }
 
