@@ -38,7 +38,7 @@ int main(int argc, char** argv)
         w.print_val();
         printf("\n");
         printf("\n");
-        Node gradw = z.grad(x);
+        Node gradw = z.get_jacobian(x);
         gradw.compute_val();
         gradw.print_val();
         printf("\n");
@@ -70,12 +70,12 @@ int main(int argc, char** argv)
         printf("\n");
         printf("\n");
 
-        Node gradcb = c.grad(b);
+        Node gradcb = c.get_jacobian(b);
         gradcb.print_val();
         printf("\n");
         printf("\n");
         printf("\n");
-        Node gradca = c.grad(a);
+        Node gradca = c.get_jacobian(a);
         gradca.print_val();
         printf("\n");
         printf("\n");
@@ -112,7 +112,7 @@ int main(int argc, char** argv)
         printf("\n");
         printf("\n");
 
-        Node gradf = f.grad(d);
+        Node gradf = f.get_jacobian(d);
         gradf.print_val();
         printf("\n");
         printf("\n");
@@ -164,7 +164,7 @@ int main(int argc, char** argv)
         printf("\n");
         printf("\n");
 
-        Node gradf = f.grad(d);
+        Node gradf = f.get_jacobian(d);
         gradf.print_val();
         printf("\n");
         printf("\n");

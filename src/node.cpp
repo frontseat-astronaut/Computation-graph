@@ -32,6 +32,16 @@ namespace dio
         init->initialize(value);
     }    
 
+    bool node::is_constant()
+    {
+        return is_constant;
+    }
+
+    bool node::is_latent()
+    {
+        return is_latent;
+    }
+
     int node::get_size()
     {
         return size;
@@ -273,7 +283,7 @@ namespace dio
         }
     }
 
-    std::shared_ptr<node> node::get_grad(std::shared_ptr<node>x)
+    std::shared_ptr<node> node::get_jacobian(std::shared_ptr<node>x)
     {
         if(is_constant)
             throw NoGradForConstant();

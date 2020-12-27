@@ -22,7 +22,7 @@ namespace dio
 
             std::shared_ptr<node> get() { return node_ptr; }
 
-            Node grad(Node b);
+            Node get_jacobian(Node b);
             
             void update_val(Node);
             void compute_val(); 

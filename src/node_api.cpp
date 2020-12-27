@@ -2,10 +2,10 @@
 
 namespace dio
 {
-    Node Node::grad(Node b)
+    Node Node::get_jacobian(Node b)
     {
         auto b_ptr = b.get();
-        return Node(node_ptr->get_grad(b_ptr));
+        return Node(node_ptr->get_jacobian(b_ptr));
     }
 
     void Node::update_val(Node a)

@@ -144,6 +144,14 @@ namespace dio
             return "Axis value should be >=0 and <dim(array)";
         }
     };
+
+    class NotRealFunction: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Optimizer needs a real-valued function to optimize";
+        }
+    };
     
 }
 

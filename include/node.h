@@ -17,6 +17,7 @@ namespace dio
     {
         protected:
             std::vector<double>value;
+            std::vector<double>gradient_cache;
             std::vector<int>shape;
             int size = 0;
             bool is_allocated = 0;
@@ -62,6 +63,9 @@ namespace dio
             node(std::vector<std::shared_ptr<node>>op_args, std::shared_ptr<node_op>op);
             node(bool is_constant, std::vector<int>shape, std::vector<double>&a);
 
+            bool is_constant();
+            bool is_latent();
+
             std::vector<int> get_shape();
             int get_size();
             double get_idx_value(std::vector<int>vidx);
@@ -74,7 +78,7 @@ namespace dio
             void reverse_diff(std::map<std::shared_ptr<node>,std::vector<std::vector<double>>>&jacobs);
 
             void forward_diff(std::vector<std::vector<double>>&, std::shared_ptr<node>&);
-            std::shared_ptr<node> get_grad(std::shared_ptr<node>);
+            std::shared_ptr<node> get_jacobian(std::shared_ptr<node>);
 
             void print();
             void print(int&, int, std::string&);
