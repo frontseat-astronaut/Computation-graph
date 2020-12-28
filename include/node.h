@@ -17,7 +17,6 @@ namespace dio
     {
         protected:
             std::vector<double>value;
-            std::vector<double>gradient_cache;
             std::vector<int>shape;
             int size = 0;
             bool is_allocated = 0;

@@ -21,7 +21,7 @@ namespace dio
         std::map<std::shared_ptr<node>, std::vector<std::vector<double>>>Jcache;
         f->reverse_diff(Jcache);
 
-        printf("reverse-diff done!");
+        printf("\n[reverse-diff done!]\n");
 
         for(auto param: parameters)
         {

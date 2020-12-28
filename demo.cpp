@@ -145,6 +145,17 @@ void TwoLayerNeuralNetwork()
     Node Loss_term = y*log(a_2) + (1-y)*log(1-a_2);
     Node Loss = (-1.0/num_samples)*(reduce_sum(Loss_term, std::vector<int>{0})); // Binary Cross-entropy
 
+    printf("[x]: %lld\n", (long long)(x.get().get()));
+    printf("[y]: %lld\n", (long long)(y.get().get()));
+    printf("[W_1]: %lld\n", (long long)(W_1.get().get()));
+    printf("[W_2]: %lld\n", (long long)(W_2.get().get()));
+    printf("[z_1]: %lld\n", (long long)(z_1.get().get()));
+    printf("[z_2]: %lld\n", (long long)(z_2.get().get()));
+    printf("[a_1]: %lld\n", (long long)(a_1.get().get()));
+    printf("[a_2]: %lld\n", (long long)(a_2.get().get()));
+    printf("[Loss_term]: %lld\n", (long long)(Loss_term.get().get()));
+    printf("[Loss]: %lld\n", (long long)(Loss.get().get()));
+
     // training (full batch gradient descent)
     double lr = 0.1;
     Optimizer opt = SGD(std::vector<Node>{W_1, W_2}, lr);
