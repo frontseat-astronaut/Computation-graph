@@ -15,9 +15,6 @@ namespace dio
 
     std::vector<std::vector<double>> optimizer::get_grads(std::shared_ptr<node>f)
     {
-        if(f->get_size() != 1)
-            throw NotRealFunction();
-
         std::map<long long, std::vector<std::vector<double>>>Jcache = f->reverse_diff();
 
         std::vector<std::vector<double>>grads(parameters.size());
@@ -40,14 +37,19 @@ namespace dio
 
         auto grads = get_grads(f);
 
-        // printf("\n[COMPUTED GRADIENTS]\n");
-        // fflush(stdout);
-
         update_parameters(grads);
     }
 
     // sgd 
-    sgd::sgd(std::vector<std::shared_ptr<node>>parameters, double learning_rate): optimizer(parameters, learning_rate) {}
+    sgd::sgd(std::vector<std::shared_ptr<node>>parameters, double learning_rate, double momentum):
+        optimizer(parameters, learning_rate), momentum{momentum}
+    {
+        if(!iszero(momentum))
+        {
+            for(auto param: parameters)
+                velocity.push_back(std::vector<double>(param->get_size()));
+        }
+    }
 
     void sgd::update_parameters(std::vector<std::vector<double>>&grads)
     {
@@ -57,7 +59,14 @@ namespace dio
             std::vector<double> &value = *(param->get_value());
             std::vector<double> grad = grads[i];
             scale_vector(grad, -learning_rate);
-            add_vectors(value, value, grad);
+            if(!iszero(momentum))
+            {
+                scale_vector(velocity[i], momentum);
+                add_vectors(velocity[i], velocity[i], grad);
+                add_vectors(value, value, velocity[i]);
+            }
+            else
+                add_vectors(value, value, grad);
         }
     }
 }

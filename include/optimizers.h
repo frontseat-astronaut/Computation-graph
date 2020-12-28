@@ -29,10 +29,15 @@ namespace dio
 
     class sgd: public optimizer
     {
+        private: 
+            double momentum = 0;
+            std::vector<std::vector<double>>velocity;
+
         public:
-            sgd(std::vector<std::shared_ptr<node>>parameters, double learning_rate);
+            sgd(std::vector<std::shared_ptr<node>>parameters, double learning_rate, double momentum);
             void update_parameters(std::vector<std::vector<double>>&grads);
     };
+
 }
 
 #endif

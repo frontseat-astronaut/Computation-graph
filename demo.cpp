@@ -122,7 +122,7 @@ void TwoLayerNeuralNetwork()
             data_x[i][j] = gen_random_normal(0, 10);
             data_y[i] += j*data_x[i][j];
         }
-        data_y[i] = (int)(sin(data_y[i])+1);
+        data_y[i] = (int)((sin(data_y[i])+1)/2.0);
     }
 
     // build model
@@ -141,6 +141,7 @@ void TwoLayerNeuralNetwork()
     Node z_2 = matmul(a_1, W_2); // shape: (#num_samples, 1)
     Node a_2 = reshape(sigmoid(z_2), std::vector<int>{num_samples});  // shape: (#num_samples)
 
+    // Loss
     Node Loss_term = y*log(a_2) + (1-y)*log(1-a_2);
     Node Loss = (-1.0/num_samples)*(reduce_sum(Loss_term, std::vector<int>{0})); // Binary Cross-entropy
 
@@ -156,8 +157,10 @@ void TwoLayerNeuralNetwork()
     // printf("[Loss]: %lld\n", (long long)(Loss.get().get()));
 
     // training (full batch gradient descent)
-    double lr = 0.01;
-    Optimizer opt = SGD(std::vector<Node>{W_1, W_2}, lr);
+    double lr = 0.1;
+    double momentum = 0.9;
+    Optimizer opt = SGD(std::vector<Node>{W_1, W_2}, lr, momentum);
+
     for(int epoch=0; epoch<1000; epoch++)
     {
         optimize(Loss, opt);
@@ -173,7 +176,7 @@ void TwoLayerNeuralNetwork()
 
 void error(std::vector<std::string>&demos)
 {
-    printf("Please specify one of the following demos as argument:\n");
+    printf("Please specify one of the following demos (option number) as argument:\n");
     for(int i=0; i<demos.size(); ++i)
         printf("%d: %s\n", i, demos[i].c_str());
     exit(1);
@@ -181,7 +184,7 @@ void error(std::vector<std::string>&demos)
 
 int main(int argc, char **argv)
 {
-    std::string demo_arg;
+    int demo_arg;
     std::vector<std::string>demos{
         "one_variable_optimization",
         "linear_regression",
@@ -190,15 +193,15 @@ int main(int argc, char **argv)
     if(argc == 1)
         error(demos);
     else
-        demo_arg = argv[1];
+        demo_arg = argv[1][0] - '0';
 
-    if(demo_arg == demos[0]) 
+    if(demo_arg == 0) 
         OneVariableOptimization();
 
-    else if(demo_arg == demos[1])
+    else if(demo_arg == 1)
         LinearRegression();
 
-    else if(demo_arg == demos[2])
+    else if(demo_arg == 2)
         TwoLayerNeuralNetwork();
     
     else 

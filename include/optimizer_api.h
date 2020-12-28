@@ -8,7 +8,7 @@ namespace dio
 {
     typedef std::shared_ptr<optimizer> Optimizer;
 
-    Optimizer SGD(std::vector<Node>params, double learning_rate);
+    Optimizer SGD(std::vector<Node>params, double learning_rate, double momentum=0);
 
     void optimize(Node, Optimizer);
 }
