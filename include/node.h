@@ -13,7 +13,7 @@
 
 namespace dio
 {
-    class node
+    class node: public std::enable_shared_from_this<node>
     {
         protected:
             std::vector<double>value;
@@ -74,8 +74,8 @@ namespace dio
             void _update_value(std::vector<double>&);
             std::vector<double>* get_value();
 
-            void traverse_graph(std::map<std::shared_ptr<node>,int>&node_idx, std::vector<std::shared_ptr<node>>&node_list);
-            void reverse_diff(std::map<std::shared_ptr<node>,std::vector<std::vector<double>>>&jacobs);
+            void traverse_graph(std::map<long long,int>&node_idx, std::vector<std::shared_ptr<node>>&node_list);
+            std::map<long long, std::vector<std::vector<double>>> reverse_diff();
 
             void forward_diff(std::vector<std::vector<double>>&, std::shared_ptr<node>&);
             std::shared_ptr<node> get_jacobian(std::shared_ptr<node>);

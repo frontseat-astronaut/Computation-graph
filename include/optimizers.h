@@ -16,8 +16,8 @@ namespace dio
             std::vector<std::shared_ptr<node>>parameters;
             double learning_rate;
 
-            void get_grads(std::shared_ptr<node>, std::map<std::shared_ptr<node>,std::vector<double>>&);
-            void virtual update_parameters(std::map<std::shared_ptr<node>,std::vector<double>>&grads)=0;
+            std::vector<std::vector<double>> get_grads(std::shared_ptr<node>f);
+            void virtual update_parameters(std::vector<std::vector<double>>&grads)=0;
 
         public: 
             optimizer(std::vector<std::shared_ptr<node>>p, double lr): parameters{p}, learning_rate{lr} {}
@@ -31,7 +31,7 @@ namespace dio
     {
         public:
             sgd(std::vector<std::shared_ptr<node>>parameters, double learning_rate);
-            void update_parameters(std::map<std::shared_ptr<node>,std::vector<double>>&grads);
+            void update_parameters(std::vector<std::vector<double>>&grads);
     };
 }
 

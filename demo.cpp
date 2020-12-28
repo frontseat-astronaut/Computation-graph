@@ -105,7 +105,7 @@ void TwoLayerNeuralNetwork()
     /* Single hidden layer Layer Neural Network trained for a binary classification task */
     // create random dataset
     int x_dim = 5;
-    int num_samples = 100;
+    int num_samples = 1000;
     
     printf("dimension of x: %d, number of samples: %d\n\n", x_dim, num_samples);
 
@@ -129,10 +129,9 @@ void TwoLayerNeuralNetwork()
     // data 
     Node x = Constant(data_x); // shape: (#num_samples, x_dim)
     Node y = Constant(data_y); // shape: (#num_samples)
-    // y.print_val();
 
     // weights
-    int m_hidden = 4;
+    int m_hidden = 5;
     Node W_1 = Variable(std::vector<int>{x_dim, m_hidden}, "normal");
     Node W_2 = Variable(std::vector<int>{m_hidden, 1}, "normal");
 
@@ -145,19 +144,19 @@ void TwoLayerNeuralNetwork()
     Node Loss_term = y*log(a_2) + (1-y)*log(1-a_2);
     Node Loss = (-1.0/num_samples)*(reduce_sum(Loss_term, std::vector<int>{0})); // Binary Cross-entropy
 
-    printf("[x]: %lld\n", (long long)(x.get().get()));
-    printf("[y]: %lld\n", (long long)(y.get().get()));
-    printf("[W_1]: %lld\n", (long long)(W_1.get().get()));
-    printf("[W_2]: %lld\n", (long long)(W_2.get().get()));
-    printf("[z_1]: %lld\n", (long long)(z_1.get().get()));
-    printf("[z_2]: %lld\n", (long long)(z_2.get().get()));
-    printf("[a_1]: %lld\n", (long long)(a_1.get().get()));
-    printf("[a_2]: %lld\n", (long long)(a_2.get().get()));
-    printf("[Loss_term]: %lld\n", (long long)(Loss_term.get().get()));
-    printf("[Loss]: %lld\n", (long long)(Loss.get().get()));
+    // printf("[x]: %lld\n", (long long)(x.get().get()));
+    // printf("[y]: %lld\n", (long long)(y.get().get()));
+    // printf("[W_1]: %lld\n", (long long)(W_1.get().get()));
+    // printf("[W_2]: %lld\n", (long long)(W_2.get().get()));
+    // printf("[z_1]: %lld\n", (long long)(z_1.get().get()));
+    // printf("[z_2]: %lld\n", (long long)(z_2.get().get()));
+    // printf("[a_1]: %lld\n", (long long)(a_1.get().get()));
+    // printf("[a_2]: %lld\n", (long long)(a_2.get().get()));
+    // printf("[Loss_term]: %lld\n", (long long)(Loss_term.get().get()));
+    // printf("[Loss]: %lld\n", (long long)(Loss.get().get()));
 
     // training (full batch gradient descent)
-    double lr = 0.1;
+    double lr = 0.01;
     Optimizer opt = SGD(std::vector<Node>{W_1, W_2}, lr);
     for(int epoch=0; epoch<1000; epoch++)
     {

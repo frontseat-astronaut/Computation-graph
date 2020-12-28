@@ -200,28 +200,31 @@ namespace dio
         value = v;
     }
 
-    void node::traverse_graph(std::map<std::shared_ptr<node>,int>&node_idx, std::vector<std::shared_ptr<node>>&node_list)
+    void node::traverse_graph(std::map<long long,int>&node_idx, std::vector<std::shared_ptr<node>>&node_list)
     {
-        auto src = std::shared_ptr<node>{this};
-        if(node_idx.find(src) != node_idx.end())
+        long long this_ll = (long long)this;
+        if(node_idx.find(this_ll) != node_idx.end())
         {
-            assert(node_idx[src]!=-1);
+            assert(node_idx[this_ll]!=-1);
             return;
         }
-        node_idx[src] = -1;
+        node_idx[this_ll] = -1;
 
         for(auto arg: op_args)
             arg->traverse_graph(node_idx, node_list);
 
-        node_idx[src] = node_list.size();
-        node_list.push_back(src);
+        node_idx[this_ll] = node_list.size();
+
+        // note: https://stackoverflow.com/questions/11711034/stdshared-ptr-of-this
+        node_list.push_back(shared_from_this());
+        // node_list.push_back(std::shared_ptr<node>{this});
     }
 
-    void node::reverse_diff(std::map<std::shared_ptr<node>,std::vector<std::vector<double>>>&Jcache)
+    std::map<long long,std::vector<std::vector<double>>> node::reverse_diff()
     {
         node::compute_value();
 
-        std::map<std::shared_ptr<node>,int>node_idx;
+        std::map<long long,int>node_idx;
         std::vector<std::shared_ptr<node>>node_list;
         traverse_graph(node_idx, node_list);
 
@@ -235,36 +238,21 @@ namespace dio
         */
         assert(node_list.back().get() == this);
 
-        // for(int i=node_list.size()-2; i>=0; --i)
-        //     Jcache[node_list[i]] = std::vector<std::vector<double>>(size, std::vector<double>(node_list[i]->get_size()));
-        // Jcache[node_list.back()] = get_identity_matrix(size);
-
-        printf("\n");
-        for(int i=0; i<node_list.size(); ++i)
-            printf("[%d] %lld\n", i, (long long)(node_list[i].get()));
-        printf("\n");
+        std::map<long long, std::vector<std::vector<double>>> Jcache;
+        for(int i=node_list.size()-2; i>=0; --i)
+            Jcache[(long long)node_list[i].get()] = std::vector<std::vector<double>>(size, std::vector<double>(node_list[i]->get_size()));
+        Jcache[(long long)node_list.back().get()] = get_identity_matrix(size);
 
         for(int i=node_list.size()-1; i>=0; --i)
         {
-            printf("\n[node] %d\n", node_idx[node_list[i]]);
-            fflush(stdout);
             auto nodey = node_list[i];
 
             std::vector<std::vector<double>*>op_arg_vals;
             try
             {
-                printf("[op_args size] %d\n", (int)(nodey->op_args).size());
-                fflush(stdout);
-                if(nodey->op_args.size())
-                {
-                    printf("[first arg] %d\n", node_idx[nodey->op_args[0]]);
-                    fflush(stdout);
-                }
                 for(int k=0; k<(nodey->op_args.size()); ++k)
                 {
                     auto arg = nodey->op_args[k];
-                    printf("[arg] %d\n", node_idx[arg]);
-                    fflush(stdout);
                     op_arg_vals.push_back(arg->get_value());
                 }
             }
@@ -273,28 +261,30 @@ namespace dio
                 printf("[op_arg_vals] ");
                 fflush(stdout);
                 std::cerr << e.what() << '\n';
-                exit(0);
+                exit(1);
             }
 
             for(int k=0; k<(nodey->op_args.size()); ++k)
             {
                 try
                 {
-                    // auto nodex = nodey->op_args[k];
-                    // std::vector<std::vector<double>>Jyx = nodey->op->partial_diff_run(op_arg_vals, k);
-                    // std::vector<std::vector<double>>tmp(size, std::vector<double>(nodex->get_size()));
-                    // matrix_multiply(tmp, Jcache[nodey], Jyx);
-                    // matrix_add(Jcache[nodex], Jcache[nodex], tmp);
+                    auto nodex = nodey->op_args[k];
+                    std::vector<std::vector<double>>Jyx = nodey->op->partial_diff_run(op_arg_vals, k);
+                    std::vector<std::vector<double>>tmp(size, std::vector<double>(nodex->get_size()));
+                    matrix_multiply(tmp, Jcache[(long long)nodey.get()], Jyx);
+                    matrix_add(Jcache[(long long)nodex.get()], Jcache[(long long)nodex.get()], tmp);
                 }
                 catch(const std::exception& e)
                 {
                     printf("[reverse diff loop] ");
                     fflush(stdout);
                     std::cerr << e.what() << '\n';
-                    exit(0);
+                    exit(2);
                 }
             }
         }
+
+        return Jcache;
     }
     
     void node::forward_diff(std::vector<std::vector<double>>&Jzx, std::shared_ptr<node>&x)
