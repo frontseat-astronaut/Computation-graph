@@ -152,7 +152,38 @@ namespace dio
             return "Optimizer needs a real-valued function to optimize";
         }
     };
+
+    class InputShapeNotSet: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "Optimizer needs a real-valued function to optimize";
+        }
+    };
+
+    class InvalidInputShape: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "optimizer needs a real-valued function to optimize";
+        }
+    };
     
+    class ParametersNotSet: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "optimizer needs a real-valued function to optimize";
+        }
+    };
+
+    class InvalidActivationFunction: public std::exception
+    {
+        const char * what () const throw ()
+        {
+            return "optimizer needs a real-valued function to optimize";
+        }
+    };
 }
 
 #endif

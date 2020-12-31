@@ -14,6 +14,10 @@ namespace dio
             std::shared_ptr<node> node_ptr;
         
         public:
+            Node() 
+            {
+                node_ptr = NULL;
+            }
             Node(std::shared_ptr<node>node_ptr): node_ptr{node_ptr} {}
             Node(node *node_ptr)
             {

@@ -105,7 +105,7 @@ void TwoLayerNeuralNetwork()
     /* Single hidden layer Layer Neural Network trained for a binary classification task */
     // create random dataset
     int x_dim = 5;
-    int num_samples = 1000;
+    int num_samples = 100;
     
     printf("dimension of x: %d, number of samples: %d\n\n", x_dim, num_samples);
 
@@ -122,7 +122,8 @@ void TwoLayerNeuralNetwork()
             data_x[i][j] = gen_random_normal(0, 10);
             data_y[i] += j*data_x[i][j];
         }
-        data_y[i] = (int)((sin(data_y[i])+1)/2.0);
+        data_y[i] = (int)( ((1.0/(1+exp(-data_y[i]))) > 0.5)?1:0 );
+        // data_y[i] = ((int)rand())%2; // Random labels
     }
 
     // build model
@@ -131,7 +132,7 @@ void TwoLayerNeuralNetwork()
     Node y = Constant(data_y); // shape: (#num_samples)
 
     // weights
-    int m_hidden = 5;
+    int m_hidden = 16;
     Node W_1 = Variable(std::vector<int>{x_dim, m_hidden}, "normal");
     Node W_2 = Variable(std::vector<int>{m_hidden, 1}, "normal");
 
@@ -157,13 +158,13 @@ void TwoLayerNeuralNetwork()
     // printf("[Loss]: %lld\n", (long long)(Loss.get().get()));
 
     // training (full batch gradient descent)
-    double lr = 0.1;
-    double momentum = 0.9;
+    double lr = 0.01;
+    double momentum = 0.1;
     Optimizer opt = SGD(std::vector<Node>{W_1, W_2}, lr, momentum);
 
     for(int epoch=0; epoch<1000; epoch++)
     {
-        optimize(Loss, opt);
+        optimize(Loss, opt); // implicitly calls Loss.compute_val() 
 
         if(epoch%10 == 0)
         {

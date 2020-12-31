@@ -150,7 +150,7 @@ namespace dio
 
         is_latent = true;
         is_constant = false;
-        compute_value();
+        // compute_value();
     }
 
     void node::compute_value()
