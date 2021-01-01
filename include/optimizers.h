@@ -23,7 +23,7 @@ namespace dio
         public: 
             optimizer(std::vector<std::shared_ptr<node>>p, double lr): parameters{p}, learning_rate{lr} {}
 
-            void step(std::shared_ptr<node>);
+            void step(std::shared_ptr<node>, bool do_gradient_check, double EPSILON);
             double get_lr();
             void virtual update_lr();
     };

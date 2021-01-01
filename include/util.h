@@ -10,7 +10,7 @@
 
 namespace dio
 {
-    bool iszero(double);
+    bool iszero(double, double EPSILON=1e-6);
 
     std::vector<int> range(int lim);
 

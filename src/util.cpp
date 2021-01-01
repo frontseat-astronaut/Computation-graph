@@ -2,9 +2,9 @@
  
 namespace dio
 {
-    bool iszero(double a)
+    bool iszero(double a, double EPSILON)
     {
-        return fabs(a)<1e-6;
+        return fabs(a)<EPSILON;
     }
 
     std::vector<int> range(int lim)

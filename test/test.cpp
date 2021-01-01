@@ -301,9 +301,10 @@ int main(int argc, char** argv)
             Node a_1 = l1(x);
             Node a_2 = l2(a_1);
             a_2.reshape(std::vector<int>{num_samples});
-            Node Loss_term = y*log(a_2) + (1-y)*log(1-a_2);
-            Node Loss = (-1.0/num_samples)*(reduce_sum(Loss_term, std::vector<int>{0})); // Binary Cross-entropy
-            optimize(Loss, opt); // implicitly calls Loss.compute_val() 
+            // Node Loss_term = -(y * log(a_2 + 1e-6) + (1 - y) * log(1 - a_2 + 1e-6));
+            Node Loss_term = (a_2 - y)^2;
+            Node Loss = (1.0/num_samples)*(reduce_sum(Loss_term, std::vector<int>{0})); // Binary Cross-entropy
+            optimize(Loss, opt, true, 1e-6); // implicitly calls Loss.compute_val() 
             if(epoch%10 == 0)
             {
                 printf("Epoch %d Loss: ", epoch);
@@ -311,6 +312,23 @@ int main(int argc, char** argv)
                 printf("\n");
             }
         }
+    }
+
+    if(test_case==-1 || test_case == 9)
+    {
+        Node x = Variable(std::vector<double>{5.0, 1.0});
+        x.reshape(std::vector<int>{2, 1});
+        Node w = Variable(std::vector<int>{1, 2}, "normal");
+        Node z = matmul(w, x) - 5;
+        // z = z^2;
+        z = log(z);
+        Optimizer opt = SGD(std::vector<Node>{w}, 0.01);
+
+        for(int i=0; i<10; ++i)
+        {
+            optimize(z, opt);
+        }
+
     }
 
     line();

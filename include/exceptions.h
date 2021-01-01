@@ -189,13 +189,16 @@ namespace dio
     {
         public:
             double approx_grad, grad;
-            GradientCheckFailure(double approx_grad, double grad): approx_grad{approx_grad}, grad{grad} {}
+            double fplus, fminus, EPSILON;
+            GradientCheckFailure(double approx_grad, double grad, double fplus, double fminus, double EPSILON):
+                approx_grad{approx_grad}, grad{grad}, fplus{fplus}, fminus{fminus}, EPSILON{EPSILON} {}
 
         private:
             const char * what () const throw ()
             {
                 char *mssg = (char*)malloc(50);
-                sprintf(mssg, "\nApproximate grad: %lf\nCalculated grad: %lf\n", approx_grad, grad);
+                sprintf(mssg, "\nApproximate grad: %lf\nCalculated grad: %lf\nfplus: %lf fminus: %lf EPSILON: %lf\n", 
+                        approx_grad, grad, fplus, fminus, EPSILON);
                 return mssg;
             }
     };

@@ -30,7 +30,7 @@ namespace dio
         return grads;
     }
 
-    void optimizer::step(std::shared_ptr<node>f)
+    void optimizer::step(std::shared_ptr<node>f, bool do_gradient_check, double EPSILON)
     {
         if(f->get_size() != 1)
             throw NotRealFunction();
@@ -38,7 +38,8 @@ namespace dio
         auto grads = get_grads(f);
 
         // GRADIENT CHECK
-        gradient_check(f, grads, parameters);
+        if(do_gradient_check)
+            gradient_check(f, grads, parameters, EPSILON);
 
         update_parameters(grads);
     }

@@ -9,8 +9,8 @@ namespace dio
         return Optimizer(new sgd(argp, learning_rate, momentum));
     }
 
-    void optimize(Node y, Optimizer opt)
+    void optimize(Node y, Optimizer opt, bool do_gradient_check, double EPSILON)
     {
-        opt->step(y.get());
+        opt->step(y.get(), do_gradient_check, EPSILON);
     }
 }
