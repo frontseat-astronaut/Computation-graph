@@ -4,7 +4,7 @@ namespace dio
 {
     bool iszero(double a)
     {
-        return fabs(a)<1e-9;
+        return fabs(a)<1e-6;
     }
 
     std::vector<int> range(int lim)

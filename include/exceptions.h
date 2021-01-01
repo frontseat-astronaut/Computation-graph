@@ -184,6 +184,21 @@ namespace dio
             return "optimizer needs a real-valued function to optimize";
         }
     };
+
+    class GradientCheckFailure: public std::exception
+    {
+        public:
+            double approx_grad, grad;
+            GradientCheckFailure(double approx_grad, double grad): approx_grad{approx_grad}, grad{grad} {}
+
+        private:
+            const char * what () const throw ()
+            {
+                char *mssg = (char*)malloc(50);
+                sprintf(mssg, "\nApproximate grad: %lf\nCalculated grad: %lf\n", approx_grad, grad);
+                return mssg;
+            }
+    };
 }
 
 #endif

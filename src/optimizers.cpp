@@ -37,6 +37,9 @@ namespace dio
 
         auto grads = get_grads(f);
 
+        // GRADIENT CHECK
+        gradient_check(f, grads, parameters);
+
         update_parameters(grads);
     }
 

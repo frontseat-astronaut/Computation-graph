@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "node.h"
+#include "checks.h"
 #include "exceptions.h"
 
 namespace dio
