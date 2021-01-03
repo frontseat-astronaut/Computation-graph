@@ -127,51 +127,48 @@ void TwoLayerNeuralNetwork()
     }
 
     // build model
-    // data 
+    // input
     Node x = Constant(data_x); // shape: (#num_samples, x_dim)
     Node y = Constant(data_y); // shape: (#num_samples)
 
-    // weights
-    int m_hidden = 16;
-    Node W_1 = Variable(std::vector<int>{x_dim, m_hidden}, "normal");
-    Node W_2 = Variable(std::vector<int>{m_hidden, 1}, "normal");
-
-    // latent variables
-    Node z_1 = matmul(x, W_1); // shape: (#num_samples, m_hidden)
-    Node a_1 = relu(z_1);
-    Node z_2 = matmul(a_1, W_2); // shape: (#num_samples, 1)
-    Node a_2 = reshape(sigmoid(z_2), std::vector<int>{num_samples});  // shape: (#num_samples)
-
-    // Loss
-    Node Loss_term = y*log(a_2) + (1-y)*log(1-a_2);
-    Node Loss = (-1.0/num_samples)*(reduce_sum(Loss_term, std::vector<int>{0})); // Binary Cross-entropy
-
-    // printf("[x]: %lld\n", (long long)(x.get().get()));
-    // printf("[y]: %lld\n", (long long)(y.get().get()));
-    // printf("[W_1]: %lld\n", (long long)(W_1.get().get()));
-    // printf("[W_2]: %lld\n", (long long)(W_2.get().get()));
-    // printf("[z_1]: %lld\n", (long long)(z_1.get().get()));
-    // printf("[z_2]: %lld\n", (long long)(z_2.get().get()));
-    // printf("[a_1]: %lld\n", (long long)(a_1.get().get()));
-    // printf("[a_2]: %lld\n", (long long)(a_2.get().get()));
-    // printf("[Loss_term]: %lld\n", (long long)(Loss_term.get().get()));
-    // printf("[Loss]: %lld\n", (long long)(Loss.get().get()));
+    // Functors
+    Linear l1 = Linear(x_dim, 20, "relu", "normal", false);
+    auto parameters1 = l1.get_parameters();
+    Linear l2 = Linear(20, 1, "sigmoid", "normal", false);
+    auto parameters2 = l2.get_parameters();
+    auto parameters = parameters1;
+    parameters.insert(parameters.end(), parameters2.begin(), parameters2.end());
 
     // training (full batch gradient descent)
     double lr = 0.01;
     double momentum = 0.1;
-    Optimizer opt = SGD(std::vector<Node>{W_1, W_2}, lr, momentum);
+    Optimizer opt = SGD(parameters, lr, momentum);
 
-    for(int epoch=0; epoch<1000; epoch++)
+    printf("learning rate: %lf\n", lr);
+    printf("momentum: %lf\n", momentum);
+    fflush(stdout);
+
+    bool do_gradient_check = false;
+    int gradient_check_start_epoch = 100;
+    for(int epoch=0; epoch<300; epoch++)
     {
-        optimize(Loss, opt); // implicitly calls Loss.compute_val() 
+        Node a_1 = l1(x);
+        Node a_2 = l2(a_1);
+        a_2.reshape(std::vector<int>{num_samples});
+        Node Loss_term = -(y * log(a_2 + 1e-6) + (1 - y) * log(1 - a_2 + 1e-6));
+        // Node Loss_term = (a_2 - y)^2;
+        Node Loss = (1.0/num_samples)*(reduce_sum(Loss_term, std::vector<int>{0})); // Binary Cross-entropy
+        Loss.compute_val();
 
         if(epoch%10 == 0)
         {
-            printf("Epoch %d Loss: ", epoch);
-            Loss.print_val();
-            printf("\n");
+            double Loss_val = Loss.val_at_index(std::vector<int>{0});
+            printf("Epoch %d Loss: %lf\n", epoch, Loss_val);
         }
+
+        // OBSERVATION: Gradient check fails for early epochs, but passes for later ones
+        if(epoch == gradient_check_start_epoch) do_gradient_check = true; 
+        optimize(Loss, opt, do_gradient_check, 1e-4); // implicitly calls Loss.compute_val() 
     }
 }
 

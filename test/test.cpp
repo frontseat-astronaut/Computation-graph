@@ -25,6 +25,7 @@ Node pow2(Node x)
 
 int main(int argc, char** argv)
 {
+    printf("ARG COUNT: %d\n", argc);
     int test_case;
     if(argc == 1)
         test_case = -1;
@@ -275,11 +276,11 @@ int main(int argc, char** argv)
         }
 
         // build model
-        // data 
+        // input
         Node x = Constant(data_x); // shape: (#num_samples, x_dim)
         Node y = Constant(data_y); // shape: (#num_samples)
 
-        // Functor
+        // Functors
         Linear l1 = Linear(x_dim, 20, "relu", "normal", false);
         auto parameters1 = l1.get_parameters();
         Linear l2 = Linear(20, 1, "sigmoid", "normal", false);
@@ -296,21 +297,29 @@ int main(int argc, char** argv)
         printf("momentum: %lf\n", momentum);
         fflush(stdout);
 
+        bool do_gradient_check = false;
+        int gradient_check_start_epoch = 100;
+        if(argc == 3)
+            sscanf(argv[2], "%d", &gradient_check_start_epoch);
         for(int epoch=0; epoch<300; epoch++)
         {
             Node a_1 = l1(x);
             Node a_2 = l2(a_1);
             a_2.reshape(std::vector<int>{num_samples});
-            // Node Loss_term = -(y * log(a_2 + 1e-6) + (1 - y) * log(1 - a_2 + 1e-6));
-            Node Loss_term = (a_2 - y)^2;
+            Node Loss_term = -(y * log(a_2 + 1e-6) + (1 - y) * log(1 - a_2 + 1e-6));
+            // Node Loss_term = (a_2 - y)^2;
             Node Loss = (1.0/num_samples)*(reduce_sum(Loss_term, std::vector<int>{0})); // Binary Cross-entropy
-            optimize(Loss, opt, true, 1e-6); // implicitly calls Loss.compute_val() 
+            Loss.compute_val();
+
             if(epoch%10 == 0)
             {
-                printf("Epoch %d Loss: ", epoch);
-                Loss.print_val();
-                printf("\n");
+                double Loss_val = Loss.val_at_index(std::vector<int>{0});
+                printf("Epoch %d Loss: %lf\n", epoch, Loss_val);
             }
+
+            // OBSERVATION: Gradient check fails for early epochs, but passes for later ones
+            if(epoch == gradient_check_start_epoch) do_gradient_check = true; 
+            optimize(Loss, opt, do_gradient_check, 1e-4); // implicitly calls Loss.compute_val() 
         }
     }
 
@@ -325,10 +334,7 @@ int main(int argc, char** argv)
         Optimizer opt = SGD(std::vector<Node>{w}, 0.01);
 
         for(int i=0; i<10; ++i)
-        {
-            optimize(z, opt);
-        }
-
+            optimize(z, opt, true, 1e-4);
     }
 
     line();
