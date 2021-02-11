@@ -149,7 +149,7 @@ void TwoLayerNeuralNetwork()
     fflush(stdout);
 
     bool do_gradient_check = false;
-    int gradient_check_start_epoch = 100;
+    int gradient_check_start_epoch = 0;
     for(int epoch=0; epoch<300; epoch++)
     {
         Node a_1 = l1(x);
@@ -166,7 +166,7 @@ void TwoLayerNeuralNetwork()
             printf("Epoch %d Loss: %lf\n", epoch, Loss_val);
         }
 
-        // OBSERVATION: Gradient check fails for early epochs, but passes for later ones
+        // OBSERVATION: Gradient check fails for early epochs, but passes for later ones (due to log function)
         if(epoch == gradient_check_start_epoch) do_gradient_check = true; 
         optimize(Loss, opt, do_gradient_check, 1e-4); // implicitly calls Loss.compute_val() 
     }

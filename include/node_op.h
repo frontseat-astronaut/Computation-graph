@@ -141,5 +141,35 @@ namespace dio
 
             std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx);
     };
+
+    class _convolve_2D: public node_op
+    {
+        protected:
+            std::vector<int>pad;
+            std::vector<int>stride;
+            std::vector<int>out_shape;
+            std::vector<int>image_shape;
+            std::vector<int>kernel_shape;
+
+        public:
+            _convolve_2D(std::vector<int>pad, std::vector<int>stride)
+            {
+                for(int i=0; i<2; ++i)
+                {
+                    assert(pad[i] >= 0);
+                    assert(stride[i] > 0);
+                }
+                this->pad = pad;
+                this->stride = stride;
+            }
+
+            void assert_shape(std::vector<std::vector<int>>&shapes);
+
+            std::vector<int> get_out_shape(std::vector<std::vector<int>>&shapes);
+
+            std::vector<double> run(std::vector<std::vector<double>*>&op_args);
+
+            std::vector<std::vector<double>> partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx);
+    };
 }
 #endif

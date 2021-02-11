@@ -381,4 +381,80 @@ namespace dio
         return J;
     }
 
+    // convolve_2D
+    void _convolve_2D::assert_shape(std::vector<std::vector<int>>&shapes)
+    {
+        if(shapes.size() != 2)
+            throw WrongArgCount();
+
+        for(int i=0; i<2; ++i)
+            assert(shapes[i].size() == 2);
+
+        for(int i=0; i<2; ++i)
+            assert((2*pad[i] + shapes[0][i]) >= shapes[1][i]);
+    }
+
+    std::vector<int> _convolve_2D::get_out_shape(std::vector<std::vector<int>>&shapes)
+    {
+        std::vector<int>out_shape(2);
+        for(int i=0; i<2; ++i)
+            out_shape[i] = ceil((2*pad[i] + shapes[0][i] - shapes[1][i] + 1) / 1.0 / stride[i]);
+
+        this->out_shape = out_shape;
+        this->image_shape = shapes[0];
+        this->kernel_shape = shapes[1];
+
+        return out_shape;
+    }
+
+    std::vector<double> _convolve_2D::run(std::vector<std::vector<double>*>&op_args)
+    {
+        assert(op_args.size() == 2);
+        std::vector<double>res(out_shape[0]*out_shape[1]);
+        for(int i=0, r=-pad[0]; i<out_shape[0]; ++i, r+=stride[0])
+        {
+            for(int j=0, c=-pad[1]; j<out_shape[1]; ++j, c+=stride[1])
+            {
+                int resi = i*out_shape[1] + j;
+                for(int ki=0; ki<kernel_shape[0]; ++ki)
+                {
+                    for(int kj=0; kj<kernel_shape[1]; ++kj)
+                    {
+                        if(r+ki<0 || r+ki>=image_shape[0]) continue;
+                        if(c+kj<0 || c+kj>=image_shape[1]) continue;
+                        res[resi] += op_args[1]->at(ki*kernel_shape[1]+kj) * op_args[0]->at((r+ki)*image_shape[1]+c+kj);
+                    }
+                }
+            }
+        }        
+        return res;
+    }
+
+    std::vector<std::vector<double>> _convolve_2D::partial_diff_run(std::vector<std::vector<double>*>&op_args, int var_idx)
+    {
+        assert(op_args.size() == 2);
+        int argsize = (var_idx)?(kernel_shape[0]*kernel_shape[1]):(image_shape[0]*image_shape[1]);
+        std::vector<std::vector<double>> J(out_shape[0]*out_shape[1], std::vector<double>(argsize));
+        for(int i=0, r=-pad[0]; i<out_shape[0]; ++i, r+=stride[0])
+        {
+            for(int j=0, c=-pad[1]; j<out_shape[1]; ++j, c+=stride[1])
+            {
+                int resi = i*out_shape[1] + j;
+                for(int ki=0; ki<kernel_shape[0]; ++ki)
+                {
+                    for(int kj=0; kj<kernel_shape[1]; ++kj)
+                    {
+                        if(r+ki<0 || r+ki>=image_shape[0]) continue;
+                        if(c+kj<0 || c+kj>=image_shape[1]) continue;
+                        if(var_idx)
+                            J[resi][ki*kernel_shape[1]+kj] += op_args[0]->at((r+ki)*image_shape[1]+c+kj);
+                        else 
+                            J[resi][(r+ki)*image_shape[1]+c+kj] += op_args[1]->at(ki*kernel_shape[1]+kj);
+                    }
+                }
+            }
+        }        
+        return J;
+    }
+
 }

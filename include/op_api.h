@@ -26,6 +26,8 @@ namespace dio
     Node reshape(Node a, std::vector<int>new_shape);
 
     Node reduce_sum(Node a, std::vector<int>axes);
+
+    Node convolve_2D(Node x, Node kernel, std::vector<int>pad=std::vector<int>{0, 0}, std::vector<int>stride=std::vector<int>{1, 1});
 }
 
 #endif

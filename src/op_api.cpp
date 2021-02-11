@@ -174,4 +174,10 @@ namespace dio
         return Node(new node(std::vector<std::shared_ptr<node>>{a.get()}, std::shared_ptr<node_op>(new _reduce_op(op, axes))));
     }
 
+    // convolve 2D
+    Node convolve_2D(Node x, Node kernel, std::vector<int>pad, std::vector<int>stride)
+    {
+        return Node(new node(std::vector<std::shared_ptr<node>>{x.get(), kernel.get()}, std::shared_ptr<node_op>(new _convolve_2D(pad, stride))));
+    }
+
 }
